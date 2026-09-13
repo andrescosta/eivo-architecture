@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Eivolet — Eivo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+/* ── TOKENS ── */
+:root {
+  --accent-5:    #fdfcfb;
+  --accent-10:   #fef9f7;
+  --accent-15:   #faf2ee;
+  --accent-20:   #fdf2ee;
+  --accent-30:   #fce5dc;
+  --accent-40:   #fad8ca;
+  --accent-50:   #f9cbb8;
+  --accent-100:  #ffb7a1;
+  --accent-200:  #ffa38a;
+  --accent-300:  #ff8f73;
+  --accent-400:  #ff7b5c;
+  --accent-500:  #ffb07a;
+  --accent-600:  #e69a6e;
+  --accent-700:  #cc8462;
+  --accent-800:  #b36e56;
+  --accent-900:  #99584a;
+  --accent-1000: #963e2b;
+
+  --neutral-10:  #fefefe;
+  --neutral-20:  #fafafa;
+  --neutral-30:  #f4f4f4;
+  --neutral-40:  #e8e8e8;
+  --neutral-50:  #d4d4d4;
+  --neutral-100: #a3a3a3;
+  --neutral-200: #737373;
+  --neutral-300: #525252;
+  --neutral-400: #404040;
+  --neutral-500: #262626;
+  --neutral-600: #171717;
+  --neutral-700: #0f0f0f;
+
+  --bg:          var(--accent-10);
+  --surface:     var(--neutral-10);
+  --border:      var(--accent-30);
+  --border-mid:  var(--accent-40);
+  --text:        var(--neutral-700);
+  --text-sec:    var(--neutral-400);
+  --text-muted:  var(--neutral-100);
+  --accent:      var(--accent-1000);
+}
+
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── WIZARD SHELL ── */
+.wizard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── STEP INDICATOR ── */
+.step-bar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.step-item + .step-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 20px;
+  background: var(--border-mid);
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+
+.step-item.active .step-num {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: white;
+}
+.step-item.active .step-label {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.step-item.done .step-num {
+  background: var(--accent-30);
+  border-color: var(--accent-100);
+  color: var(--accent-1000);
+}
+.step-item.done .step-num::after {
+  content: '✓';
+  font-size: 11px;
+}
+.step-item.done .step-num { font-size: 0; }
+.step-item.done .step-label { color: var(--text-sec); }
+
+/* ── SCREENS CONTAINER ── */
+.screens {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── SHARED PANEL STRUCTURE ── */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.right-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-panel-header {
+  height: 44px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+
+.right-panel-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.right-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ── CONVERSATION SCROLL ── */
+.conv-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 36px 44px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── OPENING BLOCK ── */
+.opening {
+  margin-bottom: 4px;
+}
+
+.opening-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opening-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
+  animation: pulse 2.5s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 3px var(--accent-100); }
+  50%      { box-shadow: 0 0 0 5px var(--accent-50); }
+}
+
+.opening-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.opening-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.opening-body {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+/* ── MESSAGES ── */
+.msg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  animation: fadeUp 0.22s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.msg-from {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.msg-from.bot  { color: var(--accent); }
+.msg-from.user { color: var(--text-muted); }
+
+.msg-bubble {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.msg-bubble.bot  { color: var(--neutral-500); }
+.msg-bubble.user { color: var(--text); font-weight: 500; }
+
+/* ── CHIPS ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  animation: fadeUp 0.28s 0.04s ease both;
+}
+
+.chip {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-sec);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.14s;
+  white-space: nowrap;
+  user-select: none;
+}
+.chip:hover {
+  border-color: var(--accent-300);
+  background: var(--accent-15);
+  color: var(--accent);
+}
+.chip.selected {
+  border-color: var(--accent-1000);
+  background: var(--accent-20);
+  color: var(--accent-1000);
+  font-weight: 600;
+}
+
+/* Culture chips */
+.culture-chip {
+  padding: 5px 11px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-sec);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+  user-select: none;
+}
+.culture-chip:hover { border-color: var(--accent-300); background: var(--accent-15); color: var(--accent); }
+.culture-chip.selected {
+  border-color: var(--accent-1000);
+  background: var(--accent-20);
+  color: var(--accent-1000);
+}
+.culture-chip.locked { cursor: default; opacity: 0.7; }
+
+/* ── SCROLLABLE OPTION LIST ── */
+.option-list {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 220px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  animation: fadeUp 0.22s ease both;
+  width: 100%;
+  max-width: 420px;
+}
+
+.option-list-inner {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.option-list-inner::-webkit-scrollbar { width: 4px; }
+.option-list-inner::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.option-row:last-child { border-bottom: none; }
+.option-row:hover { background: var(--accent-15); }
+.option-row.selected { background: var(--accent-20); }
+
+.option-radio {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-mid);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.option-row.selected .option-radio {
+  border-color: var(--accent-1000);
+  background: var(--accent-1000);
+}
+.option-radio-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.option-row.selected .option-radio-dot { opacity: 1; }
+
+.option-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+}
+.option-row.selected .option-label { color: var(--accent-1000); font-weight: 600; }
+
+.option-special {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.option-list-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* Typing indicator */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-300);
+  animation: bounce 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.30s; }
+@keyframes bounce {
+  0%,60%,100% { transform: translateY(0); }
+  30%          { transform: translateY(-5px); }
+}
+
+/* ── INPUT AREA ── */
+.conv-input-area {
+  padding: 16px 44px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.conv-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.conv-input-row:focus-within {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 3px var(--accent-30);
+}
+
+.conv-inp {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+}
+.conv-inp::placeholder { color: var(--text-muted); }
+.conv-inp:disabled { cursor: not-allowed; }
+
+.conv-send {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.conv-send:hover   { background: var(--accent-900); }
+.conv-send:disabled { background: var(--neutral-50); cursor: not-allowed; }
+
+.input-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 7px;
+  text-align: center;
+}
+
+/* ── RIGHT PANEL CARDS ── */
+.summary-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  animation: fadeUp 0.2s ease both;
+}
+.summary-card-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--accent-15);
+}
+.summary-card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.summary-card-body { padding: 10px 14px; }
+.summary-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* right panel empty */
+.panel-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px;
+}
+.panel-empty-icon { font-size: 28px; opacity: 0.2; }
+.panel-empty-text { font-size: 12px; line-height: 1.5; max-width: 180px; }
+
+/* ── SCREEN 2: CHAT ── */
+/* Screen 2 left panel has a slightly different feel — no opening block, just messages */
+#screen2 .conv-scroll {
+  padding-top: 28px;
+}
+
+/* Multiline input for screen 2 */
+#screen2 .conv-input-row {
+  align-items: flex-end;
+}
+
+#screen2 .conv-inp {
+  resize: none;
+  min-height: 20px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+/* Structure sketch in right panel */
+.structure-sketch {
+  animation: fadeUp 0.25s ease both;
+}
+
+.sketch-unit {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  animation: fadeUp 0.2s ease both;
+}
+.sketch-unit-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sketch-unit-title::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  background: #fef3c7;
+  border: 1px solid #f6d860;
+  flex-shrink: 0;
+}
+.sketch-lesson {
+  font-size: 11px;
+  color: var(--text-sec);
+  padding: 2px 0 2px 14px;
+  border-left: 1px solid var(--border-mid);
+  margin-left: 4px;
+  margin-top: 3px;
+}
+.sketch-placeholder {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* ── SCREEN 3: COLUMN CONFIGURATOR ── */
+#screen3 {
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+/* Definitions button — top right corner */
+.defs-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.defs-btn:hover { border-color: var(--accent-200); color: var(--accent-1000); background: var(--accent-15); }
+.defs-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* Definitions panel — slide in from right */
+.defs-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 300px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.06);
+}
+.defs-panel.open { transform: translateX(0); }
+
+.defs-panel-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.defs-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+.defs-panel-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.defs-panel-close:hover { background: var(--accent-15); color: var(--text); }
+
+.defs-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.def-item { display: flex; flex-direction: column; gap: 4px; }
+.def-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.def-value {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* Intro bar */
+.s3-intro {
+  padding: 14px 20px 13px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.s3-intro-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+.s3-intro-title em { font-style: italic; color: var(--accent); }
+.s3-intro-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex: 1;
+}
+.s3-intro-link {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-1000);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.14s;
+}
+.s3-intro-link:hover { opacity: 1; }
+
+/* Help panel — same pattern as defs panel */
+.help-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 300px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.06);
+}
+.help-panel.open { transform: translateX(0); }
+.help-panel-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.help-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+.help-panel-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.help-panel-close:hover { background: var(--accent-15); color: var(--text); }
+.help-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.help-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.help-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.help-group-title svg {
+  width: 13px; height: 13px;
+  stroke: var(--accent-1000);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.help-group-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.help-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Columns area */
+.s3-columns {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+  height: 0; /* forces flex child to respect parent height */
+}
+
+/* Each role column */
+.role-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  min-width: 0;
+}
+.role-col:last-child { border-right: none; }
+
+.role-col-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+.role-col-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.role-col-dot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.role-col-dot.course  { background: var(--accent-300); }
+.role-col-dot.section { background: #f59e0b; }
+.role-col-dot.unit    { background: #60a5fa; }
+.role-col-dot.lesson  { background: #34d399; }
+
+.role-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.role-col-subtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.role-col-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+  min-height: 0;
+}
+
+/* Group within a column */
+.ct-group {
+  margin-bottom: 4px;
+}
+.ct-group-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 16px 4px;
+}
+
+/* Content type row — the main toggle row */
+.ct-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+  position: relative;
+}
+.ct-row:hover { background: var(--accent-15); }
+.ct-row.on { background: var(--accent-15); }
+.ct-row.locked { cursor: default; }
+.ct-row.locked:hover { background: transparent; }
+
+.ct-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--neutral-30);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition: all 0.15s;
+}
+.ct-icon svg {
+  width: 14px; height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.15s;
+}
+.ct-row.on .ct-icon {
+  background: var(--accent-20);
+  border-color: var(--accent-200);
+}
+.ct-row.on .ct-icon svg { stroke: var(--accent-1000); }
+.ct-row.locked .ct-icon {
+  background: var(--neutral-20);
+  border-color: var(--border);
+}
+.ct-row.locked .ct-icon svg { stroke: var(--neutral-50); }
+
+.ct-info { flex: 1; min-width: 0; }
+.ct-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ct-row.on .ct-name { font-weight: 600; color: var(--accent-1000); }
+.ct-row.locked .ct-name { color: var(--text-muted); }
+
+.ct-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.ct-badge.generated {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+.ct-badge.static {
+  background: var(--accent-15);
+  color: var(--accent-700);
+}
+
+/* Flashcard kinds sub-rows */
+.ct-subrows {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease;
+}
+.ct-subrows.open { max-height: 120px; }
+
+.ct-subrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 16px 5px 42px;
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+}
+.ct-subrow:hover { background: var(--accent-15); }
+.ct-subrow-check {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border-mid);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 8px;
+  color: white;
+  transition: all 0.12s;
+}
+.ct-subrow.on .ct-subrow-check {
+  background: var(--accent-800);
+  border-color: var(--accent-800);
+}
+.ct-subrow-label {
+  font-size: 11px;
+  color: var(--text-sec);
+}
+.ct-subrow.on .ct-subrow-label { color: var(--accent-1000); }
+
+/* Footer */
+.s3-footer {
+  height: 52px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.gen-btn {
+  padding: 9px 20px;
+  border-radius: 7px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.gen-btn:hover    { background: var(--accent-900); }
+.gen-btn:disabled { background: var(--neutral-50); color: var(--text-muted); cursor: not-allowed; }
+
+.startover-btn {
+  padding: 9px 14px;
+  border-radius: 7px;
+  background: transparent;
+  border: 1px solid var(--border-mid);
+  color: var(--text-sec);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.startover-btn:hover { background: var(--accent-15); border-color: var(--accent-100); color: var(--text); }
+
+.s3-footer-note {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ── TRANSITION SCREEN ── */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.transition-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.transition-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.transition-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 320px;
+  text-align: center;
+  line-height: 1.6;
+}
+.transition-spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--accent-100);
+  border-top-color: var(--accent-1000);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── LAUNCH OVERLAY ── */
+.launch-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--accent-10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.launch-overlay.visible { opacity: 1; pointer-events: all; }
+.launch-spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--accent-100);
+  border-top-color: var(--accent-1000);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.launch-msg {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.launch-sub { font-size: 12px; color: var(--text-muted); }
+
+/* scrollbars */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="wizard">
+
+  <!-- STEP BAR -->
+  <div class="step-bar" id="step-bar">
+    <div class="step-item active" id="step-item-1">
+      <div class="step-num">1</div>
+      <div class="step-label">Definitions</div>
+    </div>
+    <div class="step-item" id="step-item-2">
+      <div class="step-num">2</div>
+      <div class="step-label">Structure</div>
+    </div>
+    <div class="step-item" id="step-item-3">
+      <div class="step-num">3</div>
+      <div class="step-label">Content</div>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screens">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN 1: INVARIANT DEFINITIONS            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="screen active" id="screen1">
+
+      <div class="left-panel">
+        <div class="conv-scroll" id="s1-scroll">
+          <div class="opening">
+            <div class="opening-eyebrow">EiBot</div>
+            <div class="opening-title">Let's build your<br><em>Eivolet</em> together.</div>
+            <div class="opening-body">I'll ask a few quick questions to understand what you're building. Your answers will guide everything that follows.</div>
+          </div>
+          <div id="s1-messages"></div>
+        </div>
+
+        <div class="conv-input-area">
+          <div class="conv-input-row">
+            <input class="conv-inp" id="s1-inp" placeholder="Type your answer…" onkeydown="s1HandleKey(event)" />
+            <button class="conv-send" id="s1-send" onclick="s1Send()">↑</button>
+          </div>
+          <div class="input-hint" id="s1-hint">Press Enter to send</div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="right-panel-header">
+          <div class="right-panel-title">Definitions</div>
+        </div>
+        <div class="right-panel-scroll" id="s1-preview">
+          <div class="panel-empty">
+            <div class="panel-empty-icon">◈</div>
+            <div class="panel-empty-text">Your Eivolet definition will appear here as we talk.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN 2: STRUCTURE (FREE CHAT)            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="screen" id="screen2">
+
+      <div class="left-panel">
+        <div class="conv-scroll" id="s2-scroll">
+          <div id="s2-messages"></div>
+        </div>
+
+        <div class="conv-input-area">
+          <div class="conv-input-row">
+            <textarea class="conv-inp" id="s2-inp" placeholder="Describe the structure you have in mind…" rows="1"
+              onkeydown="s2HandleKey(event)" oninput="s2AutoResize(this)"></textarea>
+            <button class="conv-send" id="s2-send" onclick="s2Send()">↑</button>
+          </div>
+          <div class="input-hint">Describe freely — EiBot will ask questions and suggest when ready to move on</div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="right-panel-header">
+          <div class="right-panel-title">Structure sketch</div>
+        </div>
+        <div class="right-panel-scroll" id="s2-preview">
+          <div class="panel-empty">
+            <div class="panel-empty-icon">⬡</div>
+            <div class="panel-empty-text">The structure will take shape here as you describe it.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN 3: CONTENT CONFIGURATOR             -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="screen" id="screen3">
+
+      <!-- DEFINITIONS BUTTON -->
+      <button class="defs-btn" onclick="toggleDefs()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Definitions
+      </button>
+
+      <!-- DEFINITIONS PANEL -->
+      <div class="defs-panel" id="defs-panel">
+        <div class="defs-panel-header">
+          <div class="defs-panel-title">Definitions</div>
+          <button class="defs-panel-close" onclick="toggleDefs()">✕</button>
+        </div>
+        <div class="defs-panel-scroll" id="defs-panel-scroll">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- INTRO -->
+      <div class="s3-intro">
+        <div class="s3-intro-title">What goes into your <em>Eivolet</em>?</div>
+        <div class="s3-intro-desc">Choose the activity types for each level of your content.</div>
+        <a class="s3-intro-link" href="#" onclick="toggleHelp(); return false;">Learn more ↗</a>
+      </div>
+
+      <!-- HELP PANEL -->
+      <div class="help-panel" id="help-panel">
+        <div class="help-panel-header">
+          <div class="help-panel-title">Activity types</div>
+          <button class="help-panel-close" onclick="toggleHelp()">✕</button>
+        </div>
+        <div class="help-panel-scroll">
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Learning
+            </div>
+            <div class="help-group-desc">The core authored content of each lesson — explanations, examples, diagrams, and structured material written once and reused every time the lesson is accessed.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/></svg>
+              Gym
+            </div>
+            <div class="help-group-desc">Practice activities generated by AI at runtime — each learner gets a fresh set every session. Includes fill-in-the-blank exercises, multiple choice questions, flashcard sets, and playrooms for open practice.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Evaluation
+            </div>
+            <div class="help-group-desc">Assessment activities that measure learner progress. A Challenge is a focused task; a Championship is a broader evaluation spanning more content. Only one level should have evaluation active at a time for the best learner experience.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Space
+            </div>
+            <div class="help-group-desc">A free practice environment available at the course level — one per Eivolet. In a language course this could be a conversation area; in a coding course, a live IDE with starter code.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROLE COLUMNS -->
+      <div class="s3-columns" id="s3-columns">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- FOOTER -->
+      <div class="s3-footer">
+        <button class="gen-btn" id="gen-btn" onclick="generate()">Generate Eivolet →</button>
+        <button class="startover-btn" onclick="startOver()">↺ Start over</button>
+        <div class="s3-footer-note" id="s3-footer-note"></div>
+      </div>
+
+    </div>
+
+  </div><!-- /screens -->
+</div><!-- /wizard -->
+
+<!-- TRANSITION OVERLAY -->
+<div class="transition-overlay" id="transition-overlay">
+  <div class="transition-spinner"></div>
+  <div class="transition-title" id="transition-title">Moving to Structure</div>
+  <div class="transition-sub" id="transition-sub">Locking in your definitions…</div>
+</div>
+
+<!-- LAUNCH OVERLAY -->
+<div class="launch-overlay" id="launch-overlay">
+  <div class="launch-spinner"></div>
+  <div class="launch-msg">Opening Editor…</div>
+  <div class="launch-sub">Your structure is ready.</div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const state = {
+  currentScreen: 1,
+  // Screen 1
+  objective: '',
+  cultures: ['en-US'],
+  path: '',       // 'ai' | 'blank'
+  domain: '',
+  codingType: '', // 'language' | 'framework'
+  codingTarget: '',
+  languageTarget: '',
+  audience: '',
+  // Screen 2
+  structureMessages: [],
+  structureSketched: false,
+  // Screen 3
+  activityMix: 'uniform',
+  selectedActivities: [],
+  // Result
+  structure: null
+};
+
+// ════════════════════════════════════════
+// CONTENT TYPE REGISTRY
+// ════════════════════════════════════════
+// ════════════════════════════════════════
+// CONTENT REGISTRY
+// ════════════════════════════════════════
+// group:    'learning' | 'gym' | 'evaluation' | 'space'
+// levels:   array of role names this type is available for
+// domains:  array of domain ids, or ['*'] for all
+// locked:   always on, not toggleable
+// defaultOn: see depth-based logic in s3DefaultOn()
+const CONTENT_REGISTRY = [
+  // ── LEARNING ──
+  { id: 'template',      group: 'learning',   levels: ['lesson'],                        domains: ['*'],                   name: 'Template',           locked: false, badge: null },
+
+  // ── GYM ──
+  { id: 'fill-blank',    group: 'gym',        levels: ['lesson'],                        domains: ['language-learning', 'mathematics', 'science', 'catch-all'], name: 'Fill-in-the-blank', locked: false, badge: 'generated' },
+  { id: 'multi-choice',  group: 'gym',        levels: ['lesson'],                        domains: ['*'],                   name: 'Multiple choice',    locked: false, badge: 'generated' },
+  { id: 'flashcards',    group: 'gym',        levels: ['lesson'],                        domains: ['language-learning'],   name: 'Flashcards',         locked: false, badge: 'generated' },
+  { id: 'playrooms',     group: 'gym',        levels: ['lesson'],                        domains: ['*'],                   name: 'Playrooms',          locked: false, badge: 'generated' },
+
+  // ── EVALUATION ──
+  { id: 'challenge',     group: 'evaluation', levels: ['course','section','unit','lesson'], domains: ['*'],                name: 'Challenge',          locked: false, badge: null },
+  { id: 'championship',  group: 'evaluation', levels: ['course','section','unit','lesson'], domains: ['*'],                name: 'Championship',       locked: false, badge: null },
+
+  // ── SPACE ──
+  { id: 'space',         group: 'space',      levels: ['course'],                        domains: ['*'],                   name: 'Space',              locked: false, badge: null },
+];
+
+const GROUP_META = {
+  learning:   { label: 'Learning',   desc: 'Authored content' },
+  gym:        { label: 'Gym',        desc: 'LLM-generated at runtime' },
+  evaluation: { label: 'Evaluation', desc: 'Assessment activities' },
+  space:      { label: 'Space',      desc: 'Practice environment' },
+};
+
+function registryFor(role, domain, depth) {
+  return CONTENT_REGISTRY.filter(ct => {
+    // At depth 1, course node gets everything
+    const levelMatch = (depth === 1 && role === 'course')
+      ? true
+      : ct.levels.includes(role);
+    return levelMatch && (ct.domains.includes('*') || ct.domains.includes(domain));
+  });
+}
+
+// Evaluation defaults: on only at the "primary" evaluation level for each depth
+function s3DefaultOn(ctId, role, depth) {
+  if (CONTENT_REGISTRY.find(c => c.id === ctId)?.locked) return true;
+  if (ctId === 'space') return true;
+  // depth 1: single node gets everything on by default
+  if (depth === 1 && role === 'course') return true;
+
+  // Evaluation defaults
+  if (ctId === 'challenge' || ctId === 'championship') {
+    // both on at primary evaluation level only
+    const primaryRole = depth <= 2 ? 'course' : 'unit';
+    return role === primaryRole;
+  }
+
+  if (ctId === 'template') return true;
+
+  // Gym defaults — on by default at lesson level
+  const gymIds = ['fill-blank', 'multi-choice', 'flashcards', 'playrooms'];
+  if (gymIds.includes(ctId) && role === 'lesson') return true;
+
+  return false;
+}
+
+// ════════════════════════════════════════
+// SCREEN 3 — COLUMN CONFIGURATOR
+// ════════════════════════════════════════
+
+// roleConfigs: role → { ctId → { on: bool, kinds?: string[] } }
+const roleConfigs = {};
+
+// Determine columns from structure depth
+function s3Columns(depth) {
+  if (depth === 1) return ['course'];
+  if (depth === 2) return ['course', 'lesson'];
+  if (depth === 3) return ['course', 'unit', 'lesson'];
+  return ['course', 'section', 'unit', 'lesson'];
+}
+
+const ROLE_META = {
+  course:  { label: 'Eivolet', dot: 'course',  subtitle: 'Root of your content' },
+  section: { label: 'Sections', dot: 'section', subtitle: 'Top-level grouping' },
+  unit:    { label: 'Units',    dot: 'unit',    subtitle: 'Content grouping' },
+  lesson:  { label: 'Lessons',  dot: 'lesson',  subtitle: 'Individual learning steps' },
+};
+
+function s3Init() {
+  const domain = state.domain || 'language-learning';
+  const _last = (state.structureMessages.at(-1)?.text || '').trim();
+  const depth = {'depth1':1,'depth2':2,'depth3':3,'depth4':4}[_last] ?? 3;
+
+  const cols = s3Columns(depth);
+
+  // Init roleConfigs with depth-aware defaults
+  cols.forEach(role => {
+    roleConfigs[role] = {};
+    const types = registryFor(role, domain, depth);
+    types.forEach(ct => {
+      roleConfigs[role][ct.id] = {
+        on: s3DefaultOn(ct.id, role, depth),
+        kinds: ct.config?.kinds ? [...ct.config.kinds] : undefined
+      };
+    });
+  });
+
+  s3RenderDefsPanel();
+  s3RenderColumns(cols, domain, depth);
+  s3UpdateFooterNote(cols, domain);
+}
+
+function s3RenderDefsPanel() {
+  const scroll = document.getElementById('defs-panel-scroll');
+  if (!scroll) return;
+  const items = [
+    { label: 'Objective', value: state.objective  || '—' },
+    { label: 'Audience',  value: state.audience   || '—' },
+    { label: 'Domain',    value: state.domain     || '—' },
+    { label: 'Cultures',  value: state.cultures?.join(', ') || '—' },
+  ];
+  scroll.innerHTML = items.map(item => `
+    <div class="def-item">
+      <div class="def-label">${item.label}</div>
+      <div class="def-value">${item.value}</div>
+    </div>`).join('');
+}
+
+function toggleDefs() {
+  document.getElementById('defs-panel').classList.toggle('open');
+  document.getElementById('help-panel')?.classList.remove('open');
+}
+
+function toggleHelp() {
+  document.getElementById('help-panel').classList.toggle('open');
+  document.getElementById('defs-panel').classList.remove('open');
+}
+
+// SVG icon paths for each content type
+const CT_ICONS = {
+  'template':     '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>',
+  'fill-blank':   '<line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>',
+  'multi-choice': '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  'flashcards':   '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 2H8L2 7"/><path d="M22 7l-6-5"/>',
+  'playrooms':    '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+  'challenge':    '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+  'championship': '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',
+  'space':        '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+};
+
+function ctIcon(ctId) {
+  const path = CT_ICONS[ctId] || '<circle cx="12" cy="12" r="3"/>';
+  return `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+}
+
+function s3RenderColumns(cols, domain, depth) {
+  const container = document.getElementById('s3-columns');
+  container.innerHTML = '';
+
+  cols.forEach(role => {
+    const meta  = ROLE_META[role];
+    const types = registryFor(role, domain, depth);
+    const cfg   = roleConfigs[role];
+
+    // Group types
+    const groups = {};
+    types.forEach(ct => {
+      if (!groups[ct.group]) groups[ct.group] = [];
+      groups[ct.group].push(ct);
+    });
+
+    const col = document.createElement('div');
+    col.className = 'role-col';
+    col.id = `rcol-${role}`;
+
+    // Header
+    col.innerHTML = `
+      <div class="role-col-header">
+        <div class="role-col-badge">
+          <div class="role-col-dot ${meta.dot}"></div>
+          <div class="role-col-title">${meta.label}</div>
+        </div>
+        <div class="role-col-subtitle">${meta.subtitle}</div>
+      </div>
+      <div class="role-col-scroll" id="rscroll-${role}"></div>`;
+
+    container.appendChild(col);
+
+    const scroll = col.querySelector(`#rscroll-${role}`);
+
+    // Render groups
+    Object.entries(groups).forEach(([groupId, cts]) => {
+      const gmeta = GROUP_META[groupId];
+
+      const groupEl = document.createElement('div');
+      groupEl.className = 'ct-group';
+      groupEl.innerHTML = `<div class="ct-group-title">${gmeta.label}</div>`;
+
+      cts.forEach(ct => {
+        const isOn     = cfg[ct.id]?.on ?? false;
+        const isLocked = ct.locked;
+
+        const rowEl = document.createElement('div');
+        rowEl.className = `ct-row${isOn ? ' on' : ''}${isLocked ? ' locked' : ''}`;
+        rowEl.id = `ctrow-${role}-${ct.id}`;
+
+        const badgeHtml = ct.badge
+          ? `<span class="ct-badge ${ct.badge}">${ct.badge === 'generated' ? 'LLM' : 'static'}</span>`
+          : '';
+
+        rowEl.innerHTML = `
+          <div class="ct-icon">${ctIcon(ct.id)}</div>
+          <div class="ct-info">
+            <div class="ct-name">${ct.name}${badgeHtml}</div>
+          </div>`;
+
+        if (!isLocked) {
+          rowEl.addEventListener('click', () => s3Toggle(role, ct, rowEl));
+        }
+
+        groupEl.appendChild(rowEl);
+
+        // Flashcard kinds sub-rows
+        if (ct.id === 'flashcards' && ct.config?.kinds) {
+          const subrows = document.createElement('div');
+          subrows.className = `ct-subrows${isOn ? ' open' : ''}`;
+          subrows.id = `subrows-${role}-${ct.id}`;
+
+          ct.config.kinds.forEach(kind => {
+            const kindOn = cfg[ct.id]?.kinds?.includes(kind) ?? true;
+            const sr = document.createElement('div');
+            sr.className = `ct-subrow${kindOn ? ' on' : ''}`;
+            sr.innerHTML = `
+              <div class="ct-subrow-check">${kindOn ? '✓' : ''}</div>
+              <div class="ct-subrow-label">${kind}</div>`;
+            sr.addEventListener('click', (e) => {
+              e.stopPropagation();
+              s3ToggleKind(role, ct.id, kind, sr);
+            });
+            subrows.appendChild(sr);
+          });
+
+          groupEl.appendChild(subrows);
+        }
+      });
+
+      scroll.appendChild(groupEl);
+    });
+  });
+}
+
+function s3Toggle(role, ct, rowEl) {
+  const cfg = roleConfigs[role];
+  const isOn = !cfg[ct.id].on;
+  cfg[ct.id].on = isOn;
+
+  rowEl.classList.toggle('on', isOn);
+
+  // Open/close flashcard kinds
+  const subrows = document.getElementById(`subrows-${role}-${ct.id}`);
+  if (subrows) subrows.classList.toggle('open', isOn);
+
+  s3UpdateFooterNote(Object.keys(roleConfigs), state.domain || 'language-learning');
+}
+
+function s3ToggleKind(role, ctId, kind, sr) {
+  const cfg = roleConfigs[role]?.[ctId];
+  if (!cfg?.kinds) return;
+  const idx = cfg.kinds.indexOf(kind);
+  if (idx >= 0) {
+    cfg.kinds.splice(idx, 1);
+    sr.classList.remove('on');
+    sr.querySelector('.ct-subrow-check').textContent = '';
+  } else {
+    cfg.kinds.push(kind);
+    sr.classList.add('on');
+    sr.querySelector('.ct-subrow-check').textContent = '✓';
+  }
+}
+
+function s3UpdateFooterNote(cols, domain) {
+  const lessonTypes = registryFor('lesson', domain);
+  const onCount = lessonTypes.filter(ct => roleConfigs['lesson']?.[ct.id]?.on).length;
+  document.getElementById('s3-footer-note').textContent =
+    `${onCount} activity type${onCount !== 1 ? 's' : ''} per lesson`;
+}
+
+// ════════════════════════════════════════
+// CULTURES
+// ════════════════════════════════════════
+const CULTURES = [
+  { code: 'en-US', label: 'English (US)' },
+  { code: 'fr',    label: 'French'       },
+  { code: 'es',    label: 'Spanish'      },
+  { code: 'de',    label: 'German'       },
+  { code: 'pt',    label: 'Portuguese'   },
+  { code: 'it',    label: 'Italian'      },
+  { code: 'ja',    label: 'Japanese'     },
+  { code: 'zh',    label: 'Chinese'      },
+  { code: 'ar',    label: 'Arabic'       },
+];
+
+// ════════════════════════════════════════
+// OPTION LISTS
+// ════════════════════════════════════════
+const OPTION_LISTS = {
+  'teaching-languages': [
+    { value: 'french',     label: 'French'     },
+    { value: 'spanish',    label: 'Spanish'    },
+    { value: 'english',    label: 'English'    },
+    { value: 'german',     label: 'German'     },
+    { value: 'portuguese', label: 'Portuguese' },
+    { value: 'italian',    label: 'Italian'    },
+    { value: 'japanese',   label: 'Japanese'   },
+    { value: 'mandarin',   label: 'Mandarin'   },
+    { value: 'arabic',     label: 'Arabic'     },
+    { value: 'korean',     label: 'Korean'     },
+  ],
+  languages: [
+    { value: 'any',        label: 'Any language',  special: true },
+    { value: 'java',       label: 'Java'           },
+    { value: 'go',         label: 'Go'             },
+    { value: 'python',     label: 'Python'         },
+    { value: 'typescript', label: 'TypeScript'     },
+    { value: 'javascript', label: 'JavaScript'     },
+    { value: 'rust',       label: 'Rust'           },
+    { value: 'csharp',     label: 'C#'             },
+    { value: 'swift',      label: 'Swift'          },
+    { value: 'kotlin',     label: 'Kotlin'         },
+    { value: 'ruby',       label: 'Ruby'           },
+  ],
+  frameworks: [
+    { value: 'react',              label: 'React'                    },
+    { value: 'react-native',       label: 'React Native'             },
+    { value: 'nextjs',             label: 'Next.js'                  },
+    { value: 'vue',                label: 'Vue'                      },
+    { value: 'angular',            label: 'Angular'                  },
+    { value: 'spring-postgres',    label: 'Spring Boot + PostgreSQL' },
+    { value: 'spring-mongo',       label: 'Spring Boot + MongoDB'    },
+    { value: 'django-postgres',    label: 'Django + PostgreSQL'      },
+    { value: 'rails-postgres',     label: 'Rails + PostgreSQL'       },
+    { value: 'nestjs',             label: 'NestJS'                   },
+    { value: 'flutter',            label: 'Flutter'                  },
+  ]
+};
+
+function s1ShowOptionList(step) {
+  const msgs = document.getElementById('s1-messages');
+  const listKey = step.listKey();
+  const options = OPTION_LISTS[listKey] || [];
+
+  const wrap = document.createElement('div');
+  wrap.className = 'option-list';
+  wrap.id = 's1-option-list';
+
+  const inner = document.createElement('div');
+  inner.className = 'option-list-inner';
+
+  options.forEach((opt, i) => {
+    // Divider after "Any" special item
+    if (i === 1 && options[0].special) {
+      const div = document.createElement('div');
+      div.className = 'option-list-divider';
+      inner.appendChild(div);
+    }
+
+    const row = document.createElement('div');
+    row.className = 'option-row';
+    row.innerHTML = `
+      <div class="option-radio"><div class="option-radio-dot"></div></div>
+      <div class="option-label">${opt.label}</div>
+      ${opt.special ? '<span class="option-special">no restriction</span>' : ''}`;
+
+    row.addEventListener('click', () => {
+      wrap.remove();
+      state[step.field] = opt.value;
+      s1UserMsg(opt.label);
+      s1UpdatePreview();
+      s1StepIdx++;
+      s1EnableInput();
+      setTimeout(s1Next, 350);
+    });
+
+    inner.appendChild(row);
+  });
+
+  wrap.appendChild(inner);
+  msgs.appendChild(wrap);
+  s1Scroll();
+  s1DisableInput();
+}
+const S1_STEPS = [
+  {
+    id: 'objective',
+    msg: "What is this Eivolet about? Describe it in your own words — who are the learners and what should they be able to do by the end?",
+    type: 'text',
+    placeholder: 'e.g. A French language course for absolute beginners…',
+    field: 'objective'
+  },
+  {
+    id: 'audience',
+    msg: "Who are the learners? Tell me about their background, level, and age range.",
+    type: 'text',
+    field: 'audience',
+    placeholder: 'e.g. Adult beginners with no prior experience, 25–45 years old…'
+  },
+  {
+    id: 'cultures',
+    msg: "Which languages will this content support?",
+    type: 'cultures',
+    field: 'cultures'
+  },
+  {
+    id: 'domain',
+    msg: "What domain best describes this content?",
+    type: 'chips',
+    field: 'domain',
+    chips: [
+      { label: '🗣️ Language learning', value: 'language-learning' },
+      { label: '💻 Coding',            value: 'coding'            },
+      { label: '🔢 Mathematics',       value: 'mathematics'       },
+      { label: '🔬 Science',           value: 'science'           },
+      { label: '📚 Other',             value: 'catch-all'         }
+    ]
+  },
+  {
+    id: 'language-target',
+    msg: "Which language are you teaching?",
+    type: 'option-list',
+    field: 'languageTarget',
+    condition: () => state.domain === 'language-learning',
+    listKey: () => 'teaching-languages'
+  },
+  {
+    id: 'coding-type',
+    msg: "Is this for a programming language or a framework?",
+    type: 'chips',
+    field: 'codingType',
+    condition: () => state.domain === 'coding',
+    chips: [
+      { label: '⚙️ Programming language', value: 'language' },
+      { label: '🧩 Framework',            value: 'framework' }
+    ]
+  },
+  {
+    id: 'coding-target',
+    msg: "Which one?",
+    type: 'option-list',
+    field: 'codingTarget',
+    condition: () => state.domain === 'coding',
+    listKey: () => state.codingType === 'language' ? 'languages' : 'frameworks'
+  },
+  {
+    id: 'path',
+    msg: "How would you like to define the structure?",
+    type: 'chips',
+    field: 'path',
+    chips: [
+      { label: '✦ AI-proposed', value: 'ai',    desc: 'EiBot guides you through structure and content' },
+      { label: '✏️ Start blank', value: 'blank', desc: 'Open the editor and build the structure yourself' }
+    ]
+  }
+];
+
+let s1StepIdx = 0;
+
+function s1Init() {
+  setTimeout(() => s1Next(), 400);
+}
+
+function s1GetActive() {
+  return S1_STEPS.filter(s => !s.condition || s.condition());
+}
+
+function s1Next() {
+  const active = s1GetActive();
+  if (s1StepIdx >= active.length) {
+    // Screen 1 done
+    if (state.path === 'blank') {
+      transitionToEditor();
+    } else {
+      transitionToScreen(2);
+    }
+    return;
+  }
+  const step = active[s1StepIdx];
+  s1BotMsg(step.msg, () => {
+    if (step.type === 'chips')         s1ShowChips(step);
+    else if (step.type === 'cultures') s1ShowCultures();
+    else if (step.type === 'option-list') s1ShowOptionList(step);
+    else s1FocusInput(step.placeholder || '');
+  });
+}
+
+function s1BotMsg(text, cb) {
+  const msgs = document.getElementById('s1-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg-group';
+  typing.innerHTML = `<div class="msg-from bot">EiBot</div><div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(typing);
+  s1Scroll();
+  setTimeout(() => {
+    msgs.removeChild(typing);
+    const grp = document.createElement('div');
+    grp.className = 'msg-group';
+    grp.innerHTML = `<div class="msg-from bot">EiBot</div><div class="msg-bubble bot">${text}</div>`;
+    msgs.appendChild(grp);
+    s1Scroll();
+    if (cb) cb();
+  }, 650);
+}
+
+function s1UserMsg(text) {
+  const msgs = document.getElementById('s1-messages');
+  const grp = document.createElement('div');
+  grp.className = 'msg-group';
+  grp.innerHTML = `<div class="msg-from user">You</div><div class="msg-bubble user">${text}</div>`;
+  msgs.appendChild(grp);
+  s1Scroll();
+}
+
+function s1ShowChips(step) {
+  const msgs = document.getElementById('s1-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'chips'; wrap.id = 's1-chips';
+  step.chips.forEach(chip => {
+    const el = document.createElement('div');
+    el.className = 'chip';
+    el.textContent = chip.label;
+    el.addEventListener('click', () => {
+      document.querySelectorAll('#s1-chips .chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      setTimeout(() => {
+        wrap.remove();
+        state[step.field] = chip.value;
+        s1UserMsg(chip.label);
+        s1UpdatePreview();
+        s1StepIdx++;
+        s1EnableInput();
+        setTimeout(s1Next, 350);
+      }, 160);
+    });
+    wrap.appendChild(el);
+  });
+  msgs.appendChild(wrap);
+  s1Scroll();
+  s1DisableInput();
+}
+
+function s1ShowCultures() {
+  const msgs = document.getElementById('s1-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'chips'; wrap.id = 's1-cultures';
+
+  CULTURES.forEach(c => {
+    const el = document.createElement('div');
+    const locked = c.code === 'en-US';
+    el.className = `culture-chip${locked ? ' selected locked' : ''}`;
+    el.textContent = c.code;
+    el.title = c.label;
+    if (!locked) {
+      el.addEventListener('click', () => {
+        if (state.cultures.includes(c.code)) {
+          state.cultures = state.cultures.filter(x => x !== c.code);
+          el.classList.remove('selected');
+        } else {
+          state.cultures.push(c.code);
+          el.classList.add('selected');
+        }
+      });
+    }
+    wrap.appendChild(el);
+  });
+
+  const confirm = document.createElement('div');
+  confirm.className = 'chip';
+  confirm.style.cssText = 'background:var(--accent-1000);color:white;border-color:var(--accent-1000);font-weight:600';
+  confirm.textContent = 'Confirm →';
+  confirm.addEventListener('click', () => {
+    wrap.remove();
+    s1UserMsg(state.cultures.join(' · '));
+    s1UpdatePreview();
+    s1StepIdx++;
+    s1EnableInput();
+    setTimeout(s1Next, 350);
+  });
+  wrap.appendChild(confirm);
+
+  msgs.appendChild(wrap);
+  s1Scroll();
+  s1DisableInput();
+}
+
+function s1FocusInput(ph) {
+  const inp = document.getElementById('s1-inp');
+  inp.placeholder = ph;
+  inp.disabled = false;
+  inp.focus();
+  document.getElementById('s1-send').disabled = false;
+  document.getElementById('s1-hint').textContent = 'Press Enter to send';
+}
+
+function s1DisableInput() {
+  document.getElementById('s1-inp').disabled = true;
+  document.getElementById('s1-send').disabled = true;
+  document.getElementById('s1-inp').placeholder = 'Pick an option above…';
+}
+
+function s1EnableInput() {
+  document.getElementById('s1-inp').disabled = false;
+  document.getElementById('s1-send').disabled = false;
+}
+
+function s1HandleKey(e) {
+  if (e.key === 'Enter') { e.preventDefault(); s1Send(); }
+}
+
+function s1Send() {
+  const inp = document.getElementById('s1-inp');
+  const text = inp.value.trim();
+  if (!text || inp.disabled) return;
+  inp.value = '';
+  const active = s1GetActive();
+  const step = active[s1StepIdx];
+  if (!step) return;
+  state[step.field] = text;
+  s1UserMsg(text);
+  s1UpdatePreview();
+  s1StepIdx++;
+  setTimeout(s1Next, 350);
+}
+
+function s1UpdatePreview() {
+  const container = document.getElementById('s1-preview');
+  container.innerHTML = '';
+  const add = (label, value) => {
+    if (!value || (Array.isArray(value) && !value.length)) return;
+    const card = document.createElement('div');
+    card.className = 'summary-card';
+    card.innerHTML = `
+      <div class="summary-card-header"><div class="summary-card-label">${label}</div></div>
+      <div class="summary-card-body"><div class="summary-value">${Array.isArray(value) ? value.join(' · ') : value}</div></div>`;
+    container.appendChild(card);
+  };
+  add('Objective', state.objective);
+  add('Cultures', state.cultures.length ? state.cultures : null);
+  add('Path', state.path === 'ai' ? 'AI-proposed' : state.path === 'blank' ? 'Start blank' : null);
+  add('Domain', state.domain);
+  if (state.languageTarget) add('Language', OPTION_LISTS['teaching-languages']?.find(o => o.value === state.languageTarget)?.label || state.languageTarget);
+  if (state.codingType)   add('Coding type',   state.codingType === 'language' ? 'Programming language' : 'Framework');
+  if (state.codingTarget) add('Target',         OPTION_LISTS[state.codingType === 'language' ? 'languages' : 'frameworks']?.find(o => o.value === state.codingTarget)?.label || state.codingTarget);
+  add('Audience', state.audience);
+}
+
+function s1Scroll() {
+  const el = document.getElementById('s1-scroll');
+  el.scrollTop = el.scrollHeight;
+}
+
+// ════════════════════════════════════════
+// SCREEN 2 — STRUCTURE
+// ════════════════════════════════════════
+function s2Init() {
+  const palette = state.domain === 'language-learning' ? 'language' :
+                  state.domain === 'coding'             ? 'coding'   : 'general';
+  s2BotMsg(`I have everything I need about the Eivolet definition. Now let's talk about structure.<br><br>Based on what you've told me — <em>${state.objective.slice(0,80)}${state.objective.length > 80 ? '…' : ''}</em> — what units and topics do you have in mind? Describe as freely as you like.`);
+}
+
+function s2BotMsg(text, cb) {
+  const msgs = document.getElementById('s2-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg-group';
+  typing.innerHTML = `<div class="msg-from bot">EiBot</div><div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(typing);
+  s2Scroll();
+  setTimeout(() => {
+    msgs.removeChild(typing);
+    const grp = document.createElement('div');
+    grp.className = 'msg-group';
+    grp.innerHTML = `<div class="msg-from bot">EiBot</div><div class="msg-bubble bot">${text}</div>`;
+    msgs.appendChild(grp);
+    s2Scroll();
+    if (cb) cb();
+  }, 650);
+}
+
+function s2UserMsg(text) {
+  const msgs = document.getElementById('s2-messages');
+  const grp = document.createElement('div');
+  grp.className = 'msg-group';
+  grp.innerHTML = `<div class="msg-from user">You</div><div class="msg-bubble user">${text}</div>`;
+  msgs.appendChild(grp);
+  s2Scroll();
+}
+
+function s2HandleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); s2Send(); }
+}
+
+function s2AutoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+let s2TurnCount = 0;
+
+function s2Send() {
+  const inp = document.getElementById('s2-inp');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  s2UserMsg(text);
+  state.structureMessages.push({ from: 'user', text });
+  s2TurnCount++;
+  s2Scroll();
+
+  // Simulate EiBot responses based on turn
+  setTimeout(() => {
+    let reply, showTransition = false;
+
+    if (s2TurnCount === 1) {
+      reply = `That's a good starting point. I can see a clear structure taking shape. A couple of questions:<br><br>How do you see the units progressing — is each one independent, or does the difficulty build from one to the next?`;
+      s2UpdateSketch(text);
+    } else if (s2TurnCount === 2) {
+      reply = `Good. And within each unit — do you have a sense of how many lessons you're thinking? Even a rough number helps me propose a balanced structure.`;
+    } else if (s2TurnCount >= 3) {
+      reply = `I think I have enough to move forward. I've got a clear picture of the structure you're describing. <strong>Ready to talk about what goes into each lesson?</strong>`;
+      showTransition = true;
+    } else {
+      reply = `Understood. What else should I know about the structure?`;
+    }
+
+    s2BotMsg(reply, () => {
+      if (showTransition) {
+        // Show "continue" prompt
+        const msgs = document.getElementById('s2-messages');
+        const wrap = document.createElement('div');
+        wrap.className = 'chips';
+        wrap.innerHTML = `
+          <div class="chip selected" onclick="transitionToScreen(3)" style="background:var(--accent-1000);color:white;border-color:var(--accent-1000)">Continue to Content →</div>
+          <div class="chip" onclick="s2KeepGoing(this)">Not yet, keep going</div>`;
+        msgs.appendChild(wrap);
+        s2Scroll();
+      }
+    });
+  }, 900);
+}
+
+function s2KeepGoing(el) {
+  el.closest('.chips').remove();
+  s2BotMsg(`Of course. What else do you want to add or change?`);
+  s2TurnCount = 1; // reset so it can propose again
+}
+
+function s2UpdateSketch(userText) {
+  // Simple demo sketch — in production this would parse the conversation
+  const container = document.getElementById('s2-preview');
+  container.innerHTML = '';
+  const sketch = document.createElement('div');
+  sketch.className = 'structure-sketch';
+
+  const units = [
+    { title: 'Unit 1', lessons: ['Lesson 1', 'Lesson 2', 'Lesson 3'] },
+    { title: 'Unit 2', lessons: ['Lesson 1', 'Lesson 2', 'Lesson 3'] },
+    { title: '…', lessons: [] }
+  ];
+
+  units.forEach(u => {
+    const el = document.createElement('div');
+    el.className = 'sketch-unit';
+    el.innerHTML = `<div class="sketch-unit-title">${u.title}</div>`;
+    if (u.lessons.length) {
+      u.lessons.forEach(l => {
+        const le = document.createElement('div');
+        le.className = 'sketch-lesson'; le.textContent = l;
+        el.appendChild(le);
+      });
+    } else {
+      const ph = document.createElement('div');
+      ph.className = 'sketch-placeholder'; ph.textContent = 'more units…';
+      el.appendChild(ph);
+    }
+    sketch.appendChild(el);
+  });
+
+  container.appendChild(sketch);
+}
+
+function s2Scroll() {
+  const el = document.getElementById('s2-scroll');
+  el.scrollTop = el.scrollHeight;
+}
+
+// ════════════════════════════════════════
+// SCREEN TRANSITIONS
+// ════════════════════════════════════════
+function transitionToScreen(n) {
+  const overlay = document.getElementById('transition-overlay');
+  const titles = { 2: 'Structure', 3: 'Content' };
+  const subs   = {
+    2: 'Definitions locked. Now let\'s talk about structure.',
+    3: 'Structure locked. Now let\'s configure the content.'
+  };
+
+  document.getElementById('transition-title').textContent = titles[n] || '';
+  document.getElementById('transition-sub').textContent   = subs[n]   || '';
+
+  overlay.classList.add('visible');
+
+  setTimeout(() => {
+    // Hide current screen
+    document.querySelector('.screen.active').classList.remove('active');
+    // Update step bar
+    for (let i = 1; i <= 3; i++) {
+      const item = document.getElementById(`step-item-${i}`);
+      item.classList.remove('active', 'done');
+      if (i < n)  item.classList.add('done');
+      if (i === n) item.classList.add('active');
+    }
+    // Show new screen
+    document.getElementById(`screen${n}`).classList.add('active');
+    state.currentScreen = n;
+
+    // Init new screen
+    if (n === 2) s2Init();
+    if (n === 3) s3Init();
+
+    setTimeout(() => overlay.classList.remove('visible'), 300);
+  }, 900);
+}
+
+function transitionToEditor() {
+  document.getElementById('launch-overlay').classList.add('visible');
+  setTimeout(() => { window.location.href = 'eibot-editor.html'; }, 1800);
+}
+
+// ════════════════════════════════════════
+// GENERATE (end of screen 3)
+// ════════════════════════════════════════
+function generate() {
+  document.getElementById('gen-btn').disabled = true;
+  document.getElementById('gen-btn').textContent = 'Generating…';
+  setTimeout(() => transitionToEditor(), 1500);
+}
+
+// ════════════════════════════════════════
+// START OVER
+// ════════════════════════════════════════
+function startOver() {
+  if (!confirm('Start over? All progress will be lost.')) return;
+  location.reload();
+}
+
+// ════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════
+s1Init();
+</script>
+</body>
+</html>

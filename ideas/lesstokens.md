@@ -1,0 +1,1 @@
+We can use a tool to render only templates using an expensive model.

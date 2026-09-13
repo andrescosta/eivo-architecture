@@ -1,0 +1,23 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100, 80)">
+    <line x1="0" y1="0" x2="0" y2="100" stroke="#4DD0E1" stroke-width="4"/>
+    <g transform="translate(-40, 30)">
+      <path d="M 4 0 L 16 0 L 20 4 L 20 22 L 4 22 Z" fill="none" stroke="#4DD0E1" stroke-width="2"/>
+      <path d="M 16 0 L 16 4 L 20 4" fill="none" stroke="#4DD0E1" stroke-width="2"/>
+      <line x1="7" y1="8" x2="17" y2="8" stroke="#4DD0E1" stroke-width="1.5"/>
+      <line x1="7" y1="12" x2="17" y2="12" stroke="#4DD0E1" stroke-width="1.5"/>
+      <line x1="7" y1="16" x2="14" y2="16" stroke="#4DD0E1" stroke-width="1.5"/>
+    </g>
+    <text x="30" y="50" font-family="sans-serif" font-size="42" font-weight="bold" fill="#1e293b">The Content</text>
+  </g>
+  <g transform="translate(150, 220)">
+    <text x="0" y="0" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Assets</text>
+    <text x="150" y="0" font-family="sans-serif" font-size="20" fill="#64748b">Lessons, exercises, and assessments</text>
+    <text x="0" y="50" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Authorship</text>
+    <text x="150" y="50" font-family="sans-serif" font-size="20" fill="#64748b">AI-generated or human-crafted</text>
+    <text x="0" y="100" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Versatile</text>
+    <text x="150" y="100" font-family="sans-serif" font-size="20" fill="#64748b">Micro-content to comprehensive programs</text>
+    <text x="0" y="150" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Portable</text>
+    <text x="150" y="150" font-family="sans-serif" font-size="20" fill="#64748b">Experience-agnostic and universally consumable</text>
+  </g>
+</svg>

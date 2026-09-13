@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Eivolet — Eivo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+/* ── TOKENS ── */
+:root {
+  --accent-5:    #fdfcfb;
+  --accent-10:   #fef9f7;
+  --accent-15:   #faf2ee;
+  --accent-20:   #fdf2ee;
+  --accent-30:   #fce5dc;
+  --accent-40:   #fad8ca;
+  --accent-50:   #f9cbb8;
+  --accent-100:  #ffb7a1;
+  --accent-200:  #ffa38a;
+  --accent-300:  #ff8f73;
+  --accent-400:  #ff7b5c;
+  --accent-500:  #ffb07a;
+  --accent-600:  #e69a6e;
+  --accent-700:  #cc8462;
+  --accent-800:  #b36e56;
+  --accent-900:  #99584a;
+  --accent-1000: #963e2b;
+
+  --neutral-10:  #fefefe;
+  --neutral-20:  #fafafa;
+  --neutral-30:  #f4f4f4;
+  --neutral-40:  #e8e8e8;
+  --neutral-50:  #d4d4d4;
+  --neutral-100: #a3a3a3;
+  --neutral-200: #737373;
+  --neutral-300: #525252;
+  --neutral-400: #404040;
+  --neutral-500: #262626;
+  --neutral-600: #171717;
+  --neutral-700: #0f0f0f;
+
+  --bg:          var(--accent-10);
+  --surface:     var(--neutral-10);
+  --border:      var(--accent-30);
+  --border-mid:  var(--accent-40);
+  --text:        var(--neutral-700);
+  --text-sec:    var(--neutral-400);
+  --text-muted:  var(--neutral-100);
+  --accent:      var(--accent-1000);
+}
+
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── APP SHELL ── */
+.app {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── INVARIANTS CARD ── */
+.inv-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  animation: fadeUp 0.22s ease both;
+  margin-bottom: 16px;
+}
+
+.inv-card-body-row {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+
+.inv-card-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  opacity: 0.45;
+  color: var(--accent-1000);
+}
+
+.inv-card-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.inv-card-text {
+  font-size: 14px;
+  color: var(--neutral-500);
+  line-height: 1.65;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inv-line {
+  display: block;
+  line-height: 1.6;
+}
+
+/* inline toggle — sits after last line */
+.inv-toggle {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-top: 4px;
+}
+.inv-toggle:hover { color: var(--accent); }
+
+
+
+/* ── MAIN AREA ── */
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── CHAT PANEL ── */
+.chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+/* ── CONVERSATION SCROLL ── */
+.conv-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 36px 44px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── OPENING BLOCK ── */
+.opening {
+  margin-bottom: 4px;
+}
+
+.opening-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opening-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
+  animation: pulse 2.5s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 3px var(--accent-100); }
+  50%      { box-shadow: 0 0 0 5px var(--accent-50); }
+}
+
+.opening-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.opening-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.opening-body {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+/* ── MESSAGES ── */
+.msg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  animation: fadeUp 0.22s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.msg-from {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.msg-from.bot  { color: var(--accent); }
+.msg-from.user { color: var(--text-muted); }
+
+.msg-bubble {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.msg-bubble.bot  { color: var(--neutral-500); }
+.msg-bubble.user { color: var(--text); font-weight: 500; }
+
+/* Typing indicator */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-300);
+  animation: bounce 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.30s; }
+@keyframes bounce {
+  0%,60%,100% { transform: translateY(0); }
+  30%          { transform: translateY(-5px); }
+}
+
+/* ── INTERACTION PATTERNS ── */
+
+/* 1. Option list — single select */
+.option-list {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 220px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  animation: fadeUp 0.22s ease both;
+  width: 100%;
+  max-width: 420px;
+}
+
+.option-list-inner {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.option-list-inner::-webkit-scrollbar { width: 4px; }
+.option-list-inner::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.option-row:last-child { border-bottom: none; }
+.option-row:hover { background: var(--accent-15); }
+.option-row.selected { background: var(--accent-20); }
+
+.option-radio {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-mid);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.option-row.selected .option-radio {
+  border-color: var(--accent-1000);
+  background: var(--accent-1000);
+}
+.option-radio-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.option-row.selected .option-radio-dot { opacity: 1; }
+
+.option-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+}
+.option-row.selected .option-label { color: var(--accent-1000); font-weight: 600; }
+
+.option-special {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.option-list-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* 2. Multi-select list */
+.multiselect-list {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  animation: fadeUp 0.22s ease both;
+  width: 100%;
+  max-width: 420px;
+}
+
+.multiselect-inner {
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.multiselect-inner::-webkit-scrollbar { width: 4px; }
+.multiselect-inner::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+.multiselect-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.multiselect-row:last-child { border-bottom: none; }
+.multiselect-row:hover { background: var(--accent-15); }
+.multiselect-row.selected { background: var(--accent-20); }
+.multiselect-row.locked { cursor: default; }
+.multiselect-row.locked:hover { background: var(--accent-20); }
+
+.multiselect-check {
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border-mid);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+  font-size: 9px;
+  color: white;
+}
+.multiselect-row.selected .multiselect-check {
+  border-color: var(--accent-1000);
+  background: var(--accent-1000);
+}
+
+.multiselect-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+}
+.multiselect-row.selected .multiselect-label { color: var(--accent-1000); font-weight: 600; }
+.multiselect-row.locked .multiselect-label { color: var(--text-sec); }
+
+.multiselect-lock {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.multiselect-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-15);
+}
+
+.multiselect-count {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.multiselect-confirm {
+  padding: 5px 14px;
+  border-radius: 6px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+.multiselect-confirm:hover { background: var(--accent-900); }
+.multiselect-confirm:disabled { background: var(--neutral-50); color: var(--text-muted); cursor: not-allowed; }
+
+/* 3. Decision chips */
+.decision-chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  animation: fadeUp 0.28s 0.04s ease both;
+  max-width: 420px;
+}
+
+.decision-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.14s;
+  user-select: none;
+  min-height: 64px;
+}
+.decision-chip:hover {
+  border-color: var(--accent-300);
+  background: var(--accent-15);
+}
+.decision-chip.selected {
+  border-color: var(--accent-1000);
+  background: var(--accent-20);
+}
+
+.decision-chip-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.decision-chip.selected .decision-chip-label { color: var(--accent-1000); }
+
+.decision-chip-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── INPUT AREA ── */
+.conv-input-area {
+  padding: 16px 44px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.conv-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.conv-input-row:focus-within {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 3px var(--accent-30);
+}
+
+.conv-inp {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  resize: none;
+  min-height: 20px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+.conv-inp::placeholder { color: var(--text-muted); }
+.conv-inp:disabled { cursor: not-allowed; }
+
+.conv-send {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.conv-send:hover   { background: var(--accent-900); }
+.conv-send:disabled { background: var(--neutral-50); cursor: not-allowed; }
+
+.input-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 7px;
+  text-align: center;
+}
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-panel-header {
+  height: 44px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+
+.right-panel-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.right-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* panel empty */
+.panel-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px;
+}
+.panel-empty-icon { font-size: 28px; opacity: 0.2; }
+.panel-empty-text { font-size: 12px; line-height: 1.5; max-width: 180px; }
+
+/* Structure sketch */
+.structure-sketch {
+  animation: fadeUp 0.25s ease both;
+}
+
+.sketch-unit {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  animation: fadeUp 0.2s ease both;
+}
+.sketch-unit-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sketch-unit-title::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  background: #fef3c7;
+  border: 1px solid #f6d860;
+  flex-shrink: 0;
+}
+.sketch-lesson {
+  font-size: 11px;
+  color: var(--text-sec);
+  padding: 2px 0 2px 14px;
+  border-left: 1px solid var(--border-mid);
+  margin-left: 4px;
+  margin-top: 3px;
+}
+.sketch-placeholder {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* ── EIVOLET DEFINITION EDITOR (step 3) ── */
+.edef-screen {
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  flex: 1;
+}
+.edef-screen.active {
+  display: flex;
+}
+
+/* Definitions button — top right corner */
+.defs-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.defs-btn:hover { border-color: var(--accent-200); color: var(--accent-1000); background: var(--accent-15); }
+.defs-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* Definitions panel — slide in from right */
+.defs-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 300px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.06);
+}
+.defs-panel.open { transform: translateX(0); }
+
+.defs-panel-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.defs-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+.defs-panel-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.defs-panel-close:hover { background: var(--accent-15); color: var(--text); }
+
+.defs-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.def-item { display: flex; flex-direction: column; gap: 4px; }
+.def-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.def-value {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* Help panel */
+.help-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 300px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.06);
+}
+.help-panel.open { transform: translateX(0); }
+.help-panel-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.help-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+.help-panel-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.help-panel-close:hover { background: var(--accent-15); color: var(--text); }
+.help-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.help-group { display: flex; flex-direction: column; gap: 6px; }
+.help-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.help-group-title svg {
+  width: 13px; height: 13px;
+  stroke: var(--accent-1000);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.help-group-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.help-divider { height: 1px; background: var(--border); }
+
+/* Intro bar */
+.s3-intro {
+  padding: 14px 20px 13px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.s3-intro-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+.s3-intro-title em { font-style: italic; color: var(--accent); }
+.s3-intro-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex: 1;
+}
+.s3-intro-link {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-1000);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.14s;
+}
+.s3-intro-link:hover { opacity: 1; }
+
+/* Columns area */
+.s3-columns {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+  height: 0;
+}
+
+/* Each role column */
+.role-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  min-width: 0;
+}
+.role-col:last-child { border-right: none; }
+
+.role-col-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+.role-col-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.role-col-dot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.role-col-dot.course  { background: var(--accent-300); }
+.role-col-dot.section { background: #f59e0b; }
+.role-col-dot.unit    { background: #60a5fa; }
+.role-col-dot.lesson  { background: #34d399; }
+
+.role-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.role-col-subtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.role-col-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+  min-height: 0;
+}
+
+/* Group within a column */
+.ct-group { margin-bottom: 4px; }
+.ct-group-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 16px 4px;
+}
+
+/* Content type row */
+.ct-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+  position: relative;
+}
+.ct-row:hover { background: var(--accent-15); }
+.ct-row.on { background: var(--accent-15); }
+.ct-row.locked { cursor: default; }
+.ct-row.locked:hover { background: transparent; }
+
+.ct-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--neutral-30);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition: all 0.15s;
+}
+.ct-icon svg {
+  width: 14px; height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.15s;
+}
+.ct-row.on .ct-icon { background: var(--accent-20); border-color: var(--accent-200); }
+.ct-row.on .ct-icon svg { stroke: var(--accent-1000); }
+.ct-row.locked .ct-icon { background: var(--neutral-20); border-color: var(--border); }
+.ct-row.locked .ct-icon svg { stroke: var(--neutral-50); }
+
+.ct-info { flex: 1; min-width: 0; }
+.ct-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ct-row.on .ct-name { font-weight: 600; color: var(--accent-1000); }
+.ct-row.locked .ct-name { color: var(--text-muted); }
+
+.ct-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.ct-badge.generated { background: #eff6ff; color: #3b82f6; }
+.ct-badge.static { background: var(--accent-15); color: var(--accent-700); }
+
+/* Footer */
+.s3-footer {
+  height: 52px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.gen-btn {
+  padding: 9px 20px;
+  border-radius: 7px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.gen-btn:hover    { background: var(--accent-900); }
+.gen-btn:disabled { background: var(--neutral-50); color: var(--text-muted); cursor: not-allowed; }
+
+.s3-footer-note {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ── TRANSITION OVERLAY ── */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.transition-overlay.visible { opacity: 1; pointer-events: all; }
+.transition-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.transition-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 320px;
+  text-align: center;
+  line-height: 1.6;
+}
+.transition-spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--accent-100);
+  border-top-color: var(--accent-1000);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── LAUNCH OVERLAY ── */
+.launch-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--accent-10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.launch-overlay.visible { opacity: 1; pointer-events: all; }
+.launch-spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--accent-100);
+  border-top-color: var(--accent-1000);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.launch-msg {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.launch-sub { font-size: 12px; color: var(--text-muted); }
+
+/* scrollbars */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── MAIN ── -->
+  <div class="main" id="main">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CHAT COMPONENT                             -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="chat-panel" id="chat-panel">
+
+      <div class="conv-scroll" id="chat-scroll">
+        <div class="opening">
+          <div class="opening-eyebrow">EiBot</div>
+          <div class="opening-title">Let's build your<br><em>Eivolet</em> together.</div>
+          <div class="opening-body">I'll ask a few questions to understand what you're building. Your answers will guide everything that follows.</div>
+        </div>
+        <div id="chat-messages"></div>
+      </div>
+
+      <div class="conv-input-area">
+        <div class="conv-input-row">
+          <textarea class="conv-inp" id="chat-inp" placeholder="Type your answer…" rows="1"
+            onkeydown="chatHandleKey(event)" oninput="chatAutoResize(this)"></textarea>
+          <button class="conv-send" id="chat-send" onclick="chatSend()">↑</button>
+        </div>
+        <div class="input-hint" id="chat-hint">Press Enter to send</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: structure sketch -->
+    <div class="right-panel" id="right-panel">
+      <div class="right-panel-header">
+        <div class="right-panel-title">Structure sketch</div>
+      </div>
+      <div class="right-panel-scroll" id="sketch-container">
+        <div class="panel-empty" id="sketch-empty">
+          <div class="panel-empty-icon">⬡</div>
+          <div class="panel-empty-text">The structure will take shape here as you describe it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- EIVOLET DEFINITION EDITOR (step 3)         -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="edef-screen" id="edef-screen">
+
+      <!-- DEFINITIONS BUTTON -->
+      <button class="defs-btn" onclick="toggleDefs()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Invariants
+      </button>
+
+      <!-- DEFINITIONS PANEL -->
+      <div class="defs-panel" id="defs-panel">
+        <div class="defs-panel-header">
+          <div class="defs-panel-title">Invariants</div>
+          <button class="defs-panel-close" onclick="toggleDefs()">✕</button>
+        </div>
+        <div class="defs-panel-scroll" id="defs-panel-scroll"></div>
+      </div>
+
+      <!-- INTRO -->
+      <div class="s3-intro">
+        <div class="s3-intro-title">What goes into your <em>Eivolet</em>?</div>
+        <div class="s3-intro-desc">Choose the activity types for each level of your content.</div>
+        <a class="s3-intro-link" href="#" onclick="toggleHelp(); return false;">Learn more ↗</a>
+      </div>
+
+      <!-- HELP PANEL -->
+      <div class="help-panel" id="help-panel">
+        <div class="help-panel-header">
+          <div class="help-panel-title">Activity types</div>
+          <button class="help-panel-close" onclick="toggleHelp()">✕</button>
+        </div>
+        <div class="help-panel-scroll">
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Learning
+            </div>
+            <div class="help-group-desc">The core authored content of each lesson — explanations, examples, diagrams, and structured material written once and reused every time the lesson is accessed.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/></svg>
+              Gym
+            </div>
+            <div class="help-group-desc">Practice activities generated by AI at runtime — each learner gets a fresh set every session. Includes fill-in-the-blank exercises, multiple choice questions, flashcard sets, and playrooms for open practice.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Evaluation
+            </div>
+            <div class="help-group-desc">Assessment activities that measure learner progress. A Challenge is a focused task; a Championship is a broader evaluation spanning more content.</div>
+          </div>
+          <div class="help-divider"></div>
+          <div class="help-group">
+            <div class="help-group-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Space
+            </div>
+            <div class="help-group-desc">A free practice environment available at the course level — one per Eivolet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROLE COLUMNS -->
+      <div class="s3-columns" id="s3-columns"></div>
+
+      <!-- FOOTER -->
+      <div class="s3-footer">
+        <button class="gen-btn" id="gen-btn" onclick="generate()">Generate Eivolet →</button>
+        <div class="s3-footer-note" id="s3-footer-note"></div>
+      </div>
+
+    </div>
+
+  </div><!-- /main -->
+
+</div><!-- /app -->
+
+<!-- TRANSITION OVERLAY -->
+<div class="transition-overlay" id="transition-overlay">
+  <div class="transition-spinner"></div>
+  <div class="transition-title" id="transition-title">Opening Eivolet Definition Editor</div>
+  <div class="transition-sub" id="transition-sub">Structure locked. Now configure the content.</div>
+</div>
+
+<!-- LAUNCH OVERLAY -->
+<div class="launch-overlay" id="launch-overlay">
+  <div class="launch-spinner"></div>
+  <div class="launch-msg">Opening Eivolet Editor…</div>
+  <div class="launch-sub">Your definition is ready.</div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const state = {
+  // invariants
+  objective:     '',
+  audience:      '',
+  cultures:      [],
+  culturesSet:   false,
+  domain:        '',
+  codingType:    '',
+  codingTarget:  '',
+  languageTarget:'',
+  path:          '',
+  // structure phase
+  structureMessages: [],
+  structureSketched: false,
+  // phase tracking
+  phase: 'invariants'  // 'invariants' | 'structure' | 'edef'
+};
+
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+const CULTURES = [
+  { code: 'en-US', label: 'English (US)' },
+  { code: 'fr',    label: 'French'       },
+  { code: 'es',    label: 'Spanish'      },
+  { code: 'de',    label: 'German'       },
+  { code: 'pt',    label: 'Portuguese'   },
+  { code: 'it',    label: 'Italian'      },
+  { code: 'ja',    label: 'Japanese'     },
+  { code: 'zh',    label: 'Chinese'      },
+  { code: 'ar',    label: 'Arabic'       },
+];
+
+const OPTION_LISTS = {
+  'teaching-languages': [
+    { value: 'french',     label: 'French'     },
+    { value: 'spanish',    label: 'Spanish'    },
+    { value: 'english',    label: 'English'    },
+    { value: 'german',     label: 'German'     },
+    { value: 'portuguese', label: 'Portuguese' },
+    { value: 'italian',    label: 'Italian'    },
+    { value: 'japanese',   label: 'Japanese'   },
+    { value: 'mandarin',   label: 'Mandarin'   },
+    { value: 'arabic',     label: 'Arabic'     },
+    { value: 'korean',     label: 'Korean'     },
+  ],
+  languages: [
+    { value: 'any',        label: 'Any language', special: true },
+    { value: 'java',       label: 'Java'          },
+    { value: 'go',         label: 'Go'            },
+    { value: 'python',     label: 'Python'        },
+    { value: 'typescript', label: 'TypeScript'    },
+    { value: 'javascript', label: 'JavaScript'    },
+    { value: 'rust',       label: 'Rust'          },
+    { value: 'csharp',     label: 'C#'            },
+    { value: 'swift',      label: 'Swift'         },
+    { value: 'kotlin',     label: 'Kotlin'        },
+    { value: 'ruby',       label: 'Ruby'          },
+  ],
+  frameworks: [
+    { value: 'react',           label: 'React'                    },
+    { value: 'react-native',    label: 'React Native'             },
+    { value: 'nextjs',          label: 'Next.js'                  },
+    { value: 'vue',             label: 'Vue'                      },
+    { value: 'angular',         label: 'Angular'                  },
+    { value: 'spring-postgres', label: 'Spring Boot + PostgreSQL' },
+    { value: 'spring-mongo',    label: 'Spring Boot + MongoDB'    },
+    { value: 'django-postgres', label: 'Django + PostgreSQL'      },
+    { value: 'rails-postgres',  label: 'Rails + PostgreSQL'       },
+    { value: 'nestjs',          label: 'NestJS'                   },
+    { value: 'flutter',         label: 'Flutter'                  },
+  ]
+};
+
+const DOMAIN_OPTIONS = [
+  { value: 'language-learning', label: 'Language learning' },
+  { value: 'coding',            label: 'Coding'            },
+  { value: 'mathematics',       label: 'Mathematics'       },
+  { value: 'science',           label: 'Science'           },
+  { value: 'catch-all',         label: 'Other'             },
+];
+
+const CODING_TYPE_OPTIONS = [
+  { value: 'language',  label: 'Programming language' },
+  { value: 'framework', label: 'Framework'            },
+];
+
+// ════════════════════════════════════════
+// INVARIANT STEPS
+// ════════════════════════════════════════
+const INV_STEPS = [
+  {
+    id: 'objective',
+    msg: "What is this Eivolet about? Describe it in your own words — who are the learners and what should they be able to do by the end?",
+    type: 'text',
+    placeholder: 'e.g. A French language course for absolute beginners…',
+    field: 'objective'
+  },
+  {
+    id: 'audience',
+    msg: "Who are the learners? Tell me about their background, level, and age range.",
+    type: 'text',
+    placeholder: 'e.g. Adult beginners with no prior experience, 25–45 years old…',
+    field: 'audience'
+  },
+  {
+    id: 'cultures',
+    msg: "Which languages will this content support?",
+    type: 'multiselect',
+    field: 'cultures'
+  },
+  {
+    id: 'domain',
+    msg: "What domain best describes this content?",
+    type: 'option-list',
+    field: 'domain',
+    listKey: () => 'domain'
+  },
+  {
+    id: 'coding-type',
+    msg: "Is this for a programming language or a framework?",
+    type: 'option-list',
+    field: 'codingType',
+    condition: () => state.domain === 'coding',
+    listKey: () => 'coding-type'
+  },
+  {
+    id: 'coding-target',
+    msg: "Which one?",
+    type: 'option-list',
+    field: 'codingTarget',
+    condition: () => state.domain === 'coding',
+    listKey: () => state.codingType === 'language' ? 'languages' : 'frameworks'
+  },
+  {
+    id: 'language-target',
+    msg: "Which language are you teaching?",
+    type: 'option-list',
+    field: 'languageTarget',
+    condition: () => state.domain === 'language-learning',
+    listKey: () => 'teaching-languages'
+  },
+];
+
+// Register domain and coding-type in OPTION_LISTS
+OPTION_LISTS['domain']      = DOMAIN_OPTIONS;
+OPTION_LISTS['coding-type'] = CODING_TYPE_OPTIONS;
+
+let invStepIdx = 0;
+
+function invGetActive() {
+  return INV_STEPS.filter(s => !s.condition || s.condition());
+}
+
+// ════════════════════════════════════════
+// CHAT ENGINE
+// ════════════════════════════════════════
+let structureTurnCount = 0;
+
+function chatHandleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); chatSend(); }
+}
+
+function chatAutoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function chatSend() {
+  const inp = document.getElementById('chat-inp');
+  const text = inp.value.trim();
+  if (!text || inp.disabled) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+
+  if (state.phase === 'invariants') {
+    const active = invGetActive();
+    const step = active[invStepIdx];
+    if (!step || step.type !== 'text') return;
+    state[step.field] = text;
+    chatUserMsg(text);
+    updateInvCard();
+    invStepIdx++;
+    setTimeout(invNext, 350);
+  } else if (state.phase === 'structure') {
+    chatUserMsg(text);
+    state.structureMessages.push({ from: 'user', text });
+    structureTurnCount++;
+    chatScroll();
+    handleStructureTurn(text);
+  }
+}
+
+function chatBotMsg(text, cb) {
+  const msgs = document.getElementById('chat-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg-group';
+  typing.innerHTML = `<div class="msg-from bot">EiBot</div><div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(typing);
+  chatScroll();
+  setTimeout(() => {
+    msgs.removeChild(typing);
+    const grp = document.createElement('div');
+    grp.className = 'msg-group';
+    grp.innerHTML = `<div class="msg-from bot">EiBot</div><div class="msg-bubble bot">${text}</div>`;
+    msgs.appendChild(grp);
+    chatScroll();
+    if (cb) cb();
+  }, 650);
+}
+
+function chatUserMsg(text) {
+  const msgs = document.getElementById('chat-messages');
+  const grp = document.createElement('div');
+  grp.className = 'msg-group';
+  grp.innerHTML = `<div class="msg-from user">You</div><div class="msg-bubble user">${text}</div>`;
+  msgs.appendChild(grp);
+  chatScroll();
+}
+
+function chatScroll() {
+  const el = document.getElementById('chat-scroll');
+  el.scrollTop = el.scrollHeight;
+}
+
+function chatDisableInput() {
+  const inp = document.getElementById('chat-inp');
+  inp.disabled = true;
+  document.getElementById('chat-send').disabled = true;
+  inp.placeholder = 'Pick an option above…';
+}
+
+function chatEnableInput(placeholder) {
+  const inp = document.getElementById('chat-inp');
+  inp.disabled = false;
+  document.getElementById('chat-send').disabled = false;
+  inp.placeholder = placeholder || 'Type your answer…';
+}
+
+// ════════════════════════════════════════
+// INVARIANT FLOW
+// ════════════════════════════════════════
+function invNext() {
+  const active = invGetActive();
+  if (invStepIdx >= active.length) {
+    showPathDecision();
+    return;
+  }
+  const step = active[invStepIdx];
+  chatBotMsg(step.msg, () => {
+    if (step.type === 'text') {
+      chatEnableInput(step.placeholder || '');
+    } else if (step.type === 'option-list') {
+      showOptionList(step);
+      chatDisableInput();
+    } else if (step.type === 'multiselect') {
+      showMultiselect();
+      chatDisableInput();
+    } else if (step.type === 'decision') {
+      showDecisionChips(step);
+      chatDisableInput();
+    }
+  });
+}
+
+function showOptionList(step) {
+  const msgs = document.getElementById('chat-messages');
+  const listKey = typeof step.listKey === 'function' ? step.listKey() : step.listKey;
+  const options = OPTION_LISTS[listKey] || [];
+
+  const wrap = document.createElement('div');
+  wrap.className = 'option-list';
+
+  const inner = document.createElement('div');
+  inner.className = 'option-list-inner';
+
+  options.forEach((opt, i) => {
+    if (i === 1 && options[0].special) {
+      const div = document.createElement('div');
+      div.className = 'option-list-divider';
+      inner.appendChild(div);
+    }
+    const row = document.createElement('div');
+    row.className = 'option-row';
+    row.innerHTML = `
+      <div class="option-radio"><div class="option-radio-dot"></div></div>
+      <div class="option-label">${opt.label}</div>
+      ${opt.special ? '<span class="option-special">no restriction</span>' : ''}`;
+    row.addEventListener('click', () => {
+      wrap.remove();
+      state[step.field] = opt.value;
+      chatUserMsg(opt.label);
+      updateInvCard();
+      invStepIdx++;
+      chatEnableInput();
+      setTimeout(invNext, 350);
+    });
+    inner.appendChild(row);
+  });
+
+  wrap.appendChild(inner);
+  msgs.appendChild(wrap);
+  chatScroll();
+}
+
+function showMultiselect() {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'multiselect-list';
+
+  const inner = document.createElement('div');
+  inner.className = 'multiselect-inner';
+
+  // Local temp selection — en-US is always locked/shown but not in state yet
+  const tempSelected = [];
+
+  CULTURES.forEach(c => {
+    const locked = c.code === 'en-US';
+    const row = document.createElement('div');
+    row.className = `multiselect-row${locked ? ' selected locked' : ''}`;
+    row.innerHTML = `
+      <div class="multiselect-check">${locked ? '✓' : ''}</div>
+      <div class="multiselect-label">${c.label}</div>
+      ${locked ? '<span class="multiselect-lock">required</span>' : ''}`;
+    if (!locked) {
+      row.addEventListener('click', () => {
+        const idx = tempSelected.indexOf(c.code);
+        if (idx >= 0) {
+          tempSelected.splice(idx, 1);
+          row.classList.remove('selected');
+          row.querySelector('.multiselect-check').textContent = '';
+        } else {
+          tempSelected.push(c.code);
+          row.classList.add('selected');
+          row.querySelector('.multiselect-check').textContent = '✓';
+        }
+        updateCount();
+      });
+    }
+    inner.appendChild(row);
+  });
+
+  const footer = document.createElement('div');
+  footer.className = 'multiselect-footer';
+  const count = document.createElement('span');
+  count.className = 'multiselect-count';
+  count.textContent = `1 selected`;
+  const confirm = document.createElement('button');
+  confirm.className = 'multiselect-confirm';
+  confirm.textContent = 'Confirm';
+  confirm.addEventListener('click', () => {
+    state.cultures = ['en-US', ...tempSelected];
+    state.culturesSet = true;
+    wrap.remove();
+    chatUserMsg(state.cultures.join(' · '));
+    updateInvCard();
+    invStepIdx++;
+    chatEnableInput();
+    setTimeout(invNext, 350);
+  });
+
+  function updateCount() {
+    count.textContent = `${1 + tempSelected.length} selected`;
+  }
+
+  footer.appendChild(count);
+  footer.appendChild(confirm);
+  wrap.appendChild(inner);
+  wrap.appendChild(footer);
+  msgs.appendChild(wrap);
+  chatScroll();
+}
+
+function showDecisionChips(step) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'decision-chips';
+
+  step.chips.forEach(chip => {
+    const el = document.createElement('div');
+    el.className = 'decision-chip';
+    el.innerHTML = `
+      <div class="decision-chip-label">${chip.label}</div>
+      ${chip.desc ? `<div class="decision-chip-desc">${chip.desc}</div>` : ''}`;
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.decision-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      setTimeout(() => {
+        wrap.remove();
+        state[step.field] = chip.value;
+        chatUserMsg(chip.label);
+        updateInvCard();
+        invStepIdx++;
+        chatEnableInput();
+        setTimeout(invNext, 350);
+      }, 160);
+    });
+    wrap.appendChild(el);
+  });
+
+  msgs.appendChild(wrap);
+  chatScroll();
+  chatDisableInput();
+}
+
+// ════════════════════════════════════════
+// PATH DECISION
+// ════════════════════════════════════════
+function showPathDecision() {
+  chatBotMsg("How would you like to define the structure?", () => {
+    const msgs = document.getElementById('chat-messages');
+    const wrap = document.createElement('div');
+    wrap.className = 'decision-chips';
+
+    const ai = document.createElement('div');
+    ai.className = 'decision-chip';
+    ai.innerHTML = `<div class="decision-chip-label">Guide me through it</div><div class="decision-chip-desc">EiBot will help you build the structure step by step</div>`;
+    ai.addEventListener('click', () => {
+      wrap.remove();
+      state.path = 'ai';
+      chatUserMsg('Guide me through it');
+      startStructurePhase();
+    });
+
+    const blank = document.createElement('div');
+    blank.className = 'decision-chip';
+    blank.innerHTML = `<div class="decision-chip-label">I'll build it myself</div><div class="decision-chip-desc">Jump straight into the Eivolet Editor</div>`;
+    blank.addEventListener('click', () => {
+      wrap.remove();
+      state.path = 'blank';
+      chatUserMsg("I'll build it myself");
+      openEivoletEditor();
+    });
+
+    wrap.appendChild(ai);
+    wrap.appendChild(blank);
+    msgs.appendChild(wrap);
+    chatScroll();
+    chatDisableInput();
+  });
+}
+
+// ════════════════════════════════════════
+// STRUCTURE PHASE
+// ════════════════════════════════════════
+function startStructurePhase() {
+  state.phase = 'structure';
+  const obj = state.objective.slice(0, 80) + (state.objective.length > 80 ? '…' : '');
+  chatBotMsg(`I have everything I need. Now let's talk about structure.<br><br>Based on what you've told me — <em>${obj}</em> — what units and topics do you have in mind? Describe as freely as you like.`, () => {
+    chatEnableInput('Describe the structure you have in mind…');
+    document.getElementById('chat-hint').textContent = 'Describe freely — EiBot will ask questions and suggest when ready';
+  });
+}
+
+function handleStructureTurn(text) {
+  chatDisableInput();
+  setTimeout(() => {
+    let reply;
+    let showTransition = false;
+
+    if (structureTurnCount === 1) {
+      reply = `That's a good starting point. I can see a clear structure taking shape. A couple of questions:<br><br>How do you see the units progressing — is each one independent, or does the difficulty build from one to the next?`;
+      updateSketch(text);
+    } else if (structureTurnCount === 2) {
+      reply = `Good. And within each unit — do you have a sense of how many lessons you're thinking? Even a rough number helps me propose a balanced structure.`;
+    } else if (structureTurnCount >= 3) {
+      reply = `I think I have enough to move forward. I've got a clear picture of the structure you're describing. <strong>Ready to configure the content?</strong>`;
+      showTransition = true;
+    } else {
+      reply = `Understood. What else should I know about the structure?`;
+    }
+
+    chatBotMsg(reply, () => {
+      if (showTransition) {
+        const msgs = document.getElementById('chat-messages');
+        const wrap = document.createElement('div');
+        wrap.className = 'decision-chips';
+        const yes = document.createElement('div');
+        yes.className = 'decision-chip';
+        yes.innerHTML = `<div class="decision-chip-label">Looks good, let's continue</div><div class="decision-chip-desc">Configure the content types for each level</div>`;
+        yes.addEventListener('click', () => { wrap.remove(); openEivoletDefinitionEditor(); });
+        const no = document.createElement('div');
+        no.className = 'decision-chip';
+        no.innerHTML = `<div class="decision-chip-label">Not yet, keep going</div><div class="decision-chip-desc">Continue refining the structure</div>`;
+        no.addEventListener('click', () => {
+          wrap.remove();
+          structureTurnCount = 1;
+          chatBotMsg(`Of course. What else do you want to add or change?`, () => {
+            chatEnableInput('Describe the structure you have in mind…');
+          });
+        });
+        wrap.appendChild(yes);
+        wrap.appendChild(no);
+        msgs.appendChild(wrap);
+        chatScroll();
+      } else {
+        chatEnableInput('Describe the structure you have in mind…');
+      }
+    });
+  }, 900);
+}
+
+function updateSketch(userText) {
+  const container = document.getElementById('sketch-container');
+  document.getElementById('sketch-empty')?.remove();
+
+  container.innerHTML = '';
+  const sketch = document.createElement('div');
+  sketch.className = 'structure-sketch';
+
+  const units = [
+    { title: 'Unit 1', lessons: ['Lesson 1', 'Lesson 2', 'Lesson 3'] },
+    { title: 'Unit 2', lessons: ['Lesson 1', 'Lesson 2', 'Lesson 3'] },
+    { title: '…',      lessons: [] }
+  ];
+
+  units.forEach(u => {
+    const el = document.createElement('div');
+    el.className = 'sketch-unit';
+    el.innerHTML = `<div class="sketch-unit-title">${u.title}</div>`;
+    if (u.lessons.length) {
+      u.lessons.forEach(l => {
+        const le = document.createElement('div');
+        le.className = 'sketch-lesson';
+        le.textContent = l;
+        el.appendChild(le);
+      });
+    } else {
+      const ph = document.createElement('div');
+      ph.className = 'sketch-placeholder';
+      ph.textContent = 'more units…';
+      el.appendChild(ph);
+    }
+    sketch.appendChild(el);
+  });
+
+  container.appendChild(sketch);
+}
+
+// ════════════════════════════════════════
+// INVARIANTS CARD
+// ════════════════════════════════════════
+function buildInvLines(full) {
+  const lines = [];
+
+  if (state.objective) {
+    const raw = full
+      ? state.objective
+      : (state.objective.split('\n')[0].slice(0, 80) + (state.objective.length > 80 || state.objective.includes('\n') ? '…' : ''));
+    const obj = raw.replace(/\n/g, '<br>');
+    lines.push(`<span class="inv-line">We're building <em>${obj}</em></span>`);
+  }
+
+  if (full) {
+    if (state.domain)
+      lines.push(`<span class="inv-line">It falls under <em>${formatDomain()}</em></span>`);
+    if (state.audience)
+      lines.push(`<span class="inv-line">It's designed for <em>${state.audience.replace(/\n/g, '<br>')}</em></span>`);
+    if (state.culturesSet && state.cultures?.length)
+      lines.push(`<span class="inv-line">It will be available in <em>${state.cultures.join(', ')}</em></span>`);
+  }
+
+  return lines.join('');
+}
+
+function buildInvSentence(full) { return buildInvLines(full); }
+
+function updateInvCard() {
+  if (!state.objective && !state.domain && !state.audience) return;
+
+  const msgs = document.getElementById('chat-messages');
+
+  let card = document.getElementById('inv-card');
+  const isExpanded = card?.classList.contains('expanded');
+
+  if (!card) {
+    card = document.createElement('div');
+    card.id = 'inv-card';
+    card.className = 'inv-card';
+    msgs.insertBefore(card, msgs.firstChild);
+  }
+
+  const collapsedText = buildInvSentence(false);
+  const expandedText  = buildInvSentence(true);
+  const needsToggle   = collapsedText !== expandedText;
+  const activeText    = isExpanded ? expandedText : collapsedText;
+  const toggleLabel   = isExpanded ? '· less' : '· more';
+
+  const toggleHtml = needsToggle
+    ? `<span class="inv-toggle" onclick="toggleInvCard()">${toggleLabel}</span>`
+    : '';
+
+  card.className = `inv-card${isExpanded ? ' expanded' : ''}`;
+  card.innerHTML = `
+    <div class="msg-from bot">EiBot</div>
+    <div class="inv-card-body-row">
+      <div class="inv-card-icon"><svg viewBox="0 0 24 24"><path d="M9 21h6"/><path d="M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 0 1 6-6z"/></svg></div>
+      <div class="inv-card-text" id="inv-card-text">${activeText}${toggleHtml}</div>
+    </div>`;
+
+  card._collapsed = collapsedText;
+  card._expanded  = expandedText;
+  card._needs     = needsToggle;
+}
+
+function toggleInvCard() {
+  const card = document.getElementById('inv-card');
+  if (!card) return;
+  const expanding = !card.classList.contains('expanded');
+  card.classList.toggle('expanded', expanding);
+  const textEl = document.getElementById('inv-card-text');
+  const toggleLabel = expanding ? '· less' : '· more';
+  textEl.innerHTML = (expanding ? card._expanded : card._collapsed)
+    + `<span class="inv-toggle" onclick="toggleInvCard()">${toggleLabel}</span>`;
+}
+
+function formatDomain() {
+  const map = { 'language-learning': 'Language learning', 'coding': 'Coding', 'mathematics': 'Mathematics', 'science': 'Science', 'catch-all': 'Other' };
+  let d = map[state.domain] || state.domain;
+  if (state.languageTarget) d += ` · ${state.languageTarget}`;
+  if (state.codingTarget)   d += ` · ${state.codingTarget}`;
+  return d;
+}
+
+// ════════════════════════════════════════
+// OPEN EIVOLET DEFINITION EDITOR
+// ════════════════════════════════════════
+function openEivoletEditor() {
+  document.getElementById('launch-overlay').classList.add('visible');
+  setTimeout(() => { window.location.href = 'eivolet-editor.html'; }, 1800);
+}
+
+function openEivoletDefinitionEditor() {
+  const overlay = document.getElementById('transition-overlay');
+  document.getElementById('transition-title').textContent = 'Eivolet Definition Editor';
+  document.getElementById('transition-sub').textContent = state.path === 'blank'
+    ? 'Invariants locked. Build your structure in the editor.'
+    : 'Structure locked. Now configure the content.';
+
+  overlay.classList.add('visible');
+
+  setTimeout(() => {
+    // Hide chat + right panel
+    document.getElementById('chat-panel').style.display = 'none';
+    document.getElementById('right-panel').style.display = 'none';
+
+    // Show Eivolet Definition Editor
+    document.getElementById('edef-screen').classList.add('active');
+
+    state.phase = 'edef';
+    edefInit();
+
+    setTimeout(() => overlay.classList.remove('visible'), 300);
+  }, 900);
+}
+
+// ════════════════════════════════════════
+// RESET
+// ════════════════════════════════════════
+function resetAll() {
+  if (!confirm('Reset everything? All progress will be lost.')) return;
+  location.reload();
+}
+
+// ════════════════════════════════════════
+// CONTENT TYPE REGISTRY
+// ════════════════════════════════════════
+const CONTENT_REGISTRY = [
+  { id: 'template',     group: 'learning',   levels: ['lesson'],                           domains: ['*'],                                           name: 'Template',          locked: false, badge: null },
+  { id: 'fill-blank',   group: 'gym',        levels: ['lesson'],                           domains: ['language-learning','mathematics','science','catch-all'], name: 'Fill-in-the-blank', locked: false, badge: 'generated' },
+  { id: 'multi-choice', group: 'gym',        levels: ['lesson'],                           domains: ['*'],                                           name: 'Multiple choice',   locked: false, badge: 'generated' },
+  { id: 'flashcards',   group: 'gym',        levels: ['lesson'],                           domains: ['language-learning'],                           name: 'Flashcards',        locked: false, badge: 'generated' },
+  { id: 'playrooms',    group: 'gym',        levels: ['lesson'],                           domains: ['*'],                                           name: 'Playrooms',         locked: false, badge: 'generated' },
+  { id: 'challenge',    group: 'evaluation', levels: ['course','section','unit','lesson'], domains: ['*'],                                           name: 'Challenge',         locked: false, badge: null },
+  { id: 'championship', group: 'evaluation', levels: ['course','section','unit','lesson'], domains: ['*'],                                           name: 'Championship',      locked: false, badge: null },
+  { id: 'space',        group: 'space',      levels: ['course'],                           domains: ['*'],                                           name: 'Space',             locked: false, badge: null },
+];
+
+const GROUP_META = {
+  learning:   { label: 'Learning',   desc: 'Authored content' },
+  gym:        { label: 'Gym',        desc: 'LLM-generated at runtime' },
+  evaluation: { label: 'Evaluation', desc: 'Assessment activities' },
+  space:      { label: 'Space',      desc: 'Practice environment' },
+};
+
+const ROLE_META = {
+  course:  { label: 'Eivolet',  dot: 'course',  subtitle: 'Root of your content' },
+  section: { label: 'Sections', dot: 'section', subtitle: 'Top-level grouping' },
+  unit:    { label: 'Units',    dot: 'unit',    subtitle: 'Content grouping' },
+  lesson:  { label: 'Lessons',  dot: 'lesson',  subtitle: 'Individual learning steps' },
+};
+
+const CT_ICONS = {
+  'template':     '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  'fill-blank':   '<line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>',
+  'multi-choice': '<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  'flashcards':   '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 2H8L2 7"/><path d="M22 7l-6-5"/>',
+  'playrooms':    '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+  'challenge':    '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+  'championship': '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',
+  'space':        '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+};
+
+function ctIcon(ctId) {
+  const path = CT_ICONS[ctId] || '<circle cx="12" cy="12" r="3"/>';
+  return `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+}
+
+function registryFor(role, domain, depth) {
+  return CONTENT_REGISTRY.filter(ct => {
+    const levelMatch = (depth === 1 && role === 'course') ? true : ct.levels.includes(role);
+    return levelMatch && (ct.domains.includes('*') || ct.domains.includes(domain));
+  });
+}
+
+function s3DefaultOn(ctId, role, depth) {
+  if (CONTENT_REGISTRY.find(c => c.id === ctId)?.locked) return true;
+  if (ctId === 'space') return true;
+  if (depth === 1 && role === 'course') return true;
+  if (ctId === 'challenge' || ctId === 'championship') {
+    const primaryRole = depth <= 2 ? 'course' : 'unit';
+    return role === primaryRole;
+  }
+  if (ctId === 'template') return true;
+  const gymIds = ['fill-blank','multi-choice','flashcards','playrooms'];
+  if (gymIds.includes(ctId) && role === 'lesson') return true;
+  return false;
+}
+
+function s3Columns(depth) {
+  if (depth === 1) return ['course'];
+  if (depth === 2) return ['course', 'lesson'];
+  if (depth === 3) return ['course', 'unit', 'lesson'];
+  return ['course', 'section', 'unit', 'lesson'];
+}
+
+const roleConfigs = {};
+
+function edefInit() {
+  const domain = state.domain || 'language-learning';
+  const depth  = 3; // default; in production derived from structure conversation
+  const cols   = s3Columns(depth);
+
+  cols.forEach(role => {
+    roleConfigs[role] = {};
+    registryFor(role, domain, depth).forEach(ct => {
+      roleConfigs[role][ct.id] = { on: s3DefaultOn(ct.id, role, depth) };
+    });
+  });
+
+  edefRenderDefsPanel();
+  edefRenderColumns(cols, domain, depth);
+  edefUpdateFooterNote(cols, domain);
+}
+
+function edefRenderDefsPanel() {
+  const scroll = document.getElementById('defs-panel-scroll');
+  if (!scroll) return;
+  const items = [
+    { label: 'Objective', value: state.objective || '—' },
+    { label: 'Audience',  value: state.audience  || '—' },
+    { label: 'Domain',    value: state.domain    || '—' },
+    { label: 'Cultures',  value: state.cultures?.join(', ') || '—' },
+  ];
+  scroll.innerHTML = items.map(i => `
+    <div class="def-item">
+      <div class="def-label">${i.label}</div>
+      <div class="def-value">${i.value}</div>
+    </div>`).join('');
+}
+
+function edefRenderColumns(cols, domain, depth) {
+  const container = document.getElementById('s3-columns');
+  container.innerHTML = '';
+
+  cols.forEach(role => {
+    const meta  = ROLE_META[role];
+    const types = registryFor(role, domain, depth);
+    const cfg   = roleConfigs[role];
+    const groups = {};
+    types.forEach(ct => {
+      if (!groups[ct.group]) groups[ct.group] = [];
+      groups[ct.group].push(ct);
+    });
+
+    const col = document.createElement('div');
+    col.className = 'role-col';
+    col.innerHTML = `
+      <div class="role-col-header">
+        <div class="role-col-badge">
+          <div class="role-col-dot ${meta.dot}"></div>
+          <div class="role-col-title">${meta.label}</div>
+        </div>
+        <div class="role-col-subtitle">${meta.subtitle}</div>
+      </div>
+      <div class="role-col-scroll" id="rscroll-${role}"></div>`;
+    container.appendChild(col);
+
+    const scroll = col.querySelector(`#rscroll-${role}`);
+    Object.entries(groups).forEach(([groupId, cts]) => {
+      const gmeta = GROUP_META[groupId];
+      const groupEl = document.createElement('div');
+      groupEl.className = 'ct-group';
+      groupEl.innerHTML = `<div class="ct-group-title">${gmeta.label}</div>`;
+      cts.forEach(ct => {
+        const isOn     = cfg[ct.id]?.on ?? false;
+        const isLocked = ct.locked;
+        const rowEl = document.createElement('div');
+        rowEl.className = `ct-row${isOn ? ' on' : ''}${isLocked ? ' locked' : ''}`;
+        const badgeHtml = ct.badge
+          ? `<span class="ct-badge ${ct.badge}">${ct.badge === 'generated' ? 'LLM' : 'static'}</span>`
+          : '';
+        rowEl.innerHTML = `
+          <div class="ct-icon">${ctIcon(ct.id)}</div>
+          <div class="ct-info"><div class="ct-name">${ct.name}${badgeHtml}</div></div>`;
+        if (!isLocked) {
+          rowEl.addEventListener('click', () => {
+            cfg[ct.id].on = !cfg[ct.id].on;
+            rowEl.classList.toggle('on', cfg[ct.id].on);
+            edefUpdateFooterNote(Object.keys(roleConfigs), state.domain);
+          });
+        }
+        groupEl.appendChild(rowEl);
+      });
+      scroll.appendChild(groupEl);
+    });
+  });
+}
+
+function edefUpdateFooterNote(cols, domain) {
+  const lessonTypes = registryFor('lesson', domain, 3);
+  const onCount = lessonTypes.filter(ct => roleConfigs['lesson']?.[ct.id]?.on).length;
+  document.getElementById('s3-footer-note').textContent =
+    `${onCount} activity type${onCount !== 1 ? 's' : ''} per lesson`;
+}
+
+function toggleDefs() {
+  document.getElementById('defs-panel').classList.toggle('open');
+  document.getElementById('help-panel')?.classList.remove('open');
+}
+
+function toggleHelp() {
+  document.getElementById('help-panel').classList.toggle('open');
+  document.getElementById('defs-panel').classList.remove('open');
+}
+
+function generate() {
+  document.getElementById('gen-btn').disabled = true;
+  document.getElementById('gen-btn').textContent = 'Generating…';
+  setTimeout(() => {
+    document.getElementById('launch-overlay').classList.add('visible');
+    setTimeout(() => { window.location.href = 'eivolet-editor.html'; }, 1800);
+  }, 500);
+}
+
+// ════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════
+setTimeout(() => invNext(), 400);
+</script>
+</body>
+</html>

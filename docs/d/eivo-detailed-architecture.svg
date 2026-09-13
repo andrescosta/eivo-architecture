@@ -1,0 +1,147 @@
+<svg viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- Experiences -->
+  <rect x="30" y="20" width="1520" height="90" rx="6" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+  <text x="790" y="50" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#2E7D32">EXPERIENCES</text>
+  <text x="790" y="70" font-family="Arial" font-size="10" text-anchor="middle" fill="#388E3C">Lingv, Anvil, Console, CLI, Mobile Apps</text>
+  
+  <!-- Arrow: Experiences to SDK -->
+  <line x1="790" y1="110" x2="790" y2="140" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- SDK Layer -->
+  <rect x="30" y="140" width="1520" height="270" rx="6" fill="#FFF3E0" stroke="#FF9800" stroke-width="2"/>
+  <text x="790" y="170" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#E65100">SDK</text>
+  
+  <!-- Facets -->
+  <rect x="80" y="190" width="1440" height="100" rx="4" fill="#FFE0B2" stroke="#FB8C00" stroke-width="1.5"/>
+  <text x="790" y="215" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#E65100">Facets</text>
+  <text x="790" y="233" font-family="Arial" font-size="9" text-anchor="middle" fill="#E65100">Navigation, Learning, Gym, Playroom, Championship, Challenges</text>
+  
+  <rect x="205" y="250" width="570" height="30" rx="3" fill="#FFCC80" stroke="#FF9800" stroke-width="1"/>
+  <text x="490" y="270" font-family="Arial" font-size="10" text-anchor="middle" fill="#E65100">UI Components</text>
+  
+  <rect x="825" y="250" width="570" height="30" rx="3" fill="#FFCC80" stroke="#FF9800" stroke-width="1"/>
+  <text x="1110" y="270" font-family="Arial" font-size="10" text-anchor="middle" fill="#E65100">Backend Handlers (calls Core)</text>
+  
+  <!-- Core -->
+  <rect x="80" y="305" width="1440" height="90" rx="4" fill="#FFCC80" stroke="#FF9800" stroke-width="1.5"/>
+  <text x="790" y="330" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#E65100">Core (Business Logic)</text>
+  <text x="790" y="355" font-family="Arial" font-size="9" text-anchor="middle" fill="#E65100">Aggregates | Learning | Trials | Flashcards | Challenges</text>
+  <text x="790" y="375" font-family="Arial" font-size="8" text-anchor="middle" fill="#F57C00" font-style="italic">Orchestrates Cloud API calls, enforces business rules</text>
+  
+  <!-- Arrow: SDK to Kubernetes -->
+  <line x1="790" y1="410" x2="790" y2="440" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Kubernetes boundary -->
+  <rect x="30" y="440" width="1120" height="720" rx="8" fill="none" stroke="#607D8B" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="590" y="430" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#607D8B">KUBERNETES INFRASTRUCTURE</text>
+  
+  <!-- Cloud API -->
+  <rect x="50" y="460" width="1080" height="240" rx="6" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  <text x="590" y="490" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#0D47A1">CLOUD API (Modular Monolithic)</text>
+  
+  <rect x="80" y="515" width="190" height="160" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="175" y="540" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">Editorial</text>
+  <text x="175" y="560" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Authoring</text>
+  <text x="175" y="575" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Library</text>
+  <text x="175" y="600" font-family="Arial" font-size="8" text-anchor="middle" fill="#1976D2" font-style="italic">Content Engine</text>
+  
+  <rect x="290" y="515" width="190" height="160" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="385" y="540" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">Assistance</text>
+  <text x="385" y="560" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Analysis</text>
+  <text x="385" y="575" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Feedback</text>
+  <text x="385" y="590" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Guidance</text>
+  
+  <rect x="500" y="515" width="190" height="160" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="595" y="540" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">Social</text>
+  <text x="595" y="560" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Organization</text>
+  <text x="595" y="575" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Tracking</text>
+  <text x="595" y="590" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Collaboration</text>
+  
+  <rect x="710" y="515" width="190" height="160" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="805" y="540" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">Gaming</text>
+  <text x="805" y="560" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Leaderboards</text>
+  <text x="805" y="575" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Arenas</text>
+  <text x="805" y="590" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Gamification</text>
+  
+  <rect x="920" y="515" width="190" height="160" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="1015" y="540" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">Identity</text>
+  <text x="1015" y="560" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Authentication</text>
+  <text x="1015" y="575" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Authorization</text>
+  <text x="1015" y="590" font-family="Arial" font-size="9" text-anchor="middle" fill="#1976D2">Privacy</text>
+  
+  <!-- Arrow: Cloud API to Infrastructure -->
+  <line x1="580" y1="700" x2="580" y2="880" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Platform Operators -->
+  <rect x="50" y="730" width="520" height="120" rx="6" fill="#F3E5F5" stroke="#9C27B0" stroke-width="2"/>
+  <text x="310" y="760" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#6A1B9A">Platform Operators</text>
+  
+  <rect x="100" y="780" width="420" height="50" rx="4" fill="#E1BEE7" stroke="#BA68C8" stroke-width="1.5"/>
+  <text x="310" y="800" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#6A1B9A">Environment Operators</text>
+  <text x="310" y="818" font-family="Arial" font-size="8" text-anchor="middle" fill="#8E24AA">Isolated compute + storage + cloud IDE</text>
+  
+  <!-- Real-time Services -->
+  <rect x="590" y="730" width="540" height="120" rx="6" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  <text x="860" y="760" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#0D47A1">Real-time Services</text>
+  
+  <rect x="640" y="780" width="440" height="50" rx="4" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="860" y="800" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#0D47A1">WebSocket Server</text>
+  <text x="860" y="818" font-family="Arial" font-size="8" text-anchor="middle" fill="#1976D2">Multiplayer session sync</text>
+  
+  <!-- Controlled Infrastructure -->
+  <rect x="50" y="880" width="1080" height="260" rx="6" fill="#CFD8DC" stroke="#78909C" stroke-width="2"/>
+  <text x="590" y="910" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#263238">Controlled Infrastructure Services</text>
+  
+  <rect x="80" y="935" width="240" height="180" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.5"/>
+  <text x="200" y="965" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Data Services</text>
+  <text x="200" y="990" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Relational DB</text>
+  <text x="200" y="1008" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">(PostgreSQL)</text>
+  <text x="200" y="1035" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Key-Value Store</text>
+  <text x="200" y="1053" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">(Redis)</text>
+  <text x="200" y="1080" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Caching</text>
+  
+  <rect x="340" y="935" width="240" height="180" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.5"/>
+  <text x="460" y="965" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Authentication</text>
+  <text x="460" y="985" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Services</text>
+  <text x="460" y="1015" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">OIDC Providers</text>
+  <text x="460" y="1035" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Identity Verification</text>
+  <text x="460" y="1055" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">SSO</text>
+  
+  <rect x="600" y="935" width="240" height="180" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.5"/>
+  <text x="720" y="965" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Guardian</text>
+  <text x="720" y="985" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Services</text>
+  <text x="720" y="1015" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">LLM Security</text>
+  <text x="720" y="1035" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Input Validation</text>
+  <text x="720" y="1055" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Threat Detection</text>
+  <text x="720" y="1075" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Rate Limiting</text>
+  
+  <rect x="860" y="935" width="240" height="180" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.5"/>
+  <text x="980" y="965" font-family="Arial" font-size="11" font-weight="bold" text-anchor="middle" fill="#37474F">Execution Services</text>
+  <text x="980" y="995" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Code Execution</text>
+  <text x="980" y="1015" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Isolated Containers</text>
+  <text x="980" y="1035" font-family="Arial" font-size="9" text-anchor="middle" fill="#546E7A">Result Validation</text>
+  
+  <!-- Non-Controlled Infrastructure (External) -->
+  <rect x="1180" y="460" width="370" height="390" rx="6" fill="#FFEBEE" stroke="#EF5350" stroke-width="2"/>
+  <text x="1365" y="490" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#C62828">Non-Controlled</text>
+  <text x="1365" y="510" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#C62828">Infrastructure</text>
+  
+  <rect x="1210" y="540" width="310" height="290" rx="4" fill="#FFCDD2" stroke="#E57373" stroke-width="1.5"/>
+  <text x="1365" y="570" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#B71C1C">AI/LLM Services</text>
+  <text x="1365" y="605" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">Content Generation</text>
+  <text x="1365" y="625" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">(Editorial)</text>
+  <text x="1365" y="660" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">Submission Analysis</text>
+  <text x="1365" y="680" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">(Assistance)</text>
+  <text x="1365" y="715" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">Feedback Generation</text>
+  <text x="1365" y="750" font-family="Arial" font-size="9" text-anchor="middle" fill="#D32F2F">Learner Guidance</text>
+  
+  <!-- Arrow: Cloud API to AI/LLM -->
+  <line x1="1130" y1="590" x2="1210" y2="650" stroke="#EF5350" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  
+</svg>

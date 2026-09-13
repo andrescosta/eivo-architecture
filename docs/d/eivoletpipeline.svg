@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360">
+  <!-- Generation-Time Artifacts (Left Side) -->
+  <rect x="50" y="40" width="280" height="280" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="190" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565c0">
+    Generation-Time Artifacts
+  </text>
+  
+  <!-- Eivolet Definition -->
+  <rect x="70" y="90" width="240" height="70" rx="6" fill="#fff" stroke="#1976d2" stroke-width="2"/>
+  <text x="190" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">
+    Eivolet Definition
+  </text>
+  <text x="190" y="130" text-anchor="middle" font-size="11" fill="#666">
+    (The Recipe)
+  </text>
+  <text x="190" y="148" text-anchor="middle" font-size="10" fill="#888">
+    Model configs • Prompt references
+  </text>
+  
+  <!-- Generative Objects -->
+  <rect x="70" y="180" width="240" height="120" rx="6" fill="#fff" stroke="#1976d2" stroke-width="2"/>
+  <text x="190" y="202" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">
+    Generative Objects
+  </text>
+  <text x="190" y="220" text-anchor="middle" font-size="11" fill="#666">
+    (The Instructions)
+  </text>
+  <text x="190" y="242" text-anchor="middle" font-size="10" fill="#888">
+    Prompts • Schemas • Contexts
+  </text>
+  <text x="190" y="260" text-anchor="middle" font-size="10" fill="#888">
+    Image prompts • Modeler prompts
+  </text>
+  <text x="190" y="278" text-anchor="middle" font-size="10" fill="#888">
+    Partial prompts
+  </text>
+  
+  <!-- AI Generation Process (Center) -->
+  <rect x="370" y="125" width="160" height="90" rx="8" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+  <text x="450" y="152" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">
+    AI Generation
+  </text>
+  <text x="450" y="173" text-anchor="middle" font-size="11" fill="#666">
+    Foundry orchestrates
+  </text>
+  <text x="450" y="194" text-anchor="middle" font-size="11" fill="#666">
+    Crafter + LLMs
+  </text>
+  
+  <!-- Arrow from Generation-Time to AI -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#1976d2" />
+    </marker>
+  </defs>
+  <path d="M 330 170 L 370 170" stroke="#1976d2" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Runtime Artifacts (Right Side) -->
+  <rect x="570" y="40" width="280" height="280" rx="8" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="710" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">
+    Runtime Artifacts
+  </text>
+  
+  <!-- Eivolet -->
+  <rect x="590" y="90" width="240" height="70" rx="6" fill="#fff" stroke="#388e3c" stroke-width="2"/>
+  <text x="710" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">
+    Eivolet
+  </text>
+  <text x="710" y="130" text-anchor="middle" font-size="11" fill="#666">
+    (The Content Library)
+  </text>
+  <text x="710" y="148" text-anchor="middle" font-size="10" fill="#888">
+    Metadata • Labels • Hierarchy
+  </text>
+  
+  <!-- Content Objects -->
+  <rect x="590" y="180" width="240" height="120" rx="6" fill="#fff" stroke="#388e3c" stroke-width="2"/>
+  <text x="710" y="202" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a1a1a">
+    Content Objects
+  </text>
+  <text x="710" y="220" text-anchor="middle" font-size="11" fill="#666">
+    (Learner Interactions)
+  </text>
+  <text x="710" y="242" text-anchor="middle" font-size="10" fill="#888">
+    Templates • Exercises • Challenges
+  </text>
+  <text x="710" y="260" text-anchor="middle" font-size="10" fill="#888">
+    Bundles • Feedback • Assets
+  </text>
+  <text x="710" y="278" text-anchor="middle" font-size="10" fill="#888">
+    Aggregates
+  </text>
+  
+  <!-- Arrow from AI to Runtime -->
+  <path d="M 530 170 L 570 170" stroke="#388e3c" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
+  <defs>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#388e3c" />
+    </marker>
+  </defs>
+</svg>

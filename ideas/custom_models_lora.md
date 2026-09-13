@@ -1,0 +1,2 @@
+based on the eivolet stated objective propose the user to a custom model for working on the eivolet. like a model trainned :
+fine-tunes and LoRA adapters for coding, medicine, law, math and agentic workflows;https://www.cloudflare.com/learning/ai/what-is-lora/

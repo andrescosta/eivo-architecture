@@ -1,0 +1,1 @@
+https://github.com/mitsuhiko/agent-stuff/tree/main/skills/mermaid

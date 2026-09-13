@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1250 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .text { font-family: Arial, sans-serif; font-size: 13px; fill: #1e293b; }
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #1e293b; }
+      .label { font-family: Arial, sans-serif; font-size: 11px; font-weight: bold; fill: #64748b; text-transform: uppercase; }
+      .flow-line { stroke: #94a3b8; stroke-width: 2; fill: none; }
+      .box { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); }
+      .runtime-bg { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.5; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#94a3b8" />
+    </marker>
+  </defs>
+
+  <text x="625" y="40" text-anchor="middle" class="title">Detailed AI Orchestration Flow</text>
+
+  <rect x="20" y="100" width="90" height="50" rx="8" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" class="box"/>
+  <text x="65" y="130" text-anchor="middle" class="text" font-weight="bold">Experience</text>
+  <line x1="110" y1="125" x2="135" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+  
+  <rect x="145" y="100" width="60" height="50" rx="4" class="runtime-bg box"/>
+  <text x="175" y="130" text-anchor="middle" class="text">Facet</text>
+  <line x1="205" y1="125" x2="230" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="240" y="100" width="80" height="50" rx="4" class="runtime-bg box"/>
+  <text x="280" y="130" text-anchor="middle" class="text">Core SDK</text>
+  <line x1="320" y1="125" x2="345" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="355" y="100" width="90" height="50" rx="4" class="runtime-bg box"/>
+  <text x="400" y="130" text-anchor="middle" class="text">AI Services</text>
+  <line x1="445" y1="125" x2="470" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="480" y="85" width="130" height="110" rx="8" fill="white" stroke="#cbd5e1" stroke-dasharray="4" />
+  <rect x="485" y="95" width="120" height="20" rx="4" fill="#f1f5f9"/>
+  <text x="545" y="109" text-anchor="middle" class="text" font-size="10">System/User</text>
+  <rect x="485" y="120" width="120" height="20" rx="4" fill="#fff7ed" stroke="#f97316"/>
+  <text x="545" y="134" text-anchor="middle" class="text" font-size="10">Logic Pack</text>
+  <rect x="485" y="145" width="120" height="20" rx="4" fill="#f1f5f9"/>
+  <text x="545" y="159" text-anchor="middle" class="text" font-size="10">Schema</text>
+  <rect x="485" y="170" width="120" height="20" rx="4" fill="#f1f5f9"/>
+  <text x="545" y="184" text-anchor="middle" class="text" font-size="10">Context</text>
+  <line x1="610" y1="125" x2="635" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="645" y="100" width="80" height="50" rx="4" fill="#f8fafc" stroke="#64748b" stroke-width="2" class="box"/>
+  <text x="685" y="130" text-anchor="middle" class="text" font-weight="bold">AI Engines</text>
+  <line x1="725" y1="125" x2="750" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="760" y="100" width="110" height="50" rx="25" fill="#dcfce7" stroke="#16a34a" stroke-width="2" class="box"/>
+  <text x="815" y="130" text-anchor="middle" class="text" font-weight="bold">LLM Providers</text>
+  <line x1="870" y1="125" x2="895" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="905" y="100" width="80" height="50" rx="4" fill="#f8fafc" stroke="#64748b" stroke-width="2" class="box"/>
+  <text x="945" y="130" text-anchor="middle" class="text" font-weight="bold">AI Engines</text>
+  <line x1="985" y1="125" x2="1010" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="1020" y="100" width="110" height="50" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="2" class="box"/>
+  <text x="1075" y="130" text-anchor="middle" class="text" font-weight="bold">ADL Artifact</text>
+  <line x1="1130" y1="125" x2="1155" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <path d="M1155,125 L1190,125 L1190,300 L65,300 L65,350" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="20" y="360" width="100" height="50" rx="4" class="runtime-bg box"/>
+  <text x="70" y="390" text-anchor="middle" class="text" font-weight="bold">AI Services</text>
+  
+  <line x1="70" y1="410" x2="70" y2="450" class="flow-line" marker-end="url(#arrow)"/>
+  <rect x="10" y="460" width="140" height="40" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="2" class="box"/>
+  <text x="80" y="485" text-anchor="middle" class="text" font-size="11">Object Storage Engine</text>
+
+  <line x1="120" y1="385" x2="155" y2="385" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="165" y="360" width="80" height="50" rx="4" class="runtime-bg box"/>
+  <text x="205" y="390" text-anchor="middle" class="text">Core SDK</text>
+  <line x1="245" y1="385" x2="280" y2="385" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="290" y="360" width="70" height="50" rx="4" class="runtime-bg box"/>
+  <text x="325" y="390" text-anchor="middle" class="text">Facet</text>
+  <line x1="360" y1="385" x2="395" y2="385" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="405" y="360" width="100" height="50" rx="8" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" class="box"/>
+  <text x="455" y="390" text-anchor="middle" class="text" font-weight="bold">Experience</text>
+</svg>

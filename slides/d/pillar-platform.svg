@@ -1,0 +1,26 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100, 80)">
+    <line x1="0" y1="0" x2="0" y2="100" stroke="#26C6DA" stroke-width="4"/>
+    <g transform="translate(-40, 25)">
+      <rect x="2" y="0" width="20" height="6" rx="1" fill="none" stroke="#26C6DA" stroke-width="2"/>
+      <rect x="2" y="8" width="20" height="6" rx="1" fill="none" stroke="#26C6DA" stroke-width="2"/>
+      <rect x="2" y="16" width="20" height="6" rx="1" fill="none" stroke="#26C6DA" stroke-width="2"/>
+      <circle cx="6" cy="3" r="1" fill="#26C6DA"/>
+      <circle cx="6" cy="11" r="1" fill="#26C6DA"/>
+      <circle cx="6" cy="19" r="1" fill="#26C6DA"/>
+    </g>
+    <text x="30" y="50" font-family="sans-serif" font-size="42" font-weight="bold" fill="#1e293b">The Platform</text>
+  </g>
+  <g transform="translate(150, 220)">
+    <text x="0" y="0" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Runtime</text>
+    <text x="180" y="0" font-family="sans-serif" font-size="20" fill="#64748b">Executes content and manages learning activities</text>
+    <text x="0" y="50" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Foundation</text>
+    <text x="180" y="50" font-family="sans-serif" font-size="20" fill="#64748b">Layered and composable architecture</text>
+    <text x="0" y="100" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">AI-Powered</text>
+    <text x="180" y="100" font-family="sans-serif" font-size="20" fill="#64748b">Generates content and provides adaptive responses</text>
+    <text x="0" y="150" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Cloud-Native</text>
+    <text x="180" y="150" font-family="sans-serif" font-size="20" fill="#64748b">Kubernetes-based, scalable, and resilient</text>
+    <text x="0" y="200" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Multi-Tenant</text>
+    <text x="180" y="200" font-family="sans-serif" font-size="20" fill="#64748b">Supports multiple organizations with isolated data</text>
+  </g>
+</svg>

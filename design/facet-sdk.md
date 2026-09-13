@@ -1,0 +1,3 @@
+How to define categories with labels? 
+- Library Service can have a bast catalog of predefined categories including others with labels. We can use an LLM to generate this.
+    - When content is added, Library will use put in this catalog ... 

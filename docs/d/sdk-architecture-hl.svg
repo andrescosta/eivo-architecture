@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #1a1a1a; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #333; }
+      .label { font-family: Arial, sans-serif; font-size: 14px; fill: #444; }
+      .small-label { font-family: Arial, sans-serif; font-size: 12px; fill: #666; }
+      .layer-title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #fff; }
+      
+      .facets-layer { fill: #4A90E2; }
+      .core-layer { fill: #50C878; }
+      .cloud-layer { fill: #9B59B6; }
+      .experience-layer { fill: #E67E22; }
+      
+      .component-box { fill: #fff; stroke: #333; stroke-width: 2; }
+      .subcomponent-box { fill: #f8f9fa; stroke: #666; stroke-width: 1; }
+      
+      .arrow { fill: none; stroke: #555; stroke-width: 2; marker-end: url(#arrowhead); }
+      .data-arrow { fill: none; stroke: #E74C3C; stroke-width: 2; stroke-dasharray: 5,5; marker-end: url(#arrowhead-red); }
+    </style>
+    
+    <!-- Arrow markers -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#555" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#E74C3C" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="30" text-anchor="middle" class="title">High-Level Overview</text>
+  <text x="600" y="55" text-anchor="middle" class="label">Facets SDK and Core SDK</text>
+
+  <!-- Experience Layer -->
+  <rect x="50" y="90" width="1100" height="80" rx="8" class="experience-layer"/>
+  <text x="600" y="115" text-anchor="middle" class="layer-title">Experience Layer</text>
+  
+  <!-- Experience applications -->
+  <rect x="200" y="130" width="180" height="30" rx="4" class="component-box"/>
+  <text x="290" y="150" text-anchor="middle" class="label">Lingv</text>
+  
+  <rect x="420" y="130" width="180" height="30" rx="4" class="component-box"/>
+  <text x="510" y="150" text-anchor="middle" class="label">Anvil</text>
+  
+  <rect x="640" y="130" width="180" height="30" rx="4" class="component-box"/>
+  <text x="730" y="150" text-anchor="middle" class="label">Console</text>
+  
+  <rect x="860" y="130" width="180" height="30" rx="4" class="component-box"/>
+  <text x="950" y="150" text-anchor="middle" class="label">Custom Experiences</text>
+
+  <!-- Facets SDK Layer -->
+  <rect x="50" y="200" width="1100" height="280" rx="8" class="facets-layer"/>
+  <text x="600" y="225" text-anchor="middle" class="layer-title">Facets SDK (Presentation Layer)</text>
+
+  <!-- Navigation Framework -->
+  <g>
+    <rect x="80" y="250" width="500" height="210" rx="6" class="component-box"/>
+    <text x="330" y="275" text-anchor="middle" class="subtitle">Navigation Framework</text>
+    
+    <!-- YAML Definitions -->
+    <rect x="100" y="290" width="130" height="50" rx="4" class="subcomponent-box"/>
+    <text x="165" y="310" text-anchor="middle" class="small-label">YAML Definitions</text>
+    <text x="165" y="325" text-anchor="middle" class="small-label" style="font-size: 10px;">• Routes</text>
+    <text x="165" y="337" text-anchor="middle" class="small-label" style="font-size: 10px;">• Providers</text>
+    
+    <!-- Provider Registry -->
+    <rect x="250" y="290" width="130" height="50" rx="4" class="subcomponent-box"/>
+    <text x="315" y="310" text-anchor="middle" class="small-label">Provider Registry</text>
+    <text x="315" y="325" text-anchor="middle" class="small-label" style="font-size: 10px;">• Route Matching</text>
+    <text x="315" y="337" text-anchor="middle" class="small-label" style="font-size: 10px;">• Provider Lookup</text>
+    
+    <!-- Provider Types -->
+    <rect x="400" y="290" width="160" height="50" rx="4" class="subcomponent-box"/>
+    <text x="480" y="310" text-anchor="middle" class="small-label">Provider Types</text>
+    <text x="480" y="325" text-anchor="middle" class="small-label" style="font-size: 10px;">• Navigation</text>
+    <text x="480" y="337" text-anchor="middle" class="small-label" style="font-size: 10px;">• Features</text>
+    
+    <!-- Providers -->
+    <rect x="100" y="355" width="460" height="90" rx="4" class="subcomponent-box"/>
+    <text x="330" y="375" text-anchor="middle" class="small-label">Providers</text>
+    <text x="180" y="395" text-anchor="middle" class="small-label" style="font-size: 10px;">Navigation:</text>
+    <text x="180" y="407" text-anchor="middle" class="small-label" style="font-size: 10px;">• Explorer</text>
+    <text x="180" y="419" text-anchor="middle" class="small-label" style="font-size: 10px;">• Tab Explorer</text>
+    <text x="180" y="431" text-anchor="middle" class="small-label" style="font-size: 10px;">• Hub Menu</text>
+    
+    <text x="480" y="395" text-anchor="middle" class="small-label" style="font-size: 10px;">Features:</text>
+    <text x="430" y="407" text-anchor="middle" class="small-label" style="font-size: 10px;">• Learning</text>
+    <text x="430" y="419" text-anchor="middle" class="small-label" style="font-size: 10px;">• Trials</text>
+    <text x="430" y="431" text-anchor="middle" class="small-label" style="font-size: 10px;">• Challenges</text>
+    
+    <text x="530" y="407" text-anchor="middle" class="small-label" style="font-size: 10px;">• Playroom</text>
+    <text x="530" y="419" text-anchor="middle" class="small-label" style="font-size: 10px;">• Flashcards</text>
+  </g>
+
+  <!-- Feature Components -->
+  <g>
+    <rect x="620" y="250" width="500" height="210" rx="6" class="component-box"/>
+    <text x="870" y="275" text-anchor="middle" class="subtitle">Feature Components</text>
+    
+    <!-- UI Components -->
+    <rect x="640" y="290" width="460" height="70" rx="4" class="subcomponent-box"/>
+    <text x="870" y="310" text-anchor="middle" class="small-label">React Components</text>
+    <text x="720" y="330" text-anchor="middle" class="small-label" style="font-size: 10px;">• Content Viewers</text>
+    <text x="720" y="342" text-anchor="middle" class="small-label" style="font-size: 10px;">• Exercise Modals</text>
+    <text x="720" y="354" text-anchor="middle" class="small-label" style="font-size: 10px;">• Session Controls</text>
+    
+    <text x="870" y="330" text-anchor="middle" class="small-label" style="font-size: 10px;">• Challenge Editors</text>
+    <text x="870" y="342" text-anchor="middle" class="small-label" style="font-size: 10px;">• Collaborative UI</text>
+    <text x="870" y="354" text-anchor="middle" class="small-label" style="font-size: 10px;">• Results Display</text>
+    
+    <text x="1020" y="330" text-anchor="middle" class="small-label" style="font-size: 10px;">• Code Editors</text>
+    <text x="1020" y="342" text-anchor="middle" class="small-label" style="font-size: 10px;">• Rich Text Editors</text>
+    <text x="1020" y="354" text-anchor="middle" class="small-label" style="font-size: 10px;">• Leaderboards</text>
+    
+    <!-- Server Actions -->
+    <rect x="640" y="375" width="460" height="70" rx="4" class="subcomponent-box"/>
+    <text x="870" y="395" text-anchor="middle" class="small-label">Server Actions</text>
+    <text x="720" y="415" text-anchor="middle" class="small-label" style="font-size: 10px;">• User Input Handler</text>
+    <text x="720" y="427" text-anchor="middle" class="small-label" style="font-size: 10px;">• State Updates</text>
+    
+    <text x="870" y="415" text-anchor="middle" class="small-label" style="font-size: 10px;">• Core SDK Delegation</text>
+    <text x="870" y="427" text-anchor="middle" class="small-label" style="font-size: 10px;">• Result Formatting</text>
+    
+    <text x="1020" y="415" text-anchor="middle" class="small-label" style="font-size: 10px;">• Session Management</text>
+    <text x="1020" y="427" text-anchor="middle" class="small-label" style="font-size: 10px;">• Event Coordination</text>
+  </g>
+
+  <!-- Core SDK Layer -->
+  <rect x="50" y="510" width="1100" height="240" rx="8" class="core-layer"/>
+  <text x="600" y="535" text-anchor="middle" class="layer-title">Core SDK (Business Logic Layer)</text>
+
+  <!-- Capabilities -->
+  <g>
+    <rect x="80" y="560" width="1040" height="170" rx="6" class="component-box"/>
+    <text x="600" y="585" text-anchor="middle" class="subtitle">Capability Implementations</text>
+    
+    <!-- Learning -->
+    <rect x="100" y="600" width="180" height="110" rx="4" class="subcomponent-box"/>
+    <text x="190" y="620" text-anchor="middle" class="small-label">Learning</text>
+    <text x="190" y="640" text-anchor="middle" class="small-label" style="font-size: 10px;">• Template Rendering</text>
+    <text x="190" y="652" text-anchor="middle" class="small-label" style="font-size: 10px;">• Exercise Validation</text>
+    <text x="190" y="664" text-anchor="middle" class="small-label" style="font-size: 10px;">• Content Navigation</text>
+    <text x="190" y="676" text-anchor="middle" class="small-label" style="font-size: 10px;">• Progress Tracking</text>
+    <text x="190" y="688" text-anchor="middle" class="small-label" style="font-size: 10px;">• MDX Processing</text>
+    
+    <!-- Trials -->
+    <rect x="300" y="600" width="180" height="110" rx="4" class="subcomponent-box"/>
+    <text x="390" y="620" text-anchor="middle" class="small-label">Trials</text>
+    <text x="390" y="640" text-anchor="middle" class="small-label" style="font-size: 10px;">• SoloTrial (Gym)</text>
+    <text x="390" y="652" text-anchor="middle" class="small-label" style="font-size: 10px;">• GroupTrial (Playroom)</text>
+    <text x="390" y="664" text-anchor="middle" class="small-label" style="font-size: 10px;">• Session Management</text>
+    <text x="390" y="676" text-anchor="middle" class="small-label" style="font-size: 10px;">• Answer Validation</text>
+    <text x="390" y="688" text-anchor="middle" class="small-label" style="font-size: 10px;">• Leaderboards</text>
+    
+    <!-- Challenges -->
+    <rect x="500" y="600" width="180" height="110" rx="4" class="subcomponent-box"/>
+    <text x="590" y="620" text-anchor="middle" class="small-label">Challenges</text>
+    <text x="590" y="640" text-anchor="middle" class="small-label" style="font-size: 10px;">• WritingChallenge</text>
+    <text x="590" y="652" text-anchor="middle" class="small-label" style="font-size: 10px;">• EnvironmentChallenge</text>
+    <text x="590" y="664" text-anchor="middle" class="small-label" style="font-size: 10px;">• Lifecycle Management</text>
+    <text x="590" y="676" text-anchor="middle" class="small-label" style="font-size: 10px;">• Draft Persistence</text>
+    <text x="590" y="688" text-anchor="middle" class="small-label" style="font-size: 10px;">• Submission Handler</text>
+    
+    <!-- Flashcards -->
+    <rect x="700" y="600" width="180" height="110" rx="4" class="subcomponent-box"/>
+    <text x="790" y="620" text-anchor="middle" class="small-label">Flashcards</text>
+    <text x="790" y="640" text-anchor="middle" class="small-label" style="font-size: 10px;">• Spaced Repetition</text>
+    <text x="790" y="652" text-anchor="middle" class="small-label" style="font-size: 10px;">• Review Scheduling</text>
+    <text x="790" y="664" text-anchor="middle" class="small-label" style="font-size: 10px;">• Performance Tracking</text>
+    <text x="790" y="676" text-anchor="middle" class="small-label" style="font-size: 10px;">• Card Management</text>
+    
+    <!-- Aggregates -->
+    <rect x="900" y="600" width="200" height="110" rx="4" class="subcomponent-box"/>
+    <text x="1000" y="620" text-anchor="middle" class="small-label">Content Organization</text>
+    <text x="1000" y="640" text-anchor="middle" class="small-label" style="font-size: 10px;">• Aggregates</text>
+    <text x="1000" y="652" text-anchor="middle" class="small-label" style="font-size: 10px;">• Content Queries</text>
+    <text x="1000" y="664" text-anchor="middle" class="small-label" style="font-size: 10px;">• Hierarchy Navigation</text>
+    <text x="1000" y="676" text-anchor="middle" class="small-label" style="font-size: 10px;">• Metadata Management</text>
+  </g>
+
+  <!-- Cloud API Layer -->
+  <rect x="50" y="780" width="1100" height="100" rx="8" class="cloud-layer"/>
+  <text x="600" y="805" text-anchor="middle" class="layer-title">Cloud API (Backend Services)</text>
+  
+  <!-- Cloud API modules -->
+  <rect x="220" y="825" width="180" height="40" rx="4" class="component-box"/>
+  <text x="310" y="847" text-anchor="middle" class="label">Assistance</text>
+  
+  <rect x="430" y="825" width="130" height="40" rx="4" class="component-box"/>
+  <text x="495" y="847" text-anchor="middle" class="label">Social</text>
+  
+  <rect x="590" y="825" width="130" height="40" rx="4" class="component-box"/>
+  <text x="655" y="847" text-anchor="middle" class="label">Gaming</text>
+  
+  <rect x="750" y="825" width="130" height="40" rx="4" class="component-box"/>
+  <text x="815" y="847" text-anchor="middle" class="label">Identity</text>
+
+  <!-- Arrows - Experience to Facets -->
+  <path d="M 290 160 L 290 200" class="arrow"/>
+  <path d="M 510 160 L 510 200" class="arrow"/>
+  <path d="M 730 160 L 730 200" class="arrow"/>
+  <path d="M 950 160 L 950 200" class="arrow"/>
+
+  <!-- Arrows - Providers to Feature Components -->
+  <path d="M 580 380 L 620 380" class="arrow"/>
+  
+  <!-- Arrow - Navigation Framework to Core SDK -->
+  <path d="M 330 460 L 330 510" class="arrow"/>
+  
+  <!-- Arrows - Feature Components to Core -->
+  <path d="M 870 460 L 870 510" class="arrow"/>
+
+  <!-- Arrows - Core to Cloud API -->
+  <path d="M 500 750 L 500 780" class="arrow"/>
+  <path d="M 700 750 L 700 780" class="arrow"/>
+
+</svg>

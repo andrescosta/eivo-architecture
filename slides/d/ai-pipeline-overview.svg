@@ -1,0 +1,91 @@
+<svg viewBox="50 50 520 170" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+
+  <!-- Node 6: Platform Runtime store #a9d18e -->
+  <g transform="translate(500,100) scale(1.8) translate(-50,-50)">
+    <path fill="#a9d18e" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#a9d18e" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#a9d18e" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/>
+      <circle cx="12" cy="12" r="3"/>
+    </g>
+    <text x="50" y="55" text-anchor="middle" font-size="4.5" font-weight="700" fill="#a9d18e">Platform</text>
+    <text x="50" y="60" text-anchor="middle" font-size="4.5" font-weight="700" fill="#a9d18e">Runtime</text>
+  </g>
+
+  <!-- Node 5: ADL output #52be80 -->
+  <g transform="translate(420,100) scale(1.8) translate(-50,-50)">
+    <path fill="#52be80" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#52be80" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#52be80" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+      <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+      <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+    </g>
+    <text x="50" y="57" text-anchor="middle" font-size="4.5" font-weight="700" fill="#52be80">ADL</text>
+  </g>
+
+  <!-- Node 4: LLM #e67e22 -->
+  <g transform="translate(340,100) scale(1.8) translate(-50,-50)">
+    <path fill="#e67e22" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#e67e22" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#e67e22" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8V4H8"/>
+      <rect width="16" height="12" x="4" y="8" rx="2"/>
+      <path d="M2 14h2"/><path d="M20 14h2"/>
+      <path d="M15 13v2"/><path d="M9 13v2"/>
+    </g>
+    <text x="50" y="55" text-anchor="middle" font-size="4.5" font-weight="700" fill="#e67e22">LLM</text>
+    <text x="50" y="60" text-anchor="middle" font-size="4.5" font-weight="700" fill="#e67e22">Provider</text>
+  </g>
+
+  <!-- Node 3: Platform Runtime executor #2980b9 -->
+  <g transform="translate(260,100) scale(1.8) translate(-50,-50)">
+    <path fill="#2980b9" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#2980b9" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#2980b9" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/>
+      <circle cx="12" cy="12" r="3"/>
+    </g>
+    <text x="50" y="55" text-anchor="middle" font-size="4.5" font-weight="700" fill="#2980b9">Platform</text>
+    <text x="50" y="60" text-anchor="middle" font-size="4.5" font-weight="700" fill="#2980b9">Runtime</text>
+  </g>
+
+  <!-- Node 2: ADL input #1a5276 -->
+  <g transform="translate(180,100) scale(1.8) translate(-50,-50)">
+    <path fill="#1a5276" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#1a5276" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#1a5276" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+      <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+      <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+    </g>
+    <text x="50" y="57" text-anchor="middle" font-size="4.5" font-weight="700" fill="#1a5276">ADL</text>
+  </g>
+
+  <!-- Node 1: Trigger #5d6d7e (drawn last = on top) -->
+  <g transform="translate(100,100) scale(1.8) translate(-50,-50)">
+    <path fill="#5d6d7e" d="M50 25C36.193 25 25 36.193 25 50C25 63.807 36.193 75 50 75C58.55 75 66.082 70.72 70.584 64.19L84 50L70.584 35.81C66.082 29.28 58.55 25 50 25Z"/>
+    <circle cx="50" cy="50" r="23" fill="white" stroke="#5d6d7e" stroke-width="0.5"/>
+    <g transform="translate(50,45) scale(0.55) translate(-12,-12)" stroke="#5d6d7e" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 6V2H8"/><path d="M15 11v2"/><path d="M2 12h2"/><path d="M20 12h2"/>
+      <path d="M20 16a2 2 0 0 1-2 2H8.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 4 20.286V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
+      <path d="M9 11v2"/>
+    </g>
+    <text x="50" y="57" text-anchor="middle" font-size="4.5" font-weight="700" fill="#5d6d7e">Trigger</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="100" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Initiates the process</text>
+  <text x="100" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Agent or Human</text>
+  <text x="180" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Defines what to generate</text>
+  <text x="180" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">prompts, schema, context</text>
+  <text x="260" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Assembles and submits</text>
+  <text x="260" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">to the LLM</text>
+  <text x="340" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Processes inputs and</text>
+  <text x="340" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">generates content</text>
+  <text x="420" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Returns a structured</text>
+  <text x="420" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">ADL artifact</text>
+  <text x="500" y="154" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">Ingests and persists</text>
+  <text x="500" y="161" text-anchor="middle" font-size="5.5" fill="#555" font-family="Arial, sans-serif">the artifact</text>
+
+</svg>

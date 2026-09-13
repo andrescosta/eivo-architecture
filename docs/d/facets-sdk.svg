@@ -1,0 +1,222 @@
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Framework Core - Bright Blue -->
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <!-- Navigation Providers - Bright Cyan -->
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+    <!-- Feature Providers - Purple -->
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <!-- Core SDK - Bright Green -->
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#64748b"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="30" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1e293b" text-anchor="middle">
+    Facets SDK Architecture
+  </text>
+  
+  <!-- Browser/User Layer -->
+  <rect x="450" y="60" width="300" height="60" rx="8" fill="#ffffff" stroke="#e0e7ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="600" y="85" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Browser / Experience
+  </text>
+  <text x="600" y="105" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">
+    URI: /namespace/learning/courses/123
+  </text>
+  
+  <!-- Arrow down -->
+  <path d="M 600 120 L 600 150" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Facets Framework Core -->
+  <rect x="350" y="150" width="500" height="100" rx="10" fill="url(#grad1)" filter="url(#shadow)"/>
+  <text x="600" y="185" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+    FACETS FRAMEWORK
+  </text>
+  <text x="600" y="210" font-family="Arial, sans-serif" font-size="12" fill="#e2e8f0" text-anchor="middle">
+    Route Matching • Definition Resolution • Provider Registry
+  </text>
+  <text x="600" y="230" font-family="Arial, sans-serif" font-size="11" fill="#e2e8f0" text-anchor="middle">
+    YAML Definitions → Provider Selection → FacetDefinition
+  </text>
+  
+  <!-- Arrows to providers -->
+  <path d="M 450 250 L 200 310" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 750 250 L 1000 310" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Navigation Providers -->
+  <rect x="50" y="310" width="300" height="140" rx="10" fill="url(#grad2)" filter="url(#shadow)"/>
+  <text x="200" y="340" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
+    Navigation Providers
+  </text>
+  <text x="200" y="365" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    Framework renders the view
+  </text>
+  
+  <rect x="70" y="380" width="120" height="50" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="130" y="400" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+    Explorer
+  </text>
+  <text x="130" y="415" font-family="Arial, sans-serif" font-size="9" fill="#f0f0f0" text-anchor="middle">
+    Grids • Tabs • Menu
+  </text>
+  
+  <rect x="210" y="380" width="120" height="50" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="270" y="405" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+    Queries Editorial
+  </text>
+  <text x="270" y="420" font-family="Arial, sans-serif" font-size="9" fill="#f0f0f0" text-anchor="middle">
+    Services
+  </text>
+  
+  <!-- Feature Providers -->
+  <rect x="850" y="310" width="300" height="230" rx="10" fill="url(#grad3)" filter="url(#shadow)"/>
+  <text x="1000" y="340" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
+    Feature Providers
+  </text>
+  <text x="1000" y="365" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">
+    Delegate to feature components
+  </text>
+  
+  <rect x="880" y="380" width="110" height="40" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="935" y="405" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+    Learning
+  </text>
+  
+  <rect x="1010" y="380" width="110" height="40" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="1065" y="405" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+    Challenge
+  </text>
+  
+  <rect x="880" y="435" width="110" height="40" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="935" y="460" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+    Gym/Championship
+  </text>
+  
+  <rect x="1010" y="435" width="110" height="40" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="1065" y="460" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+    Playroom
+  </text>
+  
+  <rect x="880" y="490" width="240" height="35" rx="5" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1"/>
+  <text x="1000" y="513" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">
+    Trial Base Module (Shared)
+  </text>
+  
+  <!-- Realtime Service -->
+  <rect x="1000" y="580" width="150" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1075" y="605" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Realtime Service
+  </text>
+  <text x="1075" y="625" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    Socket.IO
+  </text>
+  
+  <!-- Core SDK Layer -->
+  <rect x="350" y="680" width="500" height="80" rx="10" fill="url(#grad4)" filter="url(#shadow)"/>
+  <text x="600" y="710" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
+    CORE SDK
+  </text>
+  <text x="600" y="735" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">
+    Business Logic • Session Management • Service Coordination
+  </text>
+  <text x="600" y="750" font-family="Arial, sans-serif" font-size="10" fill="#e0f0e0" text-anchor="middle">
+    SinglePlayerTrial • MultiplayerTrial • Learning • Challenges
+  </text>
+  
+  <!-- Services Layer -->
+  <rect x="50" y="800" width="170" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="135" y="825" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Editorial Services
+  </text>
+  <text x="135" y="845" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    Content &amp; Metadata
+  </text>
+  
+  <rect x="250" y="800" width="170" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="335" y="825" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Assistance Services
+  </text>
+  <text x="335" y="845" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    LLM &amp; Evaluation
+  </text>
+  
+  <rect x="450" y="800" width="120" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="510" y="825" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Redis
+  </text>
+  <text x="510" y="845" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    Session State
+  </text>
+  
+  <rect x="600" y="800" width="170" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="685" y="825" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Environment Operator
+  </text>
+  <text x="685" y="845" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    Kubernetes/Theia
+  </text>
+  
+  <rect x="800" y="800" width="170" height="60" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+  <text x="885" y="825" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">
+    Judge0
+  </text>
+  <text x="885" y="845" font-family="Arial, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">
+    Code Execution
+  </text>
+  
+  <!-- Arrows from Playroom to Realtime Service -->
+  <path d="M 1055 540 L 1075 580" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrow from Realtime Service to Core SDK -->
+  <path d="M 1075 640 L 850 680" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrows from Core SDK to Services -->
+  <path d="M 400 760 L 135 800" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+  <path d="M 450 760 L 335 800" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+  <path d="M 550 760 L 510 800" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+  <path d="M 650 760 L 685 800" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+  <path d="M 750 760 L 885 800" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-dasharray="5,5"/>
+  
+  <!-- Arrows from providers to Core SDK -->
+  <path d="M 200 450 L 450 680" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 1000 540 L 750 680" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Data flow annotations -->
+  <text x="300" y="295" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Query &amp; Render
+  </text>
+  <text x="900" y="295" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Feature Component
+  </text>
+  <text x="300" y="660" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Business Logic
+  </text>
+  <text x="900" y="660" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Server Actions
+  </text>
+  <text x="1075" y="560" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Socket.IO Connection
+  </text>
+  <text x="965" y="665" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">
+    Uses MultiplayerTrial
+  </text>
+  
+</svg>

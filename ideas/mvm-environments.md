@@ -1,0 +1,2 @@
+Instant environments for using with Learning ... Mix between content and an enviroment to run things like rat or k8s.
+https://rivet.dev/blog/2026-02-04-we-reverse-engineered-docker-sandbox-undocumented-microvm-api/

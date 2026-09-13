@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Eivolet — EiBot</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+/* ── TOKENS ── */
+:root {
+  --accent-5:    #fdfcfb;
+  --accent-10:   #fef9f7;
+  --accent-15:   #faf2ee;
+  --accent-20:   #fdf2ee;
+  --accent-30:   #fce5dc;
+  --accent-40:   #fad8ca;
+  --accent-50:   #f9cbb8;
+  --accent-100:  #ffb7a1;
+  --accent-200:  #ffa38a;
+  --accent-300:  #ff8f73;
+  --accent-400:  #ff7b5c;
+  --accent-500:  #ffb07a;
+  --accent-600:  #e69a6e;
+  --accent-700:  #cc8462;
+  --accent-800:  #b36e56;
+  --accent-900:  #99584a;
+  --accent-1000: #963e2b;
+
+  --neutral-10:  #fefefe;
+  --neutral-20:  #fafafa;
+  --neutral-30:  #f4f4f4;
+  --neutral-40:  #e8e8e8;
+  --neutral-50:  #d4d4d4;
+  --neutral-100: #a3a3a3;
+  --neutral-200: #737373;
+  --neutral-300: #525252;
+  --neutral-400: #404040;
+  --neutral-500: #262626;
+  --neutral-600: #171717;
+  --neutral-700: #0f0f0f;
+
+  --bg:         var(--accent-10);
+  --surface:    var(--neutral-10);
+  --border:     var(--accent-30);
+  --border-mid: var(--accent-40);
+  --text:       var(--neutral-700);
+  --text-sec:   var(--neutral-400);
+  --text-muted: var(--neutral-100);
+  --accent:     var(--accent-1000);
+}
+
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── APP SHELL ── */
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 44px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-1000);
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--accent-500); }
+
+.topbar-sep {
+  width: 1px; height: 14px;
+  background: var(--border-mid);
+}
+
+.topbar-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tbtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-sec);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+.tbtn:hover { background: var(--accent-15); border-color: var(--accent-200); color: var(--text); }
+.tbtn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+.tbtn-accent {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: white;
+}
+.tbtn-accent:hover { background: var(--accent-900); border-color: var(--accent-900); color: white; }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── CHAT PANEL ── */
+.chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  transition: flex 0.3s ease;
+}
+
+/* ── CONVERSATION SCROLL ── */
+.conv-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── OPENING ── */
+.opening { margin-bottom: 4px; }
+
+.opening-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.opening-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
+  animation: pulse 2.5s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 3px var(--accent-100); }
+  50%      { box-shadow: 0 0 0 5px var(--accent-50); }
+}
+
+.opening-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.opening-title em { font-style: italic; color: var(--accent); }
+
+.opening-body {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.65;
+  max-width: 460px;
+}
+
+/* ── INVARIANTS CARD ── */
+.inv-card {
+  animation: fadeUp 0.22s ease both;
+  margin-bottom: 4px;
+}
+
+.inv-card-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inv-card-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.inv-icon {
+  width: 15px; height: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent-1000);
+  opacity: 0.5;
+}
+.inv-icon svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+.inv-text {
+  font-size: 13.5px;
+  color: var(--neutral-500);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.inv-toggle {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-top: 6px;
+  transition: color 0.12s;
+}
+.inv-toggle:hover { color: var(--accent); }
+
+/* ── MESSAGES ── */
+.msg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: fadeUp 0.22s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.msg-from {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.msg-from.bot  { color: var(--accent); }
+.msg-from.user { color: var(--text-muted); }
+
+.msg-bubble {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.msg-bubble.bot  { color: var(--neutral-500); }
+.msg-bubble.user { color: var(--text); font-weight: 500; }
+
+/* typing */
+.typing { display: flex; align-items: center; gap: 4px; padding: 4px 0; }
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-300);
+  animation: bounce 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.30s; }
+@keyframes bounce {
+  0%,60%,100% { transform: translateY(0); }
+  30%          { transform: translateY(-5px); }
+}
+
+/* ── INTERACTION PATTERNS ── */
+
+/* 1. Option list */
+.option-list {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 220px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  animation: fadeUp 0.22s ease both;
+  width: 100%;
+  max-width: 400px;
+}
+.option-list-inner { overflow-y: auto; flex: 1; }
+.option-list-inner::-webkit-scrollbar { width: 4px; }
+.option-list-inner::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.option-row:last-child { border-bottom: none; }
+.option-row:hover { background: var(--accent-15); }
+.option-row.selected { background: var(--accent-20); }
+
+.option-radio {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-mid);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.option-row.selected .option-radio { border-color: var(--accent-1000); background: var(--accent-1000); }
+.option-radio-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.option-row.selected .option-radio-dot { opacity: 1; }
+.option-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+.option-row.selected .option-label { color: var(--accent-1000); font-weight: 600; }
+.option-special { font-size: 11px; color: var(--text-muted); font-style: italic; }
+
+/* 2. Multi-select */
+.multiselect-list {
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  animation: fadeUp 0.22s ease both;
+  width: 100%;
+  max-width: 400px;
+}
+.multiselect-inner { overflow-y: auto; max-height: 200px; }
+.multiselect-inner::-webkit-scrollbar { width: 4px; }
+.multiselect-inner::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+.multiselect-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.multiselect-row:last-child { border-bottom: none; }
+.multiselect-row:hover { background: var(--accent-15); }
+.multiselect-row.selected { background: var(--accent-20); }
+.multiselect-row.locked { cursor: default; }
+.multiselect-row.locked:hover { background: var(--accent-20); }
+
+.multiselect-check {
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border-mid);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+  font-size: 9px; color: white;
+}
+.multiselect-row.selected .multiselect-check { border-color: var(--accent-1000); background: var(--accent-1000); }
+
+.multiselect-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+.multiselect-row.selected .multiselect-label { color: var(--accent-1000); font-weight: 600; }
+.multiselect-row.locked .multiselect-label { color: var(--text-sec); }
+.multiselect-lock { font-size: 10px; color: var(--text-muted); }
+
+.multiselect-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-15);
+}
+.multiselect-count { font-size: 11px; color: var(--text-muted); }
+.multiselect-confirm {
+  padding: 5px 14px;
+  border-radius: 6px;
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+.multiselect-confirm:hover { background: var(--accent-900); }
+.multiselect-confirm:disabled { background: var(--neutral-50); color: var(--text-muted); cursor: not-allowed; }
+
+/* 3. Decision pair */
+.decision-chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  animation: fadeUp 0.28s 0.04s ease both;
+  max-width: 400px;
+}
+.decision-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.14s;
+  user-select: none;
+  min-height: 64px;
+}
+.decision-chip:hover { border-color: var(--accent-300); background: var(--accent-15); }
+.decision-chip.selected { border-color: var(--accent-1000); background: var(--accent-20); }
+.decision-chip-label { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.decision-chip.selected .decision-chip-label { color: var(--accent-1000); }
+.decision-chip-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+/* 4. Proposal card */
+.proposal-card {
+  margin-top: 10px;
+  background: var(--surface);
+  border: 1px solid var(--accent-200);
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeUp 0.26s ease both;
+  max-width: 460px;
+  box-shadow: 0 2px 12px rgba(150,62,43,0.07);
+}
+
+.proposal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--accent-30);
+  background: var(--accent-15);
+}
+
+.proposal-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-1000);
+  opacity: 0.7;
+  flex: 1;
+}
+
+.proposal-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  flex-shrink: 0;
+}
+
+.proposal-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.proposal-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.proposal-row-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  min-width: 72px;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.proposal-row-value {
+  font-size: 13px;
+  color: var(--neutral-500);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.proposal-tree {
+  padding: 6px 10px 6px 6px;
+  border-top: 1px solid var(--accent-30);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.proposal-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 0;
+  height: 22px;
+}
+
+.proposal-tree-arrow {
+  width: 12px; height: 12px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  font-size: 6px;
+  cursor: pointer;
+  transition: transform 0.15s;
+  user-select: none;
+}
+.proposal-tree-arrow.open { transform: rotate(90deg); }
+.proposal-tree-arrow.leaf { visibility: hidden; }
+
+.proposal-tree-node svg {
+  width: 10px; height: 10px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.proposal-tree-label {
+  font-size: 11.5px;
+  color: var(--neutral-500);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proposal-tree-type {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
+.proposal-tree-children { padding-left: 14px; }
+.proposal-tree-children.collapsed { display: none; }
+
+.proposal-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--accent-30);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--accent-10);
+}
+
+.proposal-btn {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-sec);
+}
+
+.proposal-btn:hover {
+  background: var(--accent-20);
+  border-color: var(--accent-300);
+  color: var(--text);
+}
+
+.proposal-btn.primary {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: white;
+}
+
+.proposal-btn.primary:hover {
+  background: var(--accent-900);
+  border-color: var(--accent-900);
+}
+
+/* ── INPUT AREA ── */
+.conv-input-area {
+  padding: 14px 40px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.conv-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.conv-input-row:focus-within {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 3px var(--accent-30);
+}
+.conv-inp {
+  flex: 1;
+  background: transparent;
+  border: none; outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  resize: none;
+  min-height: 20px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+.conv-inp::placeholder { color: var(--text-muted); }
+.conv-inp:disabled { cursor: not-allowed; }
+
+.conv-send {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  background: var(--accent-1000);
+  border: none; color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.conv-send:hover   { background: var(--accent-900); }
+.conv-send:disabled { background: var(--neutral-50); cursor: not-allowed; }
+.conv-send svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.input-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* ── STRUCTURE PANEL ── */
+.structure-panel {
+  width: 272px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+/* ── PUBLISH FAB ── */
+.publish-fab {
+  position: absolute;
+  bottom: 52px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(150, 62, 43, 0.08);
+  color: rgba(150, 62, 43, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.publish-fab:hover {
+  background: rgba(150, 62, 43, 0.16);
+  color: var(--accent-1000);
+  transform: scale(1.06);
+}
+.publish-fab svg { width: 16px; height: 16px; }
+
+.panel-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 6px;
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+  padding-left: 10px;
+}
+
+.panel-btn {
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.panel-btn:hover { background: var(--accent-20); border-color: var(--border); color: var(--text-sec); }
+.panel-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.panel-btn i { width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; }
+
+.tree-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+/* ── TREE NODES ── */
+.tnode { user-select: none; }
+
+.tnode-row {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding-right: 8px;
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+.tnode-row:hover { background: var(--accent-15); }
+.tnode-row.selected { background: var(--accent-30); }
+.tnode-row.selected::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--accent-1000);
+}
+.tnode-row.selected .tnode-label { color: var(--accent-1000); font-weight: 600; }
+
+.tnode-pad { flex-shrink: 0; }
+
+.tnode-arrow {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  font-size: 7px;
+  transition: transform 0.15s;
+  cursor: pointer;
+}
+.tnode-arrow.open { transform: rotate(90deg); }
+.tnode-arrow.empty { opacity: 0; pointer-events: none; }
+
+.tnode-icon {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-right: 6px;
+  color: var(--text-muted);
+}
+.tnode-icon svg { display: block; }
+
+.tnode-label {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-sec);
+}
+
+.tnode-children { overflow: hidden; }
+.tnode-children.collapsed { display: none; }
+
+/* ── PANEL EMPTY STATE ── */
+.panel-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px;
+}
+.panel-empty-icon {
+  width: 32px; height: 32px;
+  opacity: 0.15;
+  color: var(--accent-1000);
+}
+.panel-empty-icon svg { width: 32px; height: 32px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.panel-empty-text { font-size: 11px; line-height: 1.55; max-width: 160px; }
+
+/* ── PREVIEW PANEL ── */
+.preview-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 420px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: -12px 0 32px rgba(0,0,0,0.07);
+}
+.preview-panel.floating { transform: translateX(0); }
+.preview-panel.pinned   { transform: none; position: relative; flex-shrink: 0; box-shadow: none; order: 3; }
+.preview-panel.maximized {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  border-left: none;
+  z-index: 80;
+  box-shadow: none;
+  transform: none;
+}
+
+/* pinned layout adjustments */
+.main.preview-pinned .structure-panel { border-right: none; }
+
+.preview-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--border);
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.preview-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.preview-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.preview-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 16px;
+}
+.preview-empty-icon {
+  width: 32px; height: 32px;
+  opacity: 0.3;
+  color: var(--accent-1000);
+}
+.preview-empty-icon svg, .preview-empty-icon i { width: 32px; height: 32px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.preview-empty-text { font-size: 12px; line-height: 1.6; max-width: 200px; }
+
+/* preview content placeholder */
+.preview-placeholder-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  animation: fadeUp 0.2s ease both;
+}
+.preview-ph-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.preview-ph-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.preview-ph-body {
+  font-size: 12px;
+  color: var(--text-sec);
+  line-height: 1.6;
+}
+.preview-ph-shimmer {
+  height: 10px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent-30) 25%, var(--accent-20) 50%, var(--accent-30) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 6px;
+}
+.preview-ph-shimmer.short { width: 60%; }
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* scrollbars */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+/* pinned layout adjustments */
+.main.preview-pinned .structure-panel { border-right: none; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 44px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent-1000);
+}
+.logo span { color: var(--accent-500); }
+
+.topbar-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--border-mid);
+  flex-shrink: 0;
+}
+
+.topbar-session {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-sec);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  flex: 1;
+}
+.topbar-session.placeholder { color: var(--text-muted); font-style: italic; }
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tbtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: var(--surface);
+  color: var(--text-sec);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+.tbtn:hover { background: var(--accent-15); border-color: var(--accent-200); color: var(--text); }
+.tbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.tbtn:disabled:hover { background: var(--surface); border-color: var(--border-mid); color: var(--text-sec); }
+.tbtn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+.tbtn-accent {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: white;
+}
+.tbtn-accent:hover { background: var(--accent-900); border-color: var(--accent-900); color: white; }
+.tbtn-accent:disabled { opacity: 0.35; cursor: not-allowed; }
+.tbtn-accent:disabled:hover { background: var(--accent-1000); border-color: var(--accent-1000); color: white; }
+
+.publish-link a {
+  color: var(--accent-1000);
+  text-decoration: none;
+  font-weight: 600;
+}
+.publish-link a:hover { text-decoration: underline; }
+/* ── NODE PREVIEW HIGHLIGHT ── */
+.tnode-row.has-preview { cursor: pointer; }
+.tnode-row.has-preview .tnode-icon { color: var(--accent-1000); }
+.tnode-row.has-preview.preview-pulse {
+  animation: nodePulse 2s ease-out;
+}
+.tnode-row.has-preview.preview-pulse .tnode-label {
+  color: var(--accent-1000);
+  font-weight: 600;
+}
+@keyframes nodePulse {
+  0%   { background: var(--accent-40); }
+  100% { background: transparent; }
+}
+
+/* ── TOAST ── */
+.toast-wrap {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.toast-wrap.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--neutral-600);
+  color: white;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  white-space: nowrap;
+}
+.toast-btn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.toast-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ── PREVIEW LOADING ── */
+.preview-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 100%;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 32px;
+}
+.preview-loading-dots { display: flex; gap: 6px; }
+.preview-loading-dots span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-300);
+  animation: bounce 1.2s infinite;
+}
+.preview-loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.preview-loading-dots span:nth-child(3) { animation-delay: 0.30s; }
+.preview-loading-label { font-size: 11px; line-height: 1.55; max-width: 160px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── TOAST ── -->
+  <div class="toast-wrap" id="toast-wrap">
+    <div class="toast" id="toast-content"></div>
+  </div>
+
+
+
+  <!-- ── MAIN ── -->
+  <div class="main" id="main">
+
+    <!-- CHAT PANEL -->
+    <div class="chat-panel" id="chat-panel">
+
+      <div class="conv-scroll" id="chat-scroll">
+        <div class="opening">
+          <div class="opening-eyebrow">EiBot</div>
+          <div class="opening-title">Let's build your<br><em>Eivolet</em> together.</div>
+          <div class="opening-body">I'll ask a few questions to understand what you're building. Your answers will shape everything — structure, content, and depth.</div>
+        </div>
+        <div id="chat-messages"></div>
+      </div>
+
+      <div class="conv-input-area">
+        <div class="conv-input-row">
+          <textarea class="conv-inp" id="chat-inp" placeholder="Type your answer…" rows="1"
+            onkeydown="chatHandleKey(event)" oninput="chatAutoResize(this)"></textarea>
+          <button class="conv-send" id="chat-send" onclick="chatSend()">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          </button>
+        </div>
+        <div class="input-hint" id="chat-hint">Press Enter to send · Shift+Enter for new line</div>
+      </div>
+
+    </div>
+
+    <!-- STRUCTURE PANEL -->
+    <div class="structure-panel" id="structure-panel">
+      <div class="panel-header">
+        <button class="panel-btn" id="refresh-render-btn" title="Request preview" onclick="requestFullRender()" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/></svg>
+        </button>
+        <div class="panel-title">Structure</div>
+      </div>
+      <div class="tree-scroll" id="tree-root">
+        <div class="panel-empty" id="tree-empty">
+          <div class="panel-empty-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
+          </div>
+          <div class="panel-empty-text">The structure will take shape here as you describe it.</div>
+        </div>
+      </div>
+      <button class="publish-fab" id="publish-fab" title="Publish" onclick="handlePublish()" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </button>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="preview-panel" id="preview-panel">
+      <div class="preview-header">
+        <div class="preview-title">Preview</div>
+        <div class="preview-controls">
+          <button class="panel-btn" id="preview-pin-btn" title="Pin panel" onclick="previewPin()">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V17z"/></svg>
+          </button>
+          <button class="panel-btn" id="preview-max-btn" title="Maximize" onclick="previewMaximize()">
+            <svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </button>
+          <button class="panel-btn" title="Close" onclick="previewClose()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="preview-scroll" id="preview-content">
+        <div class="preview-empty" id="preview-empty">
+          <div class="preview-empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/></svg>
+          </div>
+          <div class="preview-empty-text">Generated content will appear here as EiBot builds the Eivolet.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+</div><!-- /app -->
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const state = {
+  objective:        '',
+  audience:         '',
+  cultures:         [],
+  culturesSet:      false,
+  domain:           '',
+  codingType:       '',
+  codingLang:       '',
+  codingPlatform:   '',
+  languageTarget:   '',
+  phase:            'invariants',  // 'invariants' | 'conversation'
+  invCollapsed:     false,
+  previewState:     'closed',      // 'closed' | 'floating' | 'pinned' | 'maximized'
+  prevPreviewState: null,
+  treeData:         null,
+  hasStructure:     false,         // true once definition has been committed
+  previewUrl:       null,          // latest preview URL
+  prevArtifactIds:  new Set(),     // node IDs with artifact from last definition render
+};
+
+// ════════════════════════════════════════
+// RESOLVE OPTIONS — simulates server-side resolve_options tool
+// No hardcoded lists in the browser; options come from EiBot.
+// ════════════════════════════════════════
+const RESOLVED_OPTIONS = {
+  subject: [
+    { value: 'language',    label: 'Language learning' },
+    { value: 'programming', label: 'Programming'       },
+    { value: 'mathematics', label: 'Mathematics'       },
+    { value: 'science',     label: 'Science'           },
+    { value: 'other',       label: 'Other'             },
+  ],
+  progLang: [
+    { value: 'any',        label: 'Any language', special: true },
+    { value: 'python',     label: 'Python'        },
+    { value: 'typescript', label: 'TypeScript'    },
+    { value: 'javascript', label: 'JavaScript'    },
+    { value: 'java',       label: 'Java'          },
+    { value: 'go',         label: 'Go'            },
+    { value: 'rust',       label: 'Rust'          },
+    { value: 'csharp',     label: 'C#'            },
+    { value: 'swift',      label: 'Swift'         },
+    { value: 'kotlin',     label: 'Kotlin'        },
+  ],
+  platform: [
+    { value: 'react+nodejs',      label: 'React · Node.js'      },
+    { value: 'nextjs+nodejs',     label: 'Next.js · Node.js'    },
+    { value: 'react-native+nodejs', label: 'React Native · Node.js' },
+    { value: 'vue+nodejs',        label: 'Vue · Node.js'        },
+    { value: 'angular+nodejs',    label: 'Angular · Node.js'    },
+    { value: 'nestjs+nodejs',     label: 'NestJS · Node.js'     },
+    { value: 'spring+tomcat',     label: 'Spring Boot · Tomcat' },
+    { value: 'spring+jvm',        label: 'Spring Boot · JVM'    },
+    { value: 'django+python',     label: 'Django · Python'      },
+    { value: 'flutter+dart',      label: 'Flutter · Dart'       },
+    { value: 'other',             label: 'Other'                },
+  ],
+  targetLang: [
+    { value: 'french',     label: 'French'     },
+    { value: 'spanish',    label: 'Spanish'    },
+    { value: 'english',    label: 'English'    },
+    { value: 'german',     label: 'German'     },
+    { value: 'portuguese', label: 'Portuguese' },
+    { value: 'italian',    label: 'Italian'    },
+    { value: 'japanese',   label: 'Japanese'   },
+    { value: 'mandarin',   label: 'Mandarin'   },
+    { value: 'arabic',     label: 'Arabic'     },
+  ],
+  'coding-type': [
+    { value: 'language', label: 'Programming language' },
+    { value: 'platform', label: 'Platform'             },
+  ],
+  cultures: [
+    { code: 'en-US', label: 'English (US)' },
+    { code: 'fr',    label: 'French'       },
+    { code: 'es',    label: 'Spanish'      },
+    { code: 'de',    label: 'German'       },
+    { code: 'pt',    label: 'Portuguese'   },
+    { code: 'it',    label: 'Italian'      },
+    { code: 'ja',    label: 'Japanese'     },
+    { code: 'zh',    label: 'Chinese'      },
+    { code: 'ar',    label: 'Arabic'       },
+  ],
+};
+
+// Simulates the server-side resolve_options tool call with a brief delay
+function resolveOptions(dimension, cb) {
+  setTimeout(() => cb(RESOLVED_OPTIONS[dimension] || []), 180);
+}
+
+// ════════════════════════════════════════
+// INVARIANT STEPS
+// ════════════════════════════════════════
+const INV_STEPS = [
+  {
+    id: 'objective',
+    msg: "What is this Eivolet about? Describe it in your own words — who are the learners and what should they be able to do by the end?",
+    type: 'text',
+    placeholder: 'e.g. A French language course for absolute beginners…',
+    field: 'objective'
+  },
+  {
+    id: 'audience',
+    msg: "Who are the learners? Tell me about their background, level, and age range.",
+    type: 'text',
+    placeholder: 'e.g. Adult beginners with no prior experience, 25–45 years old…',
+    field: 'audience'
+  },
+  {
+    id: 'cultures',
+    msg: "Which languages will this content support?",
+    type: 'multiselect',
+    field: 'cultures',
+    dimension: 'cultures'
+  },
+  {
+    id: 'subject',
+    msg: "What subject best describes this content?",
+    type: 'option-list',
+    field: 'domain',
+    dimension: 'subject'
+  },
+  {
+    id: 'coding-type',
+    msg: "Is this for a programming language or a platform?",
+    type: 'option-list',
+    field: 'codingType',
+    condition: () => state.domain === 'programming',
+    dimension: 'coding-type'
+  },
+  {
+    id: 'coding-lang',
+    msg: "Which language?",
+    type: 'option-list',
+    field: 'codingLang',
+    condition: () => state.domain === 'programming',
+    dimension: 'progLang'
+  },
+  {
+    id: 'coding-platform',
+    msg: "Which platform?",
+    type: 'option-list',
+    field: 'codingPlatform',
+    condition: () => state.domain === 'programming' && state.codingType === 'platform',
+    dimension: 'platform'
+  },
+  {
+    id: 'language-target',
+    msg: "Which language are you teaching?",
+    type: 'option-list',
+    field: 'languageTarget',
+    condition: () => state.domain === 'language',
+    dimension: 'targetLang'
+  },
+];
+
+let invStepIdx = 0;
+function invGetActive() { return INV_STEPS.filter(s => !s.condition || s.condition()); }
+
+// ════════════════════════════════════════
+// CHAT ENGINE
+// ════════════════════════════════════════
+function chatHandleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); chatSend(); }
+}
+
+function chatAutoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function chatSend() {
+  const inp = document.getElementById('chat-inp');
+  const text = inp.value.trim();
+  if (!text || inp.disabled) return;
+  inp.value = '';
+  inp.style.height = 'auto';
+  chatDisableInput();
+
+  if (state.phase === 'invariants') {
+    const active = invGetActive();
+    const step = active[invStepIdx];
+    if (!step || step.type !== 'text') return;
+    state[step.field] = text;
+    chatUserMsg(text);
+    updateInvCard();
+    invStepIdx++;
+    setTimeout(invNext, 350);
+  } else {
+    chatUserMsg(text);
+    chatScroll();
+    simulateConversationReply(text);
+  }
+}
+
+function chatBotMsg(text, cb) {
+  const msgs = document.getElementById('chat-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg-group';
+  typing.innerHTML = `<div class="msg-from bot">EiBot</div><div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(typing);
+  chatScroll();
+  setTimeout(() => {
+    msgs.removeChild(typing);
+    const grp = document.createElement('div');
+    grp.className = 'msg-group';
+    grp.innerHTML = `<div class="msg-from bot">EiBot</div><div class="msg-bubble bot">${text}</div>`;
+    msgs.appendChild(grp);
+    chatScroll();
+    if (cb) cb();
+  }, 650);
+}
+
+function chatUserMsg(text) {
+  const msgs = document.getElementById('chat-messages');
+  const grp = document.createElement('div');
+  grp.className = 'msg-group';
+  grp.innerHTML = `<div class="msg-from user">You</div><div class="msg-bubble user">${escHtml(text)}</div>`;
+  msgs.appendChild(grp);
+  chatScroll();
+}
+
+function chatScroll() {
+  const el = document.getElementById('chat-scroll');
+  requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+}
+
+function chatDisableInput() {
+  const inp = document.getElementById('chat-inp');
+  inp.disabled = true;
+  document.getElementById('chat-send').disabled = true;
+  inp.placeholder = 'Pick an option above…';
+}
+
+function chatEnableInput(placeholder) {
+  const inp = document.getElementById('chat-inp');
+  inp.disabled = false;
+  document.getElementById('chat-send').disabled = false;
+  inp.placeholder = placeholder || 'Type your answer…';
+  inp.focus();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function applyIcons() {
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  } else {
+    setTimeout(applyIcons, 50);
+  }
+}
+
+// ════════════════════════════════════════
+// INVARIANTS FLOW
+// ════════════════════════════════════════
+function invNext() {
+  const active = invGetActive();
+  if (invStepIdx >= active.length) {
+    invComplete();
+    return;
+  }
+  const step = active[invStepIdx];
+  chatBotMsg(step.msg, () => {
+    if (step.type === 'text') {
+      chatEnableInput(step.placeholder || '');
+    } else if (step.type === 'option-list') {
+      const dim = typeof step.dimension === 'function' ? step.dimension() : step.dimension;
+      resolveOptions(dim, (opts) => {
+        showSelectPrimitive({ options: opts.map(o => o.label) });
+        chatDisableInput();
+      });
+    } else if (step.type === 'multiselect') {
+      resolveOptions('cultures', (opts) => {
+        showMultiselectPrimitive({
+          options: opts.map(c => c.label),
+          locked: ['English (US)']
+        });
+        chatDisableInput();
+      });
+    }
+  });
+}
+
+function invComplete() {
+  state.phase = 'conversation';
+  const objWords = state.objective.trim().split(/\s+/);
+  const rootLabel = objWords.slice(0, 6).join(' ') + (objWords.length > 6 ? '…' : '');
+  renderFullDefinition({ label: rootLabel, children: [] });
+
+  chatBotMsg(
+    `Great. Now let's talk structure — do you have something in mind for how this content should be organized?`,
+    () => chatEnableInput('Describe your structure…')
+  );
+}
+
+// ════════════════════════════════════════
+// INVARIANTS CARD
+// ════════════════════════════════════════
+const INV_ICONS = {
+  objective: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  audience:  `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  cultures:  `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  domain:    `<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+};
+
+let invCardVisible = false;
+
+function updateInvCard() {
+  const msgs = document.getElementById('chat-messages');
+  let card = document.getElementById('inv-card');
+
+  const lines = [];
+  if (state.objective) lines.push({ key: 'objective', text: state.objective });
+  if (state.audience)  lines.push({ key: 'audience',  text: state.audience  });
+  if (state.cultures?.length) lines.push({ key: 'cultures', text: state.cultures.join(', ') });
+  if (state.domain) {
+    const dl = RESOLVED_OPTIONS.subject.find(d => d.value === state.domain)?.label || state.domain;
+    let dt = dl;
+    if (state.codingLang) {
+      const langLabel = RESOLVED_OPTIONS.progLang.find(d => d.value === state.codingLang)?.label || state.codingLang;
+      dt += ' · ' + langLabel;
+    }
+    if (state.codingPlatform) {
+      const platformLabel = RESOLVED_OPTIONS.platform.find(d => d.value === state.codingPlatform)?.label || state.codingPlatform;
+      dt += ' · ' + platformLabel;
+    }
+    if (state.languageTarget) dt += ' · ' + state.languageTarget;
+    lines.push({ key: 'domain', text: dt });
+  }
+
+  if (!lines.length) return;
+
+  if (!card) {
+    card = document.createElement('div');
+    card.id = 'inv-card';
+    card.className = 'inv-card';
+    msgs.prepend(card);
+  }
+
+  const collapsed = state.invCollapsed;
+  const preview = lines.map(l => l.text).join(' · ');
+  const previewShort = preview.length > 80 ? preview.slice(0, 80) + '…' : preview;
+
+  if (collapsed) {
+    card.innerHTML = `
+      <div class="inv-card-rows">
+        <div class="inv-card-row">
+          <div class="inv-icon">${INV_ICONS.objective}</div>
+          <div class="inv-text" style="color:var(--text-muted);font-size:12px;">${escHtml(previewShort)}</div>
+        </div>
+      </div>
+      <span class="inv-toggle" onclick="toggleInvCard()">Show all ↓</span>`;
+  } else {
+    card.innerHTML = `
+      <div class="inv-card-rows">
+        ${lines.map(l => `
+          <div class="inv-card-row">
+            <div class="inv-icon">${INV_ICONS[l.key] || INV_ICONS.objective}</div>
+            <div class="inv-text">${escHtml(l.text)}</div>
+          </div>`).join('')}
+      </div>
+      ${lines.length > 1 ? `<span class="inv-toggle" onclick="toggleInvCard()">Collapse ↑</span>` : ''}`;
+  }
+}
+
+function toggleInvCard() {
+  state.invCollapsed = !state.invCollapsed;
+  updateInvCard();
+}
+
+// ════════════════════════════════════════
+// SELECTION
+// ════════════════════════════════════════
+let selectedNodeEl = null;
+
+function selectNode(row) {
+  if (selectedNodeEl) selectedNodeEl.classList.remove('selected');
+  if (selectedNodeEl === row) {
+    // clicking selected node deselects
+    selectedNodeEl = null;
+    return;
+  }
+  row.classList.add('selected');
+  selectedNodeEl = row;
+}
+
+// ════════════════════════════════════════
+// STRUCTURE TREE
+// ════════════════════════════════════════
+const NODE_ICONS = {
+  root:         `<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>`,
+  section:      `<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>`,
+  unit:         `<path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/>`,
+  lesson:       `<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>`,
+  template:     `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>`,
+  exercise:     `<line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>`,
+  flashcard:    `<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 2H8L2 7"/><path d="M22 7l-6-5"/>`,
+  playroom:     `<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>`,
+  challenge:    `<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>`,
+  championship: `<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>`,
+  space:        `<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>`,
+};
+
+const NODE_TYPES = {
+  root:         { label:'Eivolet',      cls:'type-root'         },
+  section:      { label:'Section',      cls:'type-section'      },
+  unit:         { label:'Unit',         cls:'type-unit'         },
+  lesson:       { label:'Lesson',       cls:'type-lesson'       },
+  template:     { label:'Template',     cls:'type-template'     },
+  exercise:     { label:'Exercise',     cls:'type-exercise'     },
+  flashcard:    { label:'Flashcards',   cls:'type-flashcard'    },
+  playroom:     { label:'Playroom',     cls:'type-playroom'     },
+  challenge:    { label:'Challenge',    cls:'type-challenge'    },
+  championship: { label:'Championship', cls:'type-championship' },
+  space:        { label:'Space',        cls:'type-space'        },
+};
+
+function nodeIcon(type) {
+  const paths = NODE_ICONS[type] || NODE_ICONS.lesson;
+  return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+}
+
+// Content node types — only these carry artifacts and show preview
+const CONTENT_TYPES = new Set([
+  'template', 'exercise', 'flashcard',
+  'playroom', 'challenge', 'championship', 'space',
+]);
+
+function renderTree(nodes, container, depth, newArtifactIds) {
+  if (!nodes || !nodes.length) return;
+  nodes.forEach(node => {
+    const nt = NODE_TYPES[node.type] || NODE_TYPES.lesson;
+    const hasChildren = node.children && node.children.length > 0;
+    const isContent = CONTENT_TYPES.has(node.type);
+    const hasArtifact = isContent && !!node.artifact;
+    const isNewArtifact = hasArtifact && newArtifactIds && newArtifactIds.has(node.id);
+    const pad = depth * 18 + 6;
+
+    const el = document.createElement('div');
+    el.className = `tnode ${nt.cls}`;
+    el.dataset.id = node.id;
+
+    const arrowCls = hasChildren ? 'open' : 'empty';
+    const previewCls = hasArtifact ? ' has-preview' : '';
+    const pulseCls = isNewArtifact ? ' preview-pulse' : '';
+    // Extract the node name from the artifact URI (last path segment)
+    const artifactName = hasArtifact ? node.artifact.def.uri.split('/').pop() : '';
+    const artifactUri = hasArtifact ? node.artifact.def.uri : '';
+    const clickHandler = hasArtifact
+      ? `openNodePreview('${node.id}', '${escHtml(node.label)}', '${node.type}', '${escHtml(artifactUri)}', '${escHtml(artifactName)}')`
+      : `selectNode(this)`;
+    el.innerHTML = `
+      <div class="tnode-row${previewCls}${pulseCls}" onclick="${clickHandler}">
+        <div class="tnode-pad" style="width:${pad}px"></div>
+        <div class="tnode-arrow ${arrowCls}" onclick="toggleNode(this);event.stopPropagation()">▶</div>
+        <div class="tnode-icon">${nodeIcon(node.type)}</div>
+        <div class="tnode-label">${escHtml(node.label)}</div>
+      </div>
+      <div class="tnode-children${hasChildren ? '' : ' collapsed'}" id="children-${node.id}"></div>`;
+
+    container.appendChild(el);
+    if (hasChildren) {
+      renderTree(node.children, el.querySelector(`#children-${node.id}`), depth + 1, newArtifactIds);
+    }
+  });
+}
+
+function toggleNode(arrow) {
+  arrow.classList.toggle('open');
+  const row = arrow.closest('.tnode-row');
+  const children = row.closest('.tnode').querySelector('.tnode-children');
+  if (children) children.classList.toggle('collapsed');
+}
+
+function collapseAll() {
+  document.querySelectorAll('.tnode-children').forEach(c => c.classList.add('collapsed'));
+  document.querySelectorAll('.tnode-arrow:not(.empty)').forEach(a => a.classList.remove('open'));
+}
+
+function expandAll() {
+  document.querySelectorAll('.tnode-children').forEach(c => c.classList.remove('collapsed'));
+  document.querySelectorAll('.tnode-arrow:not(.empty)').forEach(a => a.classList.add('open'));
+}
+
+// ════════════════════════════════════════
+// EIBOT RESPONSE PROTOCOL
+// ════════════════════════════════════════
+//
+// Every EiBot response is an envelope:
+// {
+//   text:        string                    — chat message
+//   definition?: DefinitionSnapshot       — full tree; panel re-renders from it
+//   input?:      { type, options, locked } — structured input primitive
+//   proposal?:   { type, data, responses } — typed payload card
+// }
+//
+// definition: { label, children: Node[] }
+// node: { id, type, label, artifact?, children? }
+//
+// artifact — present on nodes that have generated content available
+//   for preview. Shape: { model: 'agArtifact', def: { uri: string } }
+//   The node name is the last path segment of the URI.
+//   Nodes with artifact get a clickable preview indicator in the tree.
+//   Nodes that gain artifact in a new snapshot pulse briefly.
+
+function dispatchResponse(envelope, cb) {
+  // Definition update — re-render tree (highlights new leaf nodes automatically)
+  if (envelope.definition) {
+    renderFullDefinition(envelope.definition);
+    if (!envelope.text) flashStructurePanel();
+  }
+
+  if (envelope.text) {
+    chatBotMsg(envelope.text, () => {
+      if (envelope.proposal) {
+        showProposalPrimitive(envelope.proposal);
+      } else if (envelope.input) {
+        showInputPrimitive(envelope.input);
+        chatDisableInput();
+      } else {
+        chatEnableInput();
+      }
+      if (cb) cb();
+    });
+  }
+}
+
+// ── NODE PREVIEW ──
+function openNodePreview(nodeId, label, type, artifactUri, artifactName) {
+  state.previewUrl = artifactUri;
+
+  // Select the node row visually
+  const nodeEl = document.querySelector(`.tnode[data-id="${nodeId}"] .tnode-row`);
+  if (nodeEl) selectNode(nodeEl);
+
+  // Open the preview panel
+  previewOpen();
+
+  // Inject content for this node
+  const content = document.getElementById('preview-content');
+  const empty = document.getElementById('preview-empty');
+  if (empty) empty.remove();
+
+  const typeMeta = NODE_TYPES[type] || { label: type };
+  content.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'preview-placeholder-card';
+  card.innerHTML = `
+    <div class="preview-ph-eyebrow">${escHtml(typeMeta.label)} · ${escHtml(artifactName)}</div>
+    <div class="preview-ph-title">${escHtml(label)}</div>
+    <div class="preview-ph-shimmer"></div>
+    <div class="preview-ph-shimmer short"></div>
+    <div class="preview-ph-body" style="margin-top:8px">
+      <span style="font-size:10px;color:var(--text-muted);font-family:monospace;word-break:break-all;">${escHtml(artifactUri)}</span>
+    </div>
+    <div class="preview-ph-body">Content generated and ready for review.</div>`;
+  content.appendChild(card);
+
+  // Update preview header to show node context
+  document.querySelector('.preview-title').textContent = `Preview · ${label}`;
+}
+
+// ── TOAST ──
+let toastTimer = null;
+function showToast(text, actionLabel, actionFn) {
+  const wrap = document.getElementById('toast-wrap');
+  const content = document.getElementById('toast-content');
+  content.innerHTML = `<span>${escHtml(text)}</span>
+    ${actionLabel ? `<button class="toast-btn" id="toast-action">${escHtml(actionLabel)}</button>` : ''}`;
+  if (actionLabel && actionFn) {
+    document.getElementById('toast-action').onclick = () => { hideToast(); actionFn(); };
+  }
+  wrap.classList.add('visible');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 6000);
+}
+
+function hideToast() {
+  document.getElementById('toast-wrap').classList.remove('visible');
+}
+
+// ── PUBLISH ──
+function handlePublish() {
+  chatUserMsg('Please publish the Eivolet.');
+  chatDisableInput();
+  setTimeout(() => {
+    dispatchResponse({
+      text: "Publishing now — this will be live in a moment.",
+    });
+  }, 700);
+}
+
+function renderFullDefinition(def) {
+  const root = document.getElementById('tree-root');
+  const empty = document.getElementById('tree-empty');
+  if (empty) empty.remove();
+
+  root.querySelectorAll('.tnode').forEach(n => n.remove());
+
+  // Collect IDs of content nodes that carry an artifact
+  function collectArtifactIds(nodes, set) {
+    if (!nodes) return;
+    nodes.forEach(n => {
+      if (n.artifact && CONTENT_TYPES.has(n.type)) set.add(n.id);
+      collectArtifactIds(n.children, set);
+    });
+  }
+  const currentArtifactIds = new Set();
+  collectArtifactIds(def.children, currentArtifactIds);
+
+  // Diff: nodes that just gained an artifact
+  const newArtifactIds = new Set();
+  currentArtifactIds.forEach(id => {
+    if (!state.prevArtifactIds.has(id)) newArtifactIds.add(id);
+  });
+  state.prevArtifactIds = currentArtifactIds;
+
+  // Build a synthetic root node wrapping def.children
+  const rootNode = {
+    id:       'root',
+    type:     'root',
+    label:    def.label || state.objective.split(' ').slice(0,6).join(' '),
+    children: def.children || [],
+  };
+  renderTree([rootNode], root, 0, newArtifactIds);
+
+  // Show publish footer once structure exists
+  if (!state.hasStructure) {
+    state.hasStructure = true;
+    document.getElementById('refresh-render-btn').style.display = 'flex';
+    document.getElementById('publish-fab').style.display = 'flex';
+  }
+}
+
+// ── STRUCTURE PANEL FLASH ──
+function flashStructurePanel() {
+  const panel = document.getElementById('structure-panel');
+  panel.style.transition = 'background 0.15s';
+  panel.style.background = 'var(--accent-20)';
+  setTimeout(() => { panel.style.background = ''; }, 320);
+}
+
+function requestFullRender() {
+  // Sends a message to EiBot requesting a full render — simulated here
+  const btn = document.getElementById('refresh-render-btn');
+  btn.style.color = 'var(--accent-1000)';
+  btn.style.pointerEvents = 'none';
+  chatUserMsg('Can you generate a full preview?');
+  chatDisableInput();
+  setTimeout(() => {
+    btn.style.color = '';
+    btn.style.pointerEvents = '';
+    dispatchResponse({
+      text: "On it — the preview will be available on each generated node.",
+    });
+  }, 700);
+}
+
+function showInputPrimitive(input) {
+  if (input.type === 'select')      showSelectPrimitive(input);
+  else if (input.type === 'multiselect') showMultiselectPrimitive(input);
+  else if (input.type === 'decision')    showDecisionPrimitive(input);
+}
+
+function showSelectPrimitive(input) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-group';
+  wrap.id = 'active-input';
+  const rows = input.options.map(o => `
+    <div class="option-row" data-val="${escHtml(o)}" onclick="primitiveSelectPick(this)">
+      <div class="option-radio"><div class="option-radio-dot"></div></div>
+      <div class="option-label">${escHtml(o)}</div>
+    </div>`).join('');
+  wrap.innerHTML = `<div class="option-list"><div class="option-list-inner">${rows}</div></div>`;
+  msgs.appendChild(wrap);
+  chatScroll();
+}
+
+function primitiveSelectPick(row) {
+  row.closest('.option-list').querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+  row.classList.add('selected');
+  const label = row.querySelector('.option-label').textContent;
+  setTimeout(() => {
+    document.getElementById('active-input')?.remove();
+    chatUserMsg(label);
+    if (state.phase === 'invariants') {
+      const step = invGetActive()[invStepIdx];
+      // Resolve the value key from the dimension options
+      const dim = typeof step.dimension === 'function' ? step.dimension() : step.dimension;
+      const opts = RESOLVED_OPTIONS[dim] || [];
+      const match = opts.find(o => o.label === label);
+      state[step.field] = match ? match.value : label;
+      updateInvCard();
+      invStepIdx++;
+      setTimeout(invNext, 350);
+    } else {
+      simulateConversationReply(label);
+    }
+  }, 200);
+}
+
+function showMultiselectPrimitive(input) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-group';
+  wrap.id = 'active-input';
+  const rows = input.options.map(o => {
+    const locked = input.locked?.includes(o);
+    return `<div class="multiselect-row${locked ? ' selected locked' : ''}" data-label="${escHtml(o)}" onclick="primitiveMultiToggle(this)">
+      <div class="multiselect-check">${locked ? '✓' : ''}</div>
+      <div class="multiselect-label">${escHtml(o)}</div>
+      ${locked ? '<div class="multiselect-lock">always</div>' : ''}
+    </div>`;
+  }).join('');
+  const count = input.locked?.length || 0;
+  wrap.innerHTML = `
+    <div class="multiselect-list">
+      <div class="multiselect-inner">${rows}</div>
+      <div class="multiselect-footer">
+        <div class="multiselect-count" id="ms-count">${count} selected</div>
+        <button class="multiselect-confirm" onclick="primitiveMultiConfirm()">Confirm</button>
+      </div>
+    </div>`;
+  msgs.appendChild(wrap);
+  chatScroll();
+}
+
+function primitiveMultiToggle(row) {
+  if (row.classList.contains('locked')) return;
+  row.classList.toggle('selected');
+  row.querySelector('.multiselect-check').textContent = row.classList.contains('selected') ? '✓' : '';
+  const count = document.querySelectorAll('#active-input .multiselect-row.selected').length;
+  document.getElementById('ms-count').textContent = `${count} selected`;
+}
+
+function primitiveMultiConfirm() {
+  const selected = [...document.querySelectorAll('#active-input .multiselect-row.selected')].map(r => r.dataset.label);
+  document.getElementById('active-input')?.remove();
+  chatUserMsg(selected.join(', '));
+  if (state.phase === 'invariants') {
+    state.cultures = selected;
+    state.culturesSet = true;
+    updateInvCard();
+    invStepIdx++;
+    setTimeout(invNext, 350);
+  } else {
+    simulateConversationReply(selected.join(', '));
+  }
+}
+
+function showDecisionPrimitive(input) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-group';
+  wrap.id = 'active-input';
+  const cards = input.options.map(o => `
+    <div class="decision-chip" onclick="primitiveDecisionPick(this, '${escHtml(o.label)}')">
+      <div class="decision-chip-label">${escHtml(o.label)}</div>
+      ${o.desc ? `<div class="decision-chip-desc">${escHtml(o.desc)}</div>` : ''}
+    </div>`).join('');
+  wrap.innerHTML = `<div class="decision-chips">${cards}</div>`;
+  msgs.appendChild(wrap);
+  chatScroll();
+}
+
+function primitiveDecisionPick(card, label) {
+  card.classList.add('selected');
+  setTimeout(() => {
+    document.getElementById('active-input')?.remove();
+    chatUserMsg(label);
+    simulateConversationReply(label);
+  }, 200);
+}
+
+function showProposalPrimitive(proposal) {
+  const msgs = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-group';
+  if (proposal.responses) wrap.id = 'active-input';
+
+  const def = proposal.data;
+
+  // Build metadata rows
+  const metaRows = [
+    { label: 'Objective', value: def.objective },
+    { label: 'Audience',  value: def.audience  },
+    { label: 'Domain',    value: def.domain     },
+    { label: 'Cultures',  value: Array.isArray(def.cultures) ? def.cultures.join(', ') : def.cultures },
+  ].filter(r => r.value);
+
+  const metaHtml = metaRows.map(r => `
+    <div class="proposal-row">
+      <div class="proposal-row-label">${escHtml(r.label)}</div>
+      <div class="proposal-row-value">${escHtml(r.value)}</div>
+    </div>`).join('');
+
+  // Build tree preview — recursive, collapsible, matches structure panel
+  function treeLines(nodes) {
+    if (!nodes?.length) return '';
+    return nodes.map(n => {
+      const icon = NODE_ICONS[n.type] || NODE_ICONS.lesson;
+      const hasChildren = n.children && n.children.length > 0;
+      const arrowCls = hasChildren ? 'open' : 'leaf';
+      const typeLbl = NODE_TYPES[n.type]?.label || '';
+      const childHtml = hasChildren ? treeLines(n.children) : '';
+      return `
+        <div class="proposal-tree-node">
+          <div class="proposal-tree-arrow ${arrowCls}" onclick="this.classList.toggle('open');this.closest('.proposal-tree-node').nextElementSibling?.classList.toggle('collapsed')">▶</div>
+          <svg viewBox="0 0 24 24">${icon}</svg>
+          <span class="proposal-tree-label">${escHtml(n.label)}</span>
+          <span class="proposal-tree-type">${typeLbl}</span>
+        </div>
+        ${hasChildren ? `<div class="proposal-tree-children">${childHtml}</div>` : ''}`;
+    }).join('');
+  }
+
+  const treeHtml = def.structure ? `
+    <div class="proposal-tree">
+      ${treeLines(def.structure)}
+    </div>` : '';
+
+  // Response buttons
+  const footerHtml = proposal.responses ? `
+    <div class="proposal-footer">
+      ${proposal.responses.map((r, i) => `
+        <button class="proposal-btn${i === 0 ? ' primary' : ''}"
+          onclick="proposalPick(this, '${escHtml(r)}')">${escHtml(r)}</button>`).join('')}
+    </div>` : '';
+
+  wrap.innerHTML = `
+    <div class="proposal-card">
+      <div class="proposal-header">
+        <div class="proposal-dot"></div>
+        <div class="proposal-eyebrow">Eivolet Definition · Proposal</div>
+      </div>
+      <div class="proposal-body">${metaHtml}</div>
+      ${treeHtml}
+      ${footerHtml}
+    </div>`;
+
+  msgs.appendChild(wrap);
+  chatScroll();
+
+  if (!proposal.responses) {
+    // display-only — re-enable input
+    chatEnableInput();
+  } else {
+    chatDisableInput();
+  }
+}
+
+function proposalPick(btn, label) {
+  btn.closest('.proposal-card').querySelectorAll('.proposal-btn').forEach(b => {
+    b.disabled = true;
+    b.style.opacity = b === btn ? '1' : '0.4';
+  });
+  setTimeout(() => {
+    document.getElementById('active-input')?.remove();
+    chatUserMsg(label);
+    simulateConversationReply(label);
+  }, 220);
+}
+
+// ════════════════════════════════════════
+// CONVERSATION SIMULATION (manual steps)
+// ════════════════════════════════════════
+// Any message during conversation phase advances to next sim step.
+// SIM_RESPONSES is an ordered array — each user input pops the next one.
+
+let simStep = 0;
+
+function simulateConversationReply(text) {
+  simStep++;
+  chatDisableInput();
+  setTimeout(() => {
+    const response = SIM_RESPONSES[simStep] || SIM_FALLBACK;
+    dispatchResponse(response);
+  }, 600);
+}
+
+const URI_BASE = 'http://localhost:3000/lingv/eibot/assets/editor:eibot:iAnTAkkOURlHnM4-Ha3Gi4PiRgw:bed4d8e3-3277-4e11-87f5-07f10de23948';
+function ag(type, name) { return { model: 'agArtifact', def: { uri: `${URI_BASE}/${type}/${name}` } }; }
+
+// Full structure — reused across steps, content nodes gain artifacts progressively
+function makeTree(artifacts) {
+  const a = artifacts || {};
+  return [
+    { id: 'u1', type: 'unit', label: 'Unit 1 — Introduction', children: [
+      { id: 'l1', type: 'lesson', label: 'Lesson 1', children: [
+        { id: 't1', type: 'template',  label: 'Template',   ...(a.t1 && { artifact: a.t1 }), children: [] },
+        { id: 'e1', type: 'exercise',  label: 'Exercise',   ...(a.e1 && { artifact: a.e1 }), children: [] },
+      ]},
+      { id: 'l2', type: 'lesson', label: 'Lesson 2', children: [
+        { id: 't2', type: 'template',  label: 'Template',   ...(a.t2 && { artifact: a.t2 }), children: [] },
+        { id: 'f1', type: 'flashcard', label: 'Flashcards', ...(a.f1 && { artifact: a.f1 }), children: [] },
+      ]},
+    ]},
+    { id: 'u2', type: 'unit', label: 'Unit 2 — Core Concepts', children: [
+      { id: 'l3', type: 'lesson', label: 'Lesson 3', children: [
+        { id: 't3', type: 'template',  label: 'Template',   ...(a.t3 && { artifact: a.t3 }), children: [] },
+        { id: 'e2', type: 'exercise',  label: 'Exercise',   ...(a.e2 && { artifact: a.e2 }), children: [] },
+      ]},
+      { id: 'l4', type: 'lesson', label: 'Lesson 4', children: [
+        { id: 't4', type: 'template',  label: 'Template',   ...(a.t4 && { artifact: a.t4 }), children: [] },
+        { id: 'f2', type: 'flashcard', label: 'Flashcards', ...(a.f2 && { artifact: a.f2 }), children: [] },
+      ]},
+      { id: 'c1', type: 'challenge',  label: 'Challenge',   ...(a.c1 && { artifact: a.c1 }), children: [] },
+    ]},
+    { id: 'u3', type: 'unit', label: 'Unit 3 — Practical Application', children: [
+      { id: 'l5', type: 'lesson', label: 'Lesson 5', children: [
+        { id: 't5', type: 'template',  label: 'Template',   ...(a.t5 && { artifact: a.t5 }), children: [] },
+        { id: 'e3', type: 'exercise',  label: 'Exercise',   ...(a.e3 && { artifact: a.e3 }), children: [] },
+      ]},
+      { id: 'l6', type: 'lesson', label: 'Lesson 6', children: [
+        { id: 't6', type: 'template',  label: 'Template',   ...(a.t6 && { artifact: a.t6 }), children: [] },
+        { id: 'f3', type: 'flashcard', label: 'Flashcards', ...(a.f3 && { artifact: a.f3 }), children: [] },
+      ]},
+      { id: 'c2', type: 'championship', label: 'Championship', ...(a.c2 && { artifact: a.c2 }), children: [] },
+    ]},
+    { id: 's1', type: 'space', label: 'Space', ...(a.s1 && { artifact: a.s1 }), children: [] },
+  ];
+}
+
+const SIM_RESPONSES = {
+  // Step 1 — author describes structure, EiBot proposes full structure with empty content nodes
+  1: {
+    text: "Got it — 3 units, 2 lessons each. Here's the full structure I'm proposing:",
+    proposal: {
+      type: 'eivolet-definition',
+      data: {
+        objective: 'A French language course for absolute beginners',
+        audience:  'Adults, 25–45, no prior experience',
+        domain:    'Language learning · French',
+        cultures:  ['English (US)', 'French'],
+        structure: makeTree(),
+      },
+      responses: ['Looks good', 'Keep going', 'Start over'],
+    },
+  },
+
+  // Step 2 — confirmed, EiBot commits full structure (all empty) and starts generation
+  2: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree() },
+    text: "Structure committed. I'll generate each content node — templates, exercises, flashcards — one by one. The tree will update as each one is ready.",
+  },
+
+  // Step 3 — Template t1 generated (Lesson 1)
+  3: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+    })},
+    text: "Lesson 1 template ready.",
+  },
+
+  // Step 4 — Exercise e1 generated (Lesson 1 complete)
+  4: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+      e1: ag('exercise', 'c_lesson1_exercise'),
+    })},
+    text: "Lesson 1 exercise done — Lesson 1 is complete.",
+  },
+
+  // Step 5 — Template t2 + Flashcards f1 (Lesson 2 complete)
+  5: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+      e1: ag('exercise', 'c_lesson1_exercise'),
+      t2: ag('template', 'c_lesson2_template'),
+      f1: ag('flashcard', 'c_lesson2_flashcards'),
+    })},
+    text: "Lesson 2 template and flashcards generated — Unit 1 complete.",
+  },
+
+  // Step 6 — Lesson 3 content (t3 + e2)
+  6: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+      e1: ag('exercise', 'c_lesson1_exercise'),
+      t2: ag('template', 'c_lesson2_template'),
+      f1: ag('flashcard', 'c_lesson2_flashcards'),
+      t3: ag('template', 'c_lesson3_template'),
+      e2: ag('exercise', 'c_lesson3_exercise'),
+    })},
+    text: "Lesson 3 ready.",
+  },
+
+  // Step 7 — Lesson 4 content + Unit 2 Challenge (t4, f2, c1)
+  7: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+      e1: ag('exercise', 'c_lesson1_exercise'),
+      t2: ag('template', 'c_lesson2_template'),
+      f1: ag('flashcard', 'c_lesson2_flashcards'),
+      t3: ag('template', 'c_lesson3_template'),
+      e2: ag('exercise', 'c_lesson3_exercise'),
+      t4: ag('template', 'c_lesson4_template'),
+      f2: ag('flashcard', 'c_lesson4_flashcards'),
+      c1: ag('challenge', 'c_unit2_challenge'),
+    })},
+    text: "Lesson 4 done, Unit 2 challenge added — Unit 2 complete.",
+  },
+
+  // Step 8 — All remaining: Lessons 5-6, Championship, Space
+  8: {
+    definition: { label: 'French for Absolute Beginners', children: makeTree({
+      t1: ag('template', 'c_lesson1_template'),
+      e1: ag('exercise', 'c_lesson1_exercise'),
+      t2: ag('template', 'c_lesson2_template'),
+      f1: ag('flashcard', 'c_lesson2_flashcards'),
+      t3: ag('template', 'c_lesson3_template'),
+      e2: ag('exercise', 'c_lesson3_exercise'),
+      t4: ag('template', 'c_lesson4_template'),
+      f2: ag('flashcard', 'c_lesson4_flashcards'),
+      c1: ag('challenge', 'c_unit2_challenge'),
+      t5: ag('template', 'c_lesson5_template'),
+      e3: ag('exercise', 'c_lesson5_exercise'),
+      t6: ag('template', 'c_lesson6_template'),
+      f3: ag('flashcard', 'c_lesson6_flashcards'),
+      c2: ag('championship', 'c_unit3_championship'),
+      s1: ag('space', 'c_french_beginners_space'),
+    })},
+    text: "All done. Every template, exercise, flashcard, the championship, and space are generated. Ready to publish.",
+  },
+};
+
+const SIM_FALLBACK = {
+  text: "Got it. I can adjust any node — just tell me what to change.",
+};
+
+// ════════════════════════════════════════
+// PREVIEW PANEL
+// ════════════════════════════════════════
+function previewOpen() {
+  if (state.previewState !== 'closed') return;
+  state.previewState = 'floating';
+  const panel = document.getElementById('preview-panel');
+  panel.classList.add('floating');
+  updatePreviewPinBtn();
+}
+
+function previewClose() {
+  const panel = document.getElementById('preview-panel');
+  const main  = document.getElementById('main');
+  panel.classList.remove('floating', 'pinned', 'maximized');
+  main.classList.remove('preview-pinned');
+  state.previewState = 'closed';
+  state.prevPreviewState = null;
+}
+
+function previewPin() {
+  const panel = document.getElementById('preview-panel');
+  const main  = document.getElementById('main');
+  if (state.previewState === 'pinned') {
+    panel.style.transition = 'none';
+    panel.classList.remove('pinned');
+    main.classList.remove('preview-pinned');
+    state.previewState = 'closed';
+    requestAnimationFrame(() => { panel.style.transition = ''; });
+  } else {
+    panel.classList.remove('floating', 'maximized');
+    panel.classList.add('pinned');
+    main.classList.add('preview-pinned');
+    state.previewState = 'pinned';
+  }
+  updatePreviewPinBtn();
+}
+
+function previewMaximize() {
+  const panel = document.getElementById('preview-panel');
+  if (state.previewState === 'maximized') {
+    // restore
+    const prev = state.prevPreviewState || 'floating';
+    panel.classList.remove('maximized');
+    panel.classList.add(prev);
+    if (prev === 'pinned') document.getElementById('main').classList.add('preview-pinned');
+    state.previewState = prev;
+  } else {
+    state.prevPreviewState = state.previewState;
+    panel.classList.remove('floating', 'pinned');
+    document.getElementById('main').classList.remove('preview-pinned');
+    panel.classList.add('maximized');
+    state.previewState = 'maximized';
+  }
+  updatePreviewMaxBtn();
+  updatePreviewPinBtn();
+}
+
+function updatePreviewPinBtn() {
+  const btn = document.getElementById('preview-pin-btn');
+  if (state.previewState === 'pinned') {
+    btn.title = 'Unpin panel';
+    btn.style.color = 'var(--accent-1000)';
+  } else {
+    btn.title = 'Pin panel';
+    btn.style.color = '';
+  }
+}
+
+function updatePreviewMaxBtn() {
+  const btn = document.getElementById('preview-max-btn');
+  if (state.previewState === 'maximized') {
+    btn.title = 'Restore';
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="21" y2="3"/><line x1="3" y1="21" x2="14" y2="10"/></svg>`;
+  } else {
+    btn.title = 'Maximize';
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>`;
+  }
+}
+
+// ════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════
+applyIcons();
+setTimeout(() => invNext(), 400);
+</script>
+</body>
+</html>

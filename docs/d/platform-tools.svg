@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .section-title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #1e293b; }
+      .layer-label { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; }
+      .box-title { font-family: Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #1e293b; }
+      .box-subtitle { font-family: Arial, sans-serif; font-size: 11px; fill: #64748b; }
+      .status-tag { font-family: Arial, sans-serif; font-size: 10px; font-weight: bold; fill: white; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow-down" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <text x="425" y="40" text-anchor="middle" class="section-title">Eivo Platform Architecture</text>
+
+  <rect x="50" y="80" width="750" height="150" rx="10" fill="#e9d5ff" opacity="0.3"/>
+  <text x="80" y="105" class="layer-label" fill="#7c3aed">Platform Tooling (Authoring)</text>
+  
+  <rect x="80" y="120" width="220" height="90" rx="6" fill="white" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="80" y="120" width="50" height="18" rx="2" fill="#8b5cf6"/>
+  <text x="105" y="133" text-anchor="middle" class="status-tag">ACTIVE</text>
+  <text x="190" y="155" text-anchor="middle" class="box-title">Anvil CLI</text>
+  <text x="190" y="175" text-anchor="middle" class="box-subtitle">Logic Definition</text>
+
+  <rect x="315" y="120" width="220" height="90" rx="6" fill="white" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" filter="url(#shadow)"/>
+  <text x="425" y="155" text-anchor="middle" class="box-title" fill="#94a3b8">Eivo Studio</text>
+  <text x="425" y="175" text-anchor="middle" class="box-subtitle">Visual Composition</text>
+
+  <rect x="550" y="120" width="220" height="90" rx="6" fill="white" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" filter="url(#shadow)"/>
+  <text x="660" y="155" text-anchor="middle" class="box-title" fill="#94a3b8">Management Console</text>
+  <text x="660" y="175" text-anchor="middle" class="box-subtitle">Config &amp; Orchestration</text>
+
+  <line x1="425" y1="230" x2="425" y2="260" stroke="#64748b" stroke-width="2" marker-end="url(#arrow-down)"/>
+
+  <rect x="50" y="270" width="750" height="110" rx="10" fill="#fef3c7" opacity="0.3"/>
+  <text x="80" y="295" class="layer-label" fill="#d97706">Cross-Functional Features</text>
+  
+  <rect x="80" y="315" width="130" height="45" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="145" y="343" text-anchor="middle" class="box-title">Editorial</text>
+  
+  <rect x="220" y="315" width="130" height="45" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="285" y="343" text-anchor="middle" class="box-title">Assistance</text>
+
+  <rect x="360" y="315" width="130" height="45" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="425" y="343" text-anchor="middle" class="box-title">Social</text>
+
+  <rect x="500" y="315" width="130" height="45" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="565" y="343" text-anchor="middle" class="box-title">Gaming</text>
+
+  <rect x="640" y="315" width="130" height="45" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="705" y="343" text-anchor="middle" class="box-title">Identity</text>
+
+  <line x1="425" y1="380" x2="425" y2="410" stroke="#64748b" stroke-width="2" marker-end="url(#arrow-down)"/>
+
+  <rect x="50" y="420" width="750" height="130" rx="10" fill="#d1fae5" opacity="0.3"/>
+  <text x="80" y="445" class="layer-label" fill="#047857">Capabilities-Based Features</text>
+  
+  <rect x="80" y="460" width="130" height="70" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="145" y="500" text-anchor="middle" class="box-title">Learning</text>
+  
+  <rect x="220" y="460" width="130" height="70" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="285" y="500" text-anchor="middle" class="box-title">Gym</text>
+
+  <rect x="360" y="460" width="130" height="70" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="425" y="500" text-anchor="middle" class="box-title">Championship</text>
+  
+  <rect x="500" y="460" width="130" height="70" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="565" y="500" text-anchor="middle" class="box-title">Playroom</text>
+
+  <rect x="640" y="460" width="130" height="70" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="705" y="500" text-anchor="middle" class="box-title">Challenges</text>
+
+  <line x1="425" y1="550" x2="425" y2="580" stroke="#64748b" stroke-width="2" marker-end="url(#arrow-down)"/>
+
+  <rect x="50" y="590" width="750" height="70" rx="10" fill="#bfdbfe" opacity="0.4" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="425" y="630" text-anchor="middle" class="layer-label" fill="#1e40af">Experiences (End-User Products)</text>
+
+</svg>

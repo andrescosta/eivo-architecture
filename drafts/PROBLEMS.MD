@@ -1,0 +1,1 @@
+- The DTO classes that controls tge game data are all over the place.

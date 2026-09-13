@@ -1,0 +1,64 @@
+<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .big-title { font-family: Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #334155; }
+      .title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #475569; }
+      .label { font-family: Arial, sans-serif; font-size: 15px; fill: #64748b; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#94a3b8" />
+    </marker>
+  </defs>
+  
+  <!-- Evaluation Capability Container -->
+  <rect x="50" y="50" width="800" height="550" rx="20" fill="#fce7f3" opacity="0.3" stroke="#ec4899" stroke-width="4" filter="url(#shadow)"/>
+  <text x="450" y="100" text-anchor="middle" class="big-title" fill="#be185d">Evaluation Capability</text>
+  
+  <!-- Features Layer -->
+  <rect x="100" y="140" width="320" height="120" rx="15" fill="#fce7f3" stroke="#f9a8d4" stroke-width="3" filter="url(#shadow)"/>
+  <text x="260" y="185" text-anchor="middle" class="title">Championship</text>
+  <text x="260" y="215" text-anchor="middle" class="label">Quiz Assessment</text>
+  <text x="260" y="248" text-anchor="middle" font-size="35">🏆</text>
+  
+  <rect x="480" y="140" width="320" height="120" rx="15" fill="#fce7f3" stroke="#f9a8d4" stroke-width="3" filter="url(#shadow)"/>
+  <text x="640" y="185" text-anchor="middle" class="title">Challenge</text>
+  <text x="640" y="215" text-anchor="middle" class="label">Project Assessment</text>
+  <text x="640" y="248" text-anchor="middle" font-size="35">📋</text>
+  
+  <!-- Foundational Business Logic Layer -->
+  <rect x="100" y="310" width="320" height="240" rx="15" fill="white" stroke="#ec4899" stroke-width="3" filter="url(#shadow)"/>
+  <text x="260" y="355" text-anchor="middle" class="title" fill="#be185d">Trial (Solo)</text>
+  <text x="260" y="390" text-anchor="middle" class="label">Exercise Stream</text>
+  <text x="260" y="415" text-anchor="middle" class="label">Binary Validation</text>
+  <text x="260" y="440" text-anchor="middle" class="label">Error Tracking</text>
+  <text x="260" y="465" text-anchor="middle" class="label">+ Scoring Logic</text>
+  <text x="260" y="490" text-anchor="middle" class="label">+ Leaderboards</text>
+  
+  <rect x="480" y="310" width="320" height="240" rx="15" fill="white" stroke="#ec4899" stroke-width="3" filter="url(#shadow)"/>
+  <text x="640" y="355" text-anchor="middle" class="title" fill="#be185d">Challenge Logic</text>
+  <text x="640" y="390" text-anchor="middle" class="label">Project Submission</text>
+  <text x="640" y="415" text-anchor="middle" class="label">Extended Duration</text>
+  <text x="640" y="440" text-anchor="middle" class="label">Evaluation Criteria</text>
+  <text x="640" y="465" text-anchor="middle" class="label">Comprehensive Feedback</text>
+  <text x="640" y="490" text-anchor="middle" class="label">Rubric Application</text>
+  
+  <!-- Editorial Services -->
+  <rect x="950" y="180" width="200" height="120" rx="15" fill="#fde68a" opacity="0.7" stroke="#f59e0b" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1050" y="228" text-anchor="middle" font-size="35">🤖</text>
+  <text x="1050" y="270" text-anchor="middle" class="title">Editorial</text>
+  
+  <!-- Assistance Services -->
+  <rect x="950" y="340" width="200" height="120" rx="15" fill="#ddd6fe" opacity="0.7" stroke="#8b5cf6" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1050" y="388" text-anchor="middle" font-size="35">🧠</text>
+  <text x="1050" y="430" text-anchor="middle" class="title">Assistance</text>
+  
+  <!-- Arrows from Evaluation to Services -->
+  <path d="M 850,240 L 950,240" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow)" stroke-dasharray="8,4"/>
+  <text x="900" y="265" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">requests</text>
+  
+  <path d="M 800,400 L 950,400" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow)" stroke-dasharray="8,4"/>
+  <text x="875" y="390" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">requests</text>
+</svg>

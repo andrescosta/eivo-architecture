@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1520 900"
+   version="1.1"
+   id="svg59"
+   sodipodi:docname="eibook_ecosystem_visual (16).svg"
+   inkscape:export-filename="eibook_ecosystem_visual (16).png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview59"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.97888889"
+     inkscape:cx="760.0454"
+     inkscape:cy="450"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg59" />
+  <defs
+     id="defs3">
+    <filter
+       id="glow"
+       x="-0.36"
+       y="-0.36"
+       width="1.72"
+       height="1.72">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur1" />
+      <feMerge
+         id="feMerge2">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode1" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode2" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       id="skyGrad"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1169.6153"
+       gradientTransform="matrix(1.3318892,0,0,0.76948376,-1.9307605,1.2644722)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#e0f2fe;stop-opacity:1"
+         id="stop2" />
+      <stop
+         offset="100%"
+         style="stop-color:#f0f9ff;stop-opacity:1"
+         id="stop3" />
+    </linearGradient>
+  </defs>
+  <rect
+     width="1557.798"
+     height="900"
+     fill="url(#skyGrad)"
+     id="rect3"
+     style="fill:url(#skyGrad);stroke-width:1.01235"
+     x="-1.9307605"
+     y="1.2644722" />
+  <!-- Background -->
+  <!-- Title -->
+  <text
+     x="760.42969"
+     y="60"
+     font-family="Arial, sans-serif"
+     font-size="32px"
+     font-weight="700"
+     text-anchor="middle"
+     fill="#1e293b"
+     id="text3">Transform Ideas into Learning Experiences</text>
+  <text
+     x="759.85498"
+     y="95"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     text-anchor="middle"
+     fill="#64748b"
+     id="text4">The EiBook Platform empowers anyone to create, share, and deliver engaging educational content</text>
+  <!-- Journey Flow - Left to Right -->
+  <!-- Step 1: Creator with Idea -->
+  <!-- Arrow 1 -->
+  <!-- Step 2: AI-Powered Creation -->
+  <!-- Arrow 2 -->
+  <!-- Step 3: Published EiBook -->
+  <!-- Arrow 3 -->
+  <!-- Step 4: Portal Distribution -->
+  <!-- Arrow 4 -->
+  <!-- Step 5: Learners -->
+  <g
+     id="g61"
+     transform="translate(-30)">
+    <g
+       transform="translate(80,200)"
+       id="g7">
+      <circle
+         cx="80"
+         cy="80"
+         r="70"
+         fill="#dbeafe"
+         stroke="#3b82f6"
+         stroke-width="3"
+         id="circle4" />
+      <text
+         x="80"
+         y="30"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e40af"
+         id="text5">STEP 1</text>
+      <!-- Person icon -->
+      <circle
+         cx="80"
+         cy="65"
+         r="18"
+         fill="#3b82f6"
+         id="circle5" />
+      <ellipse
+         cx="80"
+         cy="105"
+         rx="28"
+         ry="20"
+         fill="#3b82f6"
+         id="ellipse5" />
+      <!-- Lightbulb -->
+      <circle
+         cx="115"
+         cy="45"
+         r="10"
+         fill="#fbbf24"
+         filter="url(#glow)"
+         id="circle6" />
+      <path
+         d="m 115,55 v 5"
+         stroke="#fbbf24"
+         stroke-width="2"
+         id="path6" />
+      <text
+         x="80"
+         y="180"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text6">You Have</text>
+      <text
+         x="80"
+         y="200"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text7">an Idea</text>
+    </g>
+    <g
+       transform="translate(240,270)"
+       id="g8">
+      <path
+         d="M 0,0 H 80"
+         stroke="#94a3b8"
+         stroke-width="3"
+         stroke-dasharray="5, 5"
+         id="path7" />
+      <path
+         d="M 80,0 70,-7 V 7 Z"
+         fill="#94a3b8"
+         id="path8" />
+    </g>
+    <g
+       transform="translate(340,140)"
+       id="g20">
+      <rect
+         x="0"
+         y="0"
+         width="280"
+         height="300"
+         rx="15"
+         fill="#ffffff"
+         stroke="#3b82f6"
+         stroke-width="3"
+         id="rect8" />
+      <rect
+         x="10"
+         y="10"
+         width="260"
+         height="40"
+         rx="8"
+         fill="#3b82f6"
+         id="rect9" />
+      <text
+         x="20"
+         y="32"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="start"
+         fill="#ffffff"
+         id="text9">STEP 2</text>
+      <text
+         x="140"
+         y="37"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="700"
+         text-anchor="middle"
+         fill="#ffffff"
+         id="text10">EiBooks Studio</text>
+      <!-- Chat bubbles showing conversation -->
+      <g
+         transform="translate(20,70)"
+         id="g18">
+        <!-- User message -->
+        <rect
+           x="0"
+           y="0"
+           width="200"
+           height="35"
+           rx="8"
+           fill="#e0e7ff"
+           id="rect10" />
+        <text
+           x="100"
+           y="12"
+           font-family="Arial, sans-serif"
+           font-size="11px"
+           text-anchor="middle"
+           fill="#3730a3"
+           id="text11">&quot;I want to teach Python</text>
+        <text
+           x="100"
+           y="26"
+           font-family="Arial, sans-serif"
+           font-size="11px"
+           text-anchor="middle"
+           fill="#3730a3"
+           id="text12">with interactive examples&quot;</text>
+        <!-- AI response -->
+        <rect
+           x="40"
+           y="50"
+           width="200"
+           height="50"
+           rx="8"
+           fill="#dcfce7"
+           id="rect12" />
+        <text
+           x="140"
+           y="63"
+           font-family="Arial, sans-serif"
+           font-size="10px"
+           text-anchor="middle"
+           fill="#14532d"
+           id="text13">&quot;Let's create an EiBook! I'll help you</text>
+        <text
+           x="140"
+           y="75"
+           font-family="Arial, sans-serif"
+           font-size="10px"
+           text-anchor="middle"
+           fill="#14532d"
+           id="text14">design the content, exercises, and</text>
+        <text
+           x="140"
+           y="87"
+           font-family="Arial, sans-serif"
+           font-size="10px"
+           text-anchor="middle"
+           fill="#14532d"
+           id="text15">navigation. What topics first?&quot;</text>
+        <!-- Process indicators -->
+        <circle
+           cx="20"
+           cy="125"
+           r="5"
+           fill="#10b981"
+           id="circle15" />
+        <text
+           x="30"
+           y="130"
+           font-family="Arial, sans-serif"
+           font-size="11px"
+           fill="#475569"
+           id="text16">Content Generated</text>
+        <circle
+           cx="20"
+           cy="145"
+           r="5"
+           fill="#10b981"
+           id="circle16" />
+        <text
+           x="30"
+           y="150"
+           font-family="Arial, sans-serif"
+           font-size="11px"
+           fill="#475569"
+           id="text17">Exercises Created</text>
+        <circle
+           cx="20"
+           cy="165"
+           r="5"
+           fill="#10b981"
+           id="circle17" />
+        <text
+           x="30"
+           y="170"
+           font-family="Arial, sans-serif"
+           font-size="11px"
+           fill="#475569"
+           id="text18">Design Applied</text>
+      </g>
+      <text
+         x="140"
+         y="260"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text19">AI-Powered Creation</text>
+      <text
+         x="140"
+         y="280"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         text-anchor="middle"
+         fill="#64748b"
+         font-style="italic"
+         id="text20">Creator Interface</text>
+    </g>
+    <g
+       transform="translate(635,270)"
+       id="g21">
+      <path
+         d="M 0,0 H 80"
+         stroke="#94a3b8"
+         stroke-width="3"
+         stroke-dasharray="5, 5"
+         id="path20" />
+      <path
+         d="M 80,0 70,-7 V 7 Z"
+         fill="#94a3b8"
+         id="path21" />
+    </g>
+    <g
+       transform="translate(730,200)"
+       id="g26">
+      <circle
+         cx="80"
+         cy="80"
+         r="70"
+         fill="#d1fae5"
+         stroke="#10b981"
+         stroke-width="3"
+         id="circle21" />
+      <text
+         x="80"
+         y="30"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#065f46"
+         id="text21">STEP 3</text>
+      <!-- Book icon -->
+      <rect
+         x="50"
+         y="55"
+         width="60"
+         height="50"
+         rx="4"
+         fill="#10b981"
+         id="rect21" />
+      <line
+         x1="56"
+         y1="65"
+         x2="104"
+         y2="65"
+         stroke="#ffffff"
+         stroke-width="2"
+         id="line21" />
+      <line
+         x1="56"
+         y1="75"
+         x2="104"
+         y2="75"
+         stroke="#ffffff"
+         stroke-width="1"
+         id="line22" />
+      <line
+         x1="56"
+         y1="82"
+         x2="90"
+         y2="82"
+         stroke="#ffffff"
+         stroke-width="1"
+         id="line23" />
+      <line
+         x1="56"
+         y1="89"
+         x2="104"
+         y2="89"
+         stroke="#ffffff"
+         stroke-width="1"
+         id="line24" />
+      <line
+         x1="56"
+         y1="96"
+         x2="85"
+         y2="96"
+         stroke="#ffffff"
+         stroke-width="1"
+         id="line25" />
+      <text
+         x="80"
+         y="180"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text25">Your EiBook</text>
+      <text
+         x="80"
+         y="200"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text26">is Ready</text>
+    </g>
+    <g
+       transform="translate(890,270)"
+       id="g27">
+      <path
+         d="M 0,0 H 80"
+         stroke="#94a3b8"
+         stroke-width="3"
+         stroke-dasharray="5, 5"
+         id="path26" />
+      <path
+         d="M 80,0 70,-7 V 7 Z"
+         fill="#94a3b8"
+         id="path27" />
+    </g>
+    <g
+       transform="translate(985,140)"
+       id="g36">
+      <rect
+         x="0"
+         y="0"
+         width="280"
+         height="300"
+         rx="15"
+         fill="#ffffff"
+         stroke="#f59e0b"
+         stroke-width="3"
+         id="rect27" />
+      <rect
+         x="10"
+         y="10"
+         width="260"
+         height="40"
+         rx="8"
+         fill="#f59e0b"
+         id="rect28" />
+      <text
+         x="20"
+         y="32"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="start"
+         fill="#ffffff"
+         id="text28">STEP 4</text>
+      <text
+         x="140"
+         y="37"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="700"
+         text-anchor="middle"
+         fill="#ffffff"
+         id="text29">EiBook Portal</text>
+      <!-- Portal icon -->
+      <g
+         transform="translate(115,70)"
+         id="g31">
+        <circle
+           cx="30"
+           cy="30"
+           r="28"
+           fill="none"
+           stroke="#f59e0b"
+           stroke-width="3"
+           id="circle29" />
+        <circle
+           cx="30"
+           cy="30"
+           r="18"
+           fill="none"
+           stroke="#f59e0b"
+           stroke-width="2"
+           id="circle30" />
+        <circle
+           cx="30"
+           cy="30"
+           r="8"
+           fill="#f59e0b"
+           id="circle31" />
+      </g>
+      <!-- Features -->
+      <g
+         transform="translate(20,150)"
+         id="g35">
+        <circle
+           cx="10"
+           cy="0"
+           r="4"
+           fill="#f59e0b"
+           id="circle32" />
+        <text
+           x="25"
+           y="5"
+           font-family="Arial, sans-serif"
+           font-size="13px"
+           fill="#334155"
+           id="text32">Public Marketplace</text>
+        <circle
+           cx="10"
+           cy="35"
+           r="4"
+           fill="#f59e0b"
+           id="circle33" />
+        <text
+           x="25"
+           y="40"
+           font-family="Arial, sans-serif"
+           font-size="13px"
+           fill="#334155"
+           id="text33">Discovery &amp; Browse</text>
+        <circle
+           cx="10"
+           cy="70"
+           r="4"
+           fill="#f59e0b"
+           id="circle34" />
+        <text
+           x="25"
+           y="75"
+           font-family="Arial, sans-serif"
+           font-size="13px"
+           fill="#334155"
+           id="text34">Access Management</text>
+        <circle
+           cx="10"
+           cy="105"
+           r="4"
+           fill="#f59e0b"
+           id="circle35" />
+        <text
+           x="25"
+           y="110"
+           font-family="Arial, sans-serif"
+           font-size="13px"
+           fill="#334155"
+           id="text35">Launch &amp; Execute</text>
+      </g>
+      <!-- Learner label -->
+      <text
+         x="140"
+         y="280"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         text-anchor="middle"
+         fill="#64748b"
+         font-style="italic"
+         id="text36">Learner Interface</text>
+    </g>
+    <g
+       transform="translate(1275,270)"
+       id="g37">
+      <path
+         d="M 0,0 H 50"
+         stroke="#94a3b8"
+         stroke-width="3"
+         stroke-dasharray="5, 5"
+         id="path36" />
+      <path
+         d="M 50,0 40,-7 V 7 Z"
+         fill="#94a3b8"
+         id="path37" />
+    </g>
+    <g
+       transform="translate(1340,200)"
+       id="g40">
+      <circle
+         cx="80"
+         cy="80"
+         r="70"
+         fill="#fae8ff"
+         stroke="#a855f7"
+         stroke-width="3"
+         id="circle37" />
+      <text
+         x="80"
+         y="30"
+         font-family="Arial, sans-serif"
+         font-size="14px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#6b21a8"
+         id="text37">RESULT</text>
+      <!-- Multiple people icons -->
+      <circle
+         cx="65"
+         cy="70"
+         r="12"
+         fill="#a855f7"
+         id="circle38" />
+      <ellipse
+         cx="65"
+         cy="95"
+         rx="18"
+         ry="12"
+         fill="#a855f7"
+         id="ellipse38" />
+      <circle
+         cx="95"
+         cy="70"
+         r="12"
+         fill="#a855f7"
+         id="circle39" />
+      <ellipse
+         cx="95"
+         cy="95"
+         rx="18"
+         ry="12"
+         fill="#a855f7"
+         id="ellipse39" />
+      <text
+         x="80"
+         y="180"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text39">Learners</text>
+      <text
+         x="80"
+         y="200"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         text-anchor="middle"
+         fill="#1e293b"
+         id="text40">Engage</text>
+    </g>
+  </g>
+  <!-- Platform Foundation -->
+  <g
+     transform="translate(0, 550)"
+     id="g43">
+    <rect
+       x="100"
+       y="0"
+       width="1320"
+       height="100"
+       rx="10"
+       fill="#f1f5f9"
+       stroke="#cbd5e1"
+       stroke-width="2"
+       id="rect40" />
+    <text
+       x="760"
+       y="35"
+       font-family="Arial, sans-serif"
+       font-size="20"
+       font-weight="600"
+       text-anchor="middle"
+       fill="#1e293b"
+       id="text41">
+      Built on Eivo Platform
+    </text>
+    <text
+       x="760"
+       y="60"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       text-anchor="middle"
+       fill="#64748b"
+       id="text42">
+      Cloud-Native Infrastructure • AI Services • Educational Capabilities
+    </text>
+    <text
+       x="760"
+       y="80"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       text-anchor="middle"
+       fill="#64748b"
+       id="text43">
+      Content Delivery • Practice Environments • Evaluation • Gamification • Social
+    </text>
+  </g>
+  <!-- Key Benefits -->
+  <g
+     id="g60"
+     transform="translate(-8.9353)">
+    <g
+       transform="translate(268.9353,687.49149)"
+       id="g49">
+      <rect
+         x="0"
+         y="0"
+         width="260"
+         height="140"
+         rx="10"
+         fill="#ffffff"
+         stroke="#3b82f6"
+         stroke-width="2"
+         id="rect43" />
+      <circle
+         cx="30"
+         cy="30"
+         r="15"
+         fill="#dbeafe"
+         id="circle43" />
+      <text
+         x="30"
+         y="37"
+         font-family="Arial, sans-serif"
+         font-size="20px"
+         text-anchor="middle"
+         fill="#3b82f6"
+         id="text44">✓</text>
+      <text
+         x="55"
+         y="35"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         fill="#1e293b"
+         id="text45">No Coding Required</text>
+      <text
+         x="20"
+         y="60"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text46">Create through natural</text>
+      <text
+         x="20"
+         y="78"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text47">conversation with AI</text>
+      <text
+         x="20"
+         y="100"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         fill="#94a3b8"
+         font-style="italic"
+         id="text48">AI handles the technical</text>
+      <text
+         x="20"
+         y="116"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         fill="#94a3b8"
+         font-style="italic"
+         id="text49">complexity for you</text>
+    </g>
+    <g
+       transform="translate(638.9353,687.49149)"
+       id="g54">
+      <rect
+         x="0"
+         y="0"
+         width="260"
+         height="140"
+         rx="10"
+         fill="#ffffff"
+         stroke="#10b981"
+         stroke-width="2"
+         id="rect49" />
+      <circle
+         cx="30"
+         cy="30"
+         r="15"
+         fill="#d1fae5"
+         id="circle49" />
+      <text
+         x="30"
+         y="37"
+         font-family="Arial, sans-serif"
+         font-size="20px"
+         text-anchor="middle"
+         fill="#10b981"
+         id="text50">✓</text>
+      <text
+         x="55"
+         y="35"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         fill="#1e293b"
+         id="text51">Complete Control</text>
+      <text
+         x="20"
+         y="60"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text52">Design everything: content,</text>
+      <text
+         x="20"
+         y="78"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text53">navigation, look &amp; feel</text>
+      <text
+         x="20"
+         y="100"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         fill="#94a3b8"
+         font-style="italic"
+         id="text54">Your vision, your way</text>
+    </g>
+    <g
+       transform="translate(1008.9353,687.49149)"
+       id="g59">
+      <rect
+         x="0"
+         y="0"
+         width="260"
+         height="140"
+         rx="10"
+         fill="#ffffff"
+         stroke="#f59e0b"
+         stroke-width="2"
+         id="rect54" />
+      <circle
+         cx="30"
+         cy="30"
+         r="15"
+         fill="#fef3c7"
+         id="circle54" />
+      <text
+         x="30"
+         y="37"
+         font-family="Arial, sans-serif"
+         font-size="20px"
+         text-anchor="middle"
+         fill="#f59e0b"
+         id="text55">✓</text>
+      <text
+         x="55"
+         y="35"
+         font-family="Arial, sans-serif"
+         font-size="16px"
+         font-weight="600"
+         fill="#1e293b"
+         id="text56">Instant Distribution</text>
+      <text
+         x="20"
+         y="60"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text57">Publish and reach learners</text>
+      <text
+         x="20"
+         y="78"
+         font-family="Arial, sans-serif"
+         font-size="13px"
+         fill="#64748b"
+         id="text58">immediately</text>
+      <text
+         x="20"
+         y="100"
+         font-family="Arial, sans-serif"
+         font-size="12px"
+         fill="#94a3b8"
+         font-style="italic"
+         id="text59">Public or private, your choice</text>
+    </g>
+  </g>
+</svg>

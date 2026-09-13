@@ -1,0 +1,152 @@
+<svg width="800" height="430" viewBox="0 70 800 430" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Eivo color palette gradients -->
+        <linearGradient id="experiencesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4DD0E1"/>
+            <stop offset="100%" stop-color="#00838F"/>
+        </linearGradient>
+        
+        <linearGradient id="featuresGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3E98C7"/>
+            <stop offset="100%" stop-color="#1D63A7"/>
+        </linearGradient>
+        
+        <linearGradient id="platformGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00838F"/>
+            <stop offset="100%" stop-color="#003133"/>
+        </linearGradient>
+        
+        <!-- Component gradients -->
+        <linearGradient id="comp1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#66C2D9"/>
+            <stop offset="100%" stop-color="#3E98C7"/>
+        </linearGradient>
+        
+        <linearGradient id="comp2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#99E2ED"/>
+            <stop offset="100%" stop-color="#66C2D9"/>
+        </linearGradient>
+        
+        <!-- Glow effect -->
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        
+        <!-- Arrow marker -->
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#4a5568"/>
+        </marker>
+    </defs>
+    
+    <!-- Platform Capabilities Layer (Bottom) -->
+    <g filter="url(#glow)">
+        <rect x="100" y="320" width="600" height="170" rx="12" fill="url(#platformGrad)" opacity="0.2"/>
+    </g>
+    
+    <text x="400" y="360" font-family="sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">
+        Foundations
+    </text>
+    
+    <!-- Platform Components - All centered, icon 8px left of text center -->
+    <g font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="500">
+        <!-- Social -->
+        <g transform="translate(185, 385)">
+            <rect width="130" height="40" rx="8" fill="url(#comp1)"/>
+            <rect width="130" height="40" rx="8" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"/>
+            <g transform="translate(33, 8)" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </g>
+            <text x="78" y="25" text-anchor="middle" fill="white">Social</text>
+        </g>
+        
+        <!-- Assistance -->
+        <g transform="translate(335, 385)">
+            <rect width="130" height="40" rx="8" fill="url(#comp2)"/>
+            <rect width="130" height="40" rx="8" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"/>
+            <g transform="translate(21, 8)" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 6V2H8"/>
+                <path d="M15 11v2"/>
+                <path d="M2 12h2"/>
+                <path d="M20 12h2"/>
+                <path d="M20 16a2 2 0 0 1-2 2H8.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 4 20.286V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
+                <path d="M9 11v2"/>
+            </g>
+            <text x="78" y="25" text-anchor="middle" fill="white">Assistance</text>
+        </g>
+        
+        <!-- Gaming -->
+        <g transform="translate(485, 385)">
+            <rect width="130" height="40" rx="8" fill="url(#comp1)"/>
+            <rect width="130" height="40" rx="8" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"/>
+            <g transform="translate(30, 8)" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16.051 12.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.866l-1.156-1.153a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z"/>
+                <path d="M8 15H7a4 4 0 0 0-4 4v2"/>
+                <circle cx="10" cy="7" r="4"/>
+            </g>
+            <text x="78" y="25" text-anchor="middle" fill="white">Gaming</text>
+        </g>
+        
+        <!-- Editorial -->
+        <g transform="translate(260, 435)">
+            <rect width="130" height="40" rx="8" fill="url(#comp2)"/>
+            <rect width="130" height="40" rx="8" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"/>
+            <g transform="translate(26, 8)" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/>
+                <path d="M2 6h4"/>
+                <path d="M2 10h4"/>
+                <path d="M2 14h4"/>
+                <path d="M2 18h4"/>
+                <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
+            </g>
+            <text x="78" y="25" text-anchor="middle" fill="white">Editorial</text>
+        </g>
+        
+        <!-- Identity -->
+        <g transform="translate(410, 435)">
+            <rect width="130" height="40" rx="8" fill="url(#comp1)"/>
+            <rect width="130" height="40" rx="8" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.4"/>
+            <g transform="translate(29, 8)" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/>
+                <path d="M14 13.12c0 2.38 0 6.38-1 8.88"/>
+                <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/>
+                <path d="M2 12a10 10 0 0 1 18-6"/>
+                <path d="M2 16h.01"/>
+                <path d="M21.8 16c.2-2 .131-5.354 0-6"/>
+                <path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/>
+                <path d="M8.65 22c.21-.66.45-1.32.57-2"/>
+                <path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>
+            </g>
+            <text x="78" y="25" text-anchor="middle" fill="white">Identity</text>
+        </g>
+    </g>
+    
+    <!-- Features Layer (Middle) -->
+    <g filter="url(#glow)">
+        <rect x="150" y="200" width="500" height="80" rx="12" fill="url(#featuresGrad)" opacity="0.2"/>
+    </g>
+    
+    <text x="400" y="245" font-family="sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">
+        Features
+    </text>
+    
+    <!-- Experiences Layer (Top) -->
+    <g filter="url(#glow)">
+        <rect x="200" y="80" width="400" height="80" rx="12" fill="url(#experiencesGrad)" opacity="0.2"/>
+    </g>
+    
+    <text x="400" y="125" font-family="sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">
+        Experiences
+    </text>
+    
+    <!-- Subtle dashed connecting lines -->
+    <line x1="400" y1="160" x2="400" y2="200" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
+    <line x1="400" y1="280" x2="400" y2="320" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
+
+</svg>

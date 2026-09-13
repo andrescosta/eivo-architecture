@@ -1,0 +1,1 @@
+Advanced generators(like llmmaterial) that adapts to answer and produce harder or easier exercises.

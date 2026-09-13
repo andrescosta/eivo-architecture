@@ -1,0 +1,116 @@
+<svg viewBox="0 0 1400 1050" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .big-title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #334155; }
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #475569; }
+      .label { font-family: Arial, sans-serif; font-size: 13px; fill: #64748b; }
+      .layer-label { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #475569; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow-down" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#94a3b8" />
+    </marker>
+  </defs>
+  
+  <rect x="30" y="30" width="1340" height="160" rx="20" fill="#f3e8ff" opacity="0.4" stroke="#a855f7" stroke-width="3"/>
+  <text x="60" y="65" class="layer-label" fill="#9333ea">Experiences</text>
+  
+  <rect x="260" y="90" width="280" height="80" rx="12" fill="white" stroke="#c084fc" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="125" text-anchor="middle" class="big-title">Lingv</text>
+  <text x="400" y="150" text-anchor="middle" class="label">Language Learning App</text>
+  
+  <rect x="560" y="90" width="280" height="80" rx="12" fill="white" stroke="#c084fc" stroke-width="2" filter="url(#shadow)"/>
+  <text x="700" y="125" text-anchor="middle" class="big-title">Exam Prep</text>
+  <text x="700" y="150" text-anchor="middle" class="label">Test Preparation Platform</text>
+  
+  <rect x="860" y="90" width="280" height="80" rx="12" fill="white" stroke="#c084fc" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1000" y="125" text-anchor="middle" class="big-title">Certification</text>
+  <text x="1000" y="150" text-anchor="middle" class="label">Skills Assessment System</text>
+  
+  <path d="M 400,190 L 400,230" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow-down)" stroke-dasharray="8,4" opacity="0.6"/>
+  <text x="420" y="215" class="label" fill="#64748b" font-weight="bold">uses</text>
+  
+  <path d="M 1000,190 L 1000,230" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow-down)" stroke-dasharray="8,4" opacity="0.6"/>
+  <text x="1020" y="215" class="label" fill="#64748b" font-weight="bold">uses</text>
+  
+  <rect x="30" y="230" width="1340" height="540" rx="20" fill="#e0f2fe" opacity="0.3" stroke="#0891b2" stroke-width="3"/>
+  <text x="60" y="265" class="layer-label" fill="#0891b2">Trial-Based Practice</text>
+  
+  <rect x="60" y="290" width="600" height="450" rx="15" fill="#dbeafe" opacity="0.4"/>
+  
+  <circle cx="360" cy="360" r="50" fill="#93c5fd" filter="url(#shadow)"/>
+  <text x="360" y="380" text-anchor="middle" font-size="40" fill="white">👤</text>
+  <text x="360" y="440" text-anchor="middle" class="big-title">Participant</text>
+  
+  <g>
+    <rect x="130" y="480" width="120" height="120" rx="12" fill="white" stroke="#93c5fd" stroke-width="3" filter="url(#shadow)"/>
+    <text x="190" y="530" text-anchor="middle" font-size="40">📝</text>
+    <text x="190" y="560" text-anchor="middle" class="title">Exercise</text>
+    
+    <text x="270" y="540" font-size="40" fill="#cbd5e1">→</text>
+    
+    <circle cx="350" cy="540" r="60" fill="white" stroke="#86efac" stroke-width="3" filter="url(#shadow)"/>
+    <text x="350" y="555" text-anchor="middle" font-size="40">✓</text>
+    
+    <text x="430" y="540" font-size="40" fill="#cbd5e1">→</text>
+    
+    <rect x="470" y="480" width="120" height="120" rx="12" fill="white" stroke="#93c5fd" stroke-width="3" filter="url(#shadow)"/>
+    <text x="530" y="530" text-anchor="middle" font-size="40">💻</text>
+    <text x="530" y="560" text-anchor="middle" class="title">Exercise</text>
+  </g>
+  
+  <path d="M 410,600 Q 350,670 290,600" stroke="#fcd34d" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <text x="350" y="680" text-anchor="middle" class="title" fill="#b45309">Retry on error</text>
+  
+  <rect x="110" y="690" width="500" height="40" rx="10" fill="white" stroke="#a5b4fc" stroke-width="2" filter="url(#shadow)"/>
+  <text x="360" y="717" text-anchor="middle" class="label" fill="#6366f1">Infinite Stream • Personal Progress</text>
+  
+  <rect x="740" y="290" width="600" height="450" rx="15" fill="#fef3c7" opacity="0.4"/>
+  
+  <g>
+    <circle cx="940" cy="360" r="40" fill="#93c5fd" filter="url(#shadow)"/>
+    <text x="940" y="375" text-anchor="middle" font-size="30" fill="white">👤</text>
+    
+    <circle cx="1040" cy="360" r="40" fill="#c4b5fd" filter="url(#shadow)"/>
+    <text x="1040" y="375" text-anchor="middle" font-size="30" fill="white">👤</text>
+    
+    <circle cx="1140" cy="360" r="40" fill="#86efac" filter="url(#shadow)"/>
+    <text x="1140" y="375" text-anchor="middle" font-size="30" fill="white">👤</text>
+  </g>
+  
+  <text x="1040" y="440" text-anchor="middle" class="big-title">Participants</text>
+  
+  <rect x="840" y="480" width="400" height="130" rx="12" fill="white" stroke="#fcd34d" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1040" y="530" text-anchor="middle" font-size="50">⚡</text>
+  <text x="1040" y="575" text-anchor="middle" class="title">Synchronized Exercise</text>
+  <text x="1040" y="598" text-anchor="middle" class="label">Everyone on same question</text>
+  
+  <g>
+    <circle cx="890" cy="670" r="35" fill="#93c5fd" filter="url(#shadow)"/>
+    <text x="890" y="685" text-anchor="middle" font-size="25" fill="white">✓</text>
+    
+    <circle cx="1040" cy="670" r="35" fill="#c4b5fd" filter="url(#shadow)"/>
+    <text x="1040" y="685" text-anchor="middle" font-size="25" fill="white">✗</text>
+    
+    <circle cx="1190" cy="670" r="35" fill="#86efac" filter="url(#shadow)"/>
+    <text x="1190" y="685" text-anchor="middle" font-size="25" fill="white">✓</text>
+  </g>
+  
+  <text x="1040" y="725" text-anchor="middle" class="label">Individual validation</text>
+  
+  <rect x="30" y="800" width="1340" height="220" rx="20" fill="#fef3c7" opacity="0.4" stroke="#f59e0b" stroke-width="3"/>
+  <text x="60" y="835" class="layer-label" fill="#d97706">Cross-Functional Services</text>
+  
+  <rect x="350" y="860" width="700" height="140" rx="15" fill="#fde68a" opacity="0.6" filter="url(#shadow)"/>
+  <text x="700" y="910" text-anchor="middle" font-size="50">🤖</text>
+  <text x="700" y="955" text-anchor="middle" class="big-title">Editorial Services</text>
+  <text x="700" y="985" text-anchor="middle" class="label">AI-powered content generation</text>
+  
+  <path d="M 400,770 L 550,860" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow-down)" stroke-dasharray="8,4" opacity="0.6"/>
+  <text x="470" y="810" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">Requests ∞</text>
+  
+  <path d="M 1000,770 L 850,860" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow-down)" stroke-dasharray="8,4" opacity="0.6"/>
+  <text x="930" y="810" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">Requests ∞</text>
+</svg>

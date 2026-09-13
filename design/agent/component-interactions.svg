@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" width="860" height="520" font-family="DM Sans, -apple-system, sans-serif">
+
+  <!-- Background -->
+  <rect width="860" height="520" fill="#fdfcfb"/>
+
+  <!-- ── LIFELINE HEADERS ── -->
+  <!-- Author -->
+  <rect x="30" y="24" width="100" height="36" rx="6" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1"/>
+  <text x="80" y="47" text-anchor="middle" font-size="12" font-weight="600" fill="#262626">Author</text>
+
+  <!-- EiBot Chat -->
+  <rect x="178" y="24" width="120" height="36" rx="6" fill="#fce5dc" stroke="#ffa38a" stroke-width="1"/>
+  <text x="238" y="47" text-anchor="middle" font-size="12" font-weight="600" fill="#963e2b">EiBot Chat</text>
+
+  <!-- Eivolet Definition Editor -->
+  <rect x="356" y="24" width="150" height="36" rx="6" fill="#fce5dc" stroke="#ffa38a" stroke-width="1"/>
+  <text x="431" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#963e2b">Eivolet Definition</text>
+  <text x="431" y="56" text-anchor="middle" font-size="12" font-weight="600" fill="#963e2b">Editor</text>
+
+  <!-- Editorial Services -->
+  <rect x="562" y="24" width="130" height="36" rx="6" fill="#f4f4f4" stroke="#d4d4d4" stroke-width="1"/>
+  <text x="627" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#262626">Editorial</text>
+  <text x="627" y="56" text-anchor="middle" font-size="12" font-weight="600" fill="#262626">Services</text>
+
+  <!-- Eivolet Editor -->
+  <rect x="750" y="24" width="90" height="36" rx="6" fill="#fce5dc" stroke="#ffa38a" stroke-width="1"/>
+  <text x="795" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#963e2b">Eivolet</text>
+  <text x="795" y="56" text-anchor="middle" font-size="12" font-weight="600" fill="#963e2b">Editor</text>
+
+  <!-- ── LIFELINES ── -->
+  <line x1="80"  y1="60" x2="80"  y2="500" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="238" y1="60" x2="238" y2="500" stroke="#ffa38a" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="431" y1="60" x2="431" y2="500" stroke="#ffa38a" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="627" y1="60" x2="627" y2="500" stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="795" y1="60" x2="795" y2="500" stroke="#ffa38a" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ── ACTIVATIONS ── -->
+  <rect x="232" y="100" width="12" height="180" rx="2" fill="#ffa38a" opacity="0.5"/>
+  <rect x="425" y="300" width="12" height="80" rx="2" fill="#ffa38a" opacity="0.5"/>
+  <rect x="621" y="390" width="12" height="50" rx="2" fill="#a3a3a3" opacity="0.5"/>
+  <rect x="789" y="450" width="12" height="40" rx="2" fill="#ffa38a" opacity="0.5"/>
+
+  <!-- ── MESSAGES ── -->
+
+  <!-- 1. Author → EiBot Chat -->
+  <line x1="80" y1="108" x2="230" y2="108" stroke="#404040" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+  <text x="155" y="102" text-anchor="middle" font-size="11" fill="#404040">Start new Eivolet</text>
+
+  <!-- 2. EiBot Chat self loop -->
+  <path d="M244,140 Q290,140 290,160 Q290,180 244,180" fill="none" stroke="#963e2b" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+  <text x="295" y="155" font-size="11" fill="#963e2b">Drive conversation</text>
+  <text x="295" y="170" font-size="11" fill="#963e2b">toward Definition</text>
+
+  <!-- 3. EiBot Chat ↔ Author (back and forth) -->
+  <line x1="232" y1="210" x2="82" y2="210" stroke="#963e2b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-accent)"/>
+  <text x="155" y="204" text-anchor="middle" font-size="11" fill="#963e2b">Questions + commands</text>
+  <line x1="80" y1="234" x2="230" y2="234" stroke="#404040" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+  <text x="155" y="228" text-anchor="middle" font-size="11" fill="#404040">Author responses</text>
+
+  <!-- 4. EiBot Chat → Definition Editor -->
+  <line x1="244" y1="290" x2="423" y2="290" stroke="#963e2b" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+  <text x="333" y="284" text-anchor="middle" font-size="11" fill="#963e2b">Definition ready — hand off</text>
+
+  <!-- 5. Author → Definition Editor -->
+  <line x1="80" y1="318" x2="423" y2="318" stroke="#404040" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+  <text x="250" y="312" text-anchor="middle" font-size="11" fill="#404040">Review and adjust structure</text>
+
+  <!-- 6. Definition Editor → Editorial Services -->
+  <line x1="437" y1="358" x2="619" y2="358" stroke="#963e2b" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+  <text x="528" y="352" text-anchor="middle" font-size="11" fill="#963e2b">Trigger generation</text>
+
+  <!-- 7. Editorial Services self loop -->
+  <path d="M633,390 Q670,390 670,408 Q670,426 633,426" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arrow-mid)"/>
+  <text x="675" y="405" font-size="11" fill="#525252">Generate Eivolet</text>
+  <text x="675" y="420" font-size="11" fill="#525252">from Definition</text>
+
+  <!-- 8. Editorial Services → Eivolet Editor -->
+  <line x1="633" y1="452" x2="787" y2="452" stroke="#525252" stroke-width="1.5" marker-end="url(#arrow-mid)"/>
+  <text x="710" y="446" text-anchor="middle" font-size="11" fill="#525252">Generation complete</text>
+
+  <!-- 9. Author → Eivolet Editor -->
+  <line x1="80" y1="476" x2="787" y2="476" stroke="#404040" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+  <text x="433" y="470" text-anchor="middle" font-size="11" fill="#404040">Preview and refine</text>
+
+  <!-- ── ARROW MARKERS ── -->
+  <defs>
+    <marker id="arrow-dark" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#404040"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#963e2b"/>
+    </marker>
+    <marker id="arrow-mid" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#525252"/>
+    </marker>
+  </defs>
+
+</svg>

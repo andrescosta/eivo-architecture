@@ -1,0 +1,6 @@
+- Interview preparation (challenges, etc.) like https://algomaster.io/
+- Assessments
+- SAAS
+- Consulting:
+    - the platform allows to build anything that follows the same model: Content + View. 
+- A vertical for companies training its employees. 

@@ -1,0 +1,89 @@
+<svg viewBox="0 0 1600 1600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .layer-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: 700; }
+      .user-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: 600; fill: #1e293b; }
+      .item-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: 600; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto">
+      <polygon points="0 0, 12 5, 0 10" fill="#64748b" />
+    </marker>
+  </defs>
+  
+  <!-- Layer 1: Infrastructure (center) - light blue -->
+  <circle cx="800" cy="800" r="140" fill="#93c5fd" filter="url(#shadow)"/>
+  <text x="800" y="810" text-anchor="middle" class="layer-title" fill="#1e3a8a">Infrastructure</text>
+  
+  <!-- Layer 2: Cross-Functional Services (medium blue ring) -->
+  <circle cx="800" cy="800" r="280" fill="none" stroke="#60a5fa" stroke-width="120" opacity="0.85" filter="url(#shadow)"/>
+  <text x="800" y="495" text-anchor="middle" class="layer-title" fill="#1e40af">Cross-Functional</text>
+  <text x="800" y="525" text-anchor="middle" class="layer-title" fill="#1e40af">Services</text>
+  
+  <!-- Services labels on blue ring - moved further outward -->
+  <text x="1080" y="700" text-anchor="middle" class="item-label" fill="#1e40af">Editorial</text>
+  <text x="1080" y="900" text-anchor="middle" class="item-label" fill="#1e40af">Assistance</text>
+  <text x="520" y="700" text-anchor="middle" class="item-label" fill="#1e40af">Social</text>
+  <text x="520" y="900" text-anchor="middle" class="item-label" fill="#1e40af">Gaming</text>
+  <text x="800" y="1120" text-anchor="middle" class="item-label" fill="#1e40af">Identity</text>
+  
+  <!-- Layer 3: Capabilities (darker blue ring) -->
+  <circle cx="800" cy="800" r="480" fill="none" stroke="#3b82f6" stroke-width="120" opacity="0.75" filter="url(#shadow)"/>
+  <text x="800" y="340" text-anchor="middle" class="layer-title" fill="#1e3a8a">Capabilities</text>
+  
+  <!-- Capabilities labels on blue ring - moved even more outward -->
+  <text x="1260" y="640" text-anchor="middle" class="item-label" fill="#1e3a8a">Practice</text>
+  <text x="1260" y="960" text-anchor="middle" class="item-label" fill="#1e3a8a">Evaluation</text>
+  <text x="340" y="640" text-anchor="middle" class="item-label" fill="#1e3a8a">Learning</text>
+  <text x="340" y="960" text-anchor="middle" class="item-label" fill="#1e3a8a">Aggregates</text>
+  
+  <!-- Layer 4: Experiences (darkest blue outer ring) -->
+  <!-- radius 650 + stroke 80 = outer edge at 690 from center -->
+  <circle cx="800" cy="800" r="650" fill="none" stroke="#1e40af" stroke-width="80" opacity="0.65" filter="url(#shadow)"/>
+  <text x="800" y="170" text-anchor="middle" class="layer-title" fill="#1e3a8a">Experiences</text>
+  
+  <!-- Experiences labels on blue ring (radius ~640 from center 800,800) -->
+  <!-- Top-right (45 degrees) -->
+  <text x="1250" y="330" text-anchor="middle" class="item-label" fill="#1e40af">Language</text>
+  <text x="1250" y="350" text-anchor="middle" class="item-label" fill="#1e40af">Learning</text>
+  
+  <!-- Bottom-right (315 degrees) - moved outward -->
+  <text x="1280" y="1240" text-anchor="middle" class="item-label" fill="#1e40af">Exam</text>
+  <text x="1280" y="1260" text-anchor="middle" class="item-label" fill="#1e40af">Preparation</text>
+  
+  <!-- Top-left (135 degrees) -->
+  <text x="350" y="330" text-anchor="middle" class="item-label" fill="#1e40af">General</text>
+  <text x="350" y="350" text-anchor="middle" class="item-label" fill="#1e40af">Tutoring</text>
+  
+  <!-- Bottom-left (225 degrees) - moved outward -->
+  <text x="320" y="1240" text-anchor="middle" class="item-label" fill="#1e40af">Management</text>
+  <text x="320" y="1260" text-anchor="middle" class="item-label" fill="#1e40af">Console</text>
+  
+  <!-- Actors OUTSIDE - positioned at distance > 730 from center (800,800) -->
+  
+  <!-- Learner (top-left) - at distance ~780 from center - light blue -->
+  <circle cx="250" cy="250" r="45" fill="#93c5fd" filter="url(#shadow)"/>
+  <text x="250" y="268" text-anchor="middle" font-size="36" fill="white">👨‍🎓</text>
+  <text x="250" y="325" text-anchor="middle" class="user-label">Learner</text>
+  <line x1="290" y1="285" x2="320" y2="300" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" marker-end="url(#arrow)"/>
+  
+  <!-- Educator (top-right) - at distance ~780 from center - medium blue -->
+  <circle cx="1350" cy="250" r="45" fill="#60a5fa" filter="url(#shadow)"/>
+  <text x="1350" y="268" text-anchor="middle" font-size="36" fill="white">👩‍🏫</text>
+  <text x="1350" y="325" text-anchor="middle" class="user-label">Educator</text>
+  <line x1="1310" y1="285" x2="1280" y2="300" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" marker-end="url(#arrow)"/>
+  
+  <!-- Organization (bottom-right) - at distance ~780 from center - darker blue -->
+  <circle cx="1350" cy="1350" r="45" fill="#3b82f6" filter="url(#shadow)"/>
+  <text x="1350" y="1368" text-anchor="middle" font-size="36" fill="white">🏢</text>
+  <text x="1350" y="1425" text-anchor="middle" class="user-label">Organization</text>
+  <line x1="1310" y1="1315" x2="1280" y2="1280" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" marker-end="url(#arrow)"/>
+  
+  <!-- Creator (bottom-left) - at distance ~780 from center - darkest blue -->
+  <circle cx="250" cy="1350" r="45" fill="#1e40af" filter="url(#shadow)"/>
+  <text x="250" y="1368" text-anchor="middle" font-size="36" fill="white">✍️</text>
+  <text x="250" y="1425" text-anchor="middle" class="user-label">Creator</text>
+  <line x1="290" y1="1315" x2="320" y2="1280" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" marker-end="url(#arrow)"/>
+</svg>

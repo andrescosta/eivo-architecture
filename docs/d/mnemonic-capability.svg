@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .big-title { font-family: Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #334155; }
+      .title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #475569; }
+      .label { font-family: Arial, sans-serif; font-size: 15px; fill: #64748b; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#94a3b8" />
+    </marker>
+  </defs>
+  
+  <rect x="50" y="50" width="700" height="500" rx="20" fill="#fef3c7" opacity="0.3" stroke="#f59e0b" stroke-width="4" filter="url(#shadow)"/>
+  <text x="400" y="100" text-anchor="middle" class="big-title" fill="#d97706">Mnemonic Capability</text>
+  
+  <rect x="150" y="140" width="500" height="140" rx="15" fill="#fef3c7" stroke="#fbbf24" stroke-width="3" filter="url(#shadow)"/>
+  <text x="400" y="180" text-anchor="middle" class="title">Flashcards</text>
+  <text x="400" y="210" text-anchor="middle" class="label">Spaced Repetition Practice</text>
+  <text x="400" y="260" text-anchor="middle" font-size="50">🗂️</text>
+  
+  <rect x="150" y="330" width="500" height="180" rx="15" fill="white" stroke="#f59e0b" stroke-width="3" filter="url(#shadow)"/>
+  <text x="400" y="375" text-anchor="middle" class="title" fill="#d97706">Spaced Repetition Logic</text>
+  <text x="400" y="420" text-anchor="middle" class="label">Scheduling Algorithm</text>
+  <text x="400" y="445" text-anchor="middle" class="label">Retention Tracking</text>
+  <text x="400" y="470" text-anchor="middle" class="label">Review Intervals</text>
+  <text x="400" y="495" text-anchor="middle" class="label">Performance-Based Adaptation</text>
+  
+  <rect x="900" y="240" width="200" height="140" rx="15" fill="#fde68a" opacity="0.7" stroke="#f59e0b" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1000" y="290" text-anchor="middle" font-size="40">🤖</text>
+  <text x="1000" y="330" text-anchor="middle" class="title">Editorial</text>
+  <text x="1000" y="360" text-anchor="middle" class="label">Services</text>
+  
+  <path d="M 750,310 L 900,310" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow)" stroke-dasharray="8,4"/>
+  <text x="825" y="300" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">requests</text>
+</svg>

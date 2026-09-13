@@ -1,0 +1,2 @@
+- Extends Tree generation towards other models like: https://ai-sdk.dev/docs/agents/workflows
+- Full text search

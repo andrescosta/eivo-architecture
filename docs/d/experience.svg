@@ -1,0 +1,98 @@
+<svg viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .section-title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #1e293b; }
+      .layer-label { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #475569; }
+      .box-title { font-family: Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #1e293b; }
+      .box-subtitle { font-family: Arial, sans-serif; font-size: 11px; fill: #64748b; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" class="section-title">Experiences Overview</text>
+  
+  <!-- LAYER 1: EXPERIENCES -->
+  <rect x="50" y="80" width="1100" height="140" rx="10" fill="#dbeafe" opacity="0.3"/>
+  <text x="80" y="105" class="layer-label" fill="#1e40af">Experiences</text>
+  
+  <rect x="80" y="120" width="200" height="80" rx="6" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="180" y="150" text-anchor="middle" class="box-title">Lingv</text>
+  <text x="180" y="170" text-anchor="middle" class="box-subtitle">Reference</text>
+  <text x="180" y="185" text-anchor="middle" class="box-subtitle" font-size="10" font-style="italic">(validation)</text>
+  
+  <rect x="300" y="120" width="200" height="80" rx="6" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="400" y="145" text-anchor="middle" class="box-title">Language</text>
+  <text x="400" y="162" text-anchor="middle" class="box-title">Learning</text>
+  <text x="400" y="183" text-anchor="middle" class="box-subtitle" font-size="10">App</text>
+  
+  <rect x="520" y="120" width="200" height="80" rx="6" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="620" y="145" text-anchor="middle" class="box-title">Exam</text>
+  <text x="620" y="162" text-anchor="middle" class="box-title">Preparation</text>
+  <text x="620" y="183" text-anchor="middle" class="box-subtitle" font-size="10">Platform</text>
+  
+  <rect x="740" y="120" width="200" height="80" rx="6" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="840" y="145" text-anchor="middle" class="box-title">Certification</text>
+  <text x="840" y="162" text-anchor="middle" class="box-title">System</text>
+  
+  <rect x="960" y="120" width="160" height="80" rx="6" fill="white" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" filter="url(#shadow)"/>
+  <text x="1040" y="155" text-anchor="middle" class="box-title">More</text>
+  <text x="1040" y="175" text-anchor="middle" class="box-title">Experiences...</text>
+  
+  <!-- Arrow -->
+  <defs>
+    <marker id="arrow-down" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#64748b" />
+    </marker>
+  </defs>
+  <line x1="600" y1="230" x2="600" y2="260" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-down)"/>
+  <text x="630" y="250" class="box-subtitle" fill="#64748b" font-weight="bold">compose from</text>
+  
+  <!-- LAYER 2: CAPABILITY FEATURES -->
+  <rect x="50" y="270" width="1100" height="140" rx="10" fill="#d1fae5" opacity="0.3"/>
+  <text x="80" y="295" class="layer-label" fill="#047857">Capability Features</text>
+  
+  <rect x="100" y="310" width="140" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="170" y="345" text-anchor="middle" class="box-title">Learning</text>
+  <text x="170" y="365" text-anchor="middle" class="box-subtitle">Materials</text>
+  
+  <rect x="260" y="310" width="140" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="330" y="345" text-anchor="middle" class="box-title">Gym</text>
+  <text x="330" y="365" text-anchor="middle" class="box-subtitle">Individual Practice</text>
+  
+  <rect x="420" y="310" width="140" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="490" y="345" text-anchor="middle" class="box-title">Playroom</text>
+  <text x="490" y="365" text-anchor="middle" class="box-subtitle">Multiplayer</text>
+  
+  <rect x="580" y="310" width="140" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="650" y="345" text-anchor="middle" class="box-title">Flashcards</text>
+  <text x="650" y="365" text-anchor="middle" class="box-subtitle">Memorization</text>
+  
+  <rect x="740" y="310" width="160" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="820" y="345" text-anchor="middle" class="box-title">Championship</text>
+  <text x="820" y="365" text-anchor="middle" class="box-subtitle">Quiz Assessment</text>
+  
+  <rect x="920" y="310" width="160" height="80" rx="6" fill="white" stroke="#10b981" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1000" y="345" text-anchor="middle" class="box-title">Challenge</text>
+  <text x="1000" y="365" text-anchor="middle" class="box-subtitle">Project Assessment</text>
+  
+  <!-- Arrow -->
+  <line x1="600" y1="420" x2="600" y2="450" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-down)"/>
+  <text x="630" y="440" class="box-subtitle" fill="#64748b" font-weight="bold">use</text>
+  
+  <!-- LAYER 3: CROSS-FUNCTIONAL SERVICES -->
+  <rect x="50" y="460" width="1100" height="100" rx="10" fill="#fef3c7" opacity="0.3"/>
+  <text x="600" y="510" text-anchor="middle" class="layer-label" fill="#d97706">Cross-Functional Services</text>
+  <text x="600" y="535" text-anchor="middle" class="box-subtitle">Editorial • Assistance • Social • Gaming • Identity</text>
+  
+  <!-- Arrow -->
+  <line x1="600" y1="570" x2="600" y2="600" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-down)"/>
+  <text x="630" y="590" class="box-subtitle" fill="#64748b" font-weight="bold">runs on</text>
+  
+  <!-- LAYER 4: INFRASTRUCTURE -->
+  <rect x="50" y="610" width="1100" height="100" rx="10" fill="#e5e7eb" opacity="0.3"/>
+  <text x="600" y="660" text-anchor="middle" class="layer-label" fill="#374151">Infrastructure</text>
+  <text x="600" y="685" text-anchor="middle" class="box-subtitle">Cloud Platform • Kubernetes • Storage • Compute • Networking</text>
+</svg>

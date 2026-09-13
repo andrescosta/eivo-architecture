@@ -1,0 +1,368 @@
+model: promptpartial
+metadata:
+  name: markdown_advanced
+def:
+  content:
+    eivo_spec_template_markdown_syntax: |
+
+        #### **Eivo Annotation Specification**
+
+        Use the following markdown and code annotations to generate content. The annotations guide the rendering of interactive code blocks, diagrams, and other visual elements.
+
+        #### **Annotation Syntax**
+
+        All annotations follow a consistent syntax within code blocks to provide structured visual or interactive cues:
+
+        ```plaintext
+        // !<annotation-name>[<range>] <content>
+        ```
+
+        - // !
+          Marks the line as an annotation comment that Code Hike will parse.
+
+        - <annotation-name>  
+          The type of annotation (e.g., `mark`, `callout`, `tooltip`, etc.).
+
+        - `<range>` (optional)  
+          Specifies the target scope of the annotation and must be enclosed in either:  
+          - **Parentheses `( )`** for **line-based ranges** (e.g., `(1:3)`, `(2)`, `(1,3:5)`),  
+          - **Square brackets `[ ]`** for **inline token matches using regular expressions** (e.g., `[/const/]`).  
+          If omitted, the annotation applies to the **current line**.
+
+        - `<content>` (optional)  
+          Additional information the annotation requires, such as a tooltip message, color name, or any descriptive text.
+
+        ---
+
+        ##### Examples:
+
+        ### Examples:
+
+        ```js
+          function calculateTotal(items) {
+            // Marks lines 1 to 2 with gold highlight
+            // !mark(1:2) gold
+            const subtotal = items.reduce((acc, item) => acc + item.price, 0);
+            const tax = subtotal * 0.08;
+            return subtotal + tax;
+          }
+
+          function greet(name) {
+            // Marks the current line (console.log line) with default style
+            // !mark
+            console.log("Hello " + name);
+          }
+
+          function processData(data) {
+            // Marks line 1, and lines 3 to 4 with pink highlight
+            // !mark(1,3:4) pink
+            validate(data);
+            normalize(data);
+            transform(data);
+            save(data);
+          }
+
+          function example(lorem) {
+            const sit = lorem.sit;
+            // Highlights only the token "sit" on this line with pink color
+            // !mark[/sit/] pink
+            return sit ? consectetur(lorem) : [];
+          }
+        ```
+
+        ---
+
+        This syntax ensures consistent and flexible annotations across your code blocks, enabling clear visual emphasis and interactive explanations.
+
+        #### **Core Annotations**
+
+        ##### **Callout**
+        Purpose: Adds a floating text box next to a line of code for detailed explanations.
+        Syntax: // !callout[/<regex>/] <Text content>
+        Example:
+
+        function calculateTotal(items) {
+          // !callout[/reduce/] The `reduce` method is used to calculate the total cost of the items.
+          const subtotal = items.reduce((acc, item) => acc + item.price, 0);
+          return subtotal;
+        }
+
+        ###### **Understanding the Regex**
+
+        The /<regex>/ part of the syntax is a regular expression used to identify the specific line of code that the callout should point to. The regular expression acts as a search pattern. The system will scan the code line by line and find the first line that matches the pattern you provide.
+
+        In the example above, the regex is /reduce/. This is a simple pattern that tells the system to find the first line containing the word "reduce." Once found, the callout is attached to that line.
+
+        You can use more complex regular expressions to match specific patterns, but a simple keyword is often sufficient.
+
+
+        ##### **Tooltip**
+
+        Purpose: Provides a short, on-hover explanation for a specific keyword or expression.  
+        Syntax: // !tooltip(<regex-match>) <Text content>  
+        function calculateTotal(items) {  
+          // !tooltip(/reduce/) The reduce() method applies a function against an accumulator.  
+          const subtotal = items.reduce((acc, item) => acc + item.price, 0);  
+          return subtotal;  
+        }
+
+        ##### **Code Mentions**
+
+        Purpose: Creates a link within a code block that jumps to another mention, an external URL, or to highlight code.  
+        Syntax: // !code-mentions(<regex-match>) <text>  
+        // !code-mentions(/calculateTotal/) Learn more about this function.  
+        function calculateTotal(items) {  
+          const subtotal = items.reduce((acc, item) => acc + item.price, 0);  
+          return subtotal;  
+        }
+
+        ##### **Mark**
+
+        Purpose: Visually emphasizes specific lines or tokens in a code block.
+
+        ---
+
+        ##### Syntax Options
+
+        - **Marking lines or ranges (using parentheses)**  
+          ```plaintext
+          // !mark(<line-spec>) [color]
+          ```  
+          Marks one or more lines relative to the line immediately *after* the annotation comment.
+
+        - **Marking tokens with regular expressions (using square brackets)**  
+          ```plaintext
+          // !mark[/pattern/flags] [color]
+          ```  
+          Highlights tokens matching the given regex on the **same line** as the annotation.
+
+        ---
+
+        ### Line-spec Options (parentheses)
+
+        - `(n)`  
+          Marks the *n*-th line after the annotation line.  
+          Example:  
+          ```plaintext
+          // !mark(2)
+          ```  
+          → Marks the second line after the annotation comment.
+
+        - `(n:m)`  
+          Marks a range of lines from *n* to *m* (inclusive), counting after the annotation line.  
+          Example:  
+          ```plaintext
+          // !mark(1:3)
+          ```  
+          → Marks lines 1 through 3 after the annotation comment.
+
+        - `(a,b:c,d)`  
+          Marks multiple single lines and/or ranges separated by commas.  
+          Example:  
+          ```plaintext
+          // !mark(1,3:4,6)
+          ```  
+          → Marks line 1, lines 3 to 4, and line 6 after the annotation comment.
+
+        - (no arguments)  
+          Marks the line where the annotation is placed.  
+          Example:  
+          ```plaintext
+          // !mark
+          ```
+        ---
+
+        ### Regex Token Match Options (square brackets)
+
+        - `[/pattern/]`  
+          Highlights tokens matching the regex on the annotation line.  
+          Example:  
+          ```plaintext
+          // !mark[/sit/]
+          ```  
+          → Highlights the substring "sit" on the same line.
+
+        - `[/pattern/flags]`  
+          Includes regex flags (e.g., `i` for case-insensitive).  
+          Example:  
+          ```plaintext
+          // !mark[/error/i] red
+          ```  
+          → Highlights "error" case-insensitively with red color.
+
+        ---
+
+        ### Color option
+
+        An optional color or style keyword can be added after the line spec or regex.  
+        Example:  
+        ```plaintext
+        // !mark(1:2) gold
+        // !mark[/sit/] pink
+        ```
+
+        ---
+
+        ### Example demonstrating line counting relative to annotation
+
+        ```rust
+        fn main() {
+            let num = 7;
+
+            // !mark(1:5)
+            if num < 10 {
+                println!("The number is small.");
+            } else {
+                println!("The number is large.");
+            }
+        }
+        ```
+
+        Explanation:  
+        The annotation `// !mark(1:5)` is placed above the `if` statement.  
+        Line counting starts from the line immediately after the annotation, so it highlights the next 5 lines, covering the entire `if` block.
+
+
+
+        #### **Advanced Annotations**
+
+        ##### **Footnotes**
+
+        Purpose: Adds a small, numbered footnote to a line of code, with the text appearing below the code block.  
+        Syntax: // !footnotes(<line-range>) <text>  
+        function calculateTotal(items) {  
+          const subtotal = items.reduce((acc, item) => acc + item.price, 0); // !footnotes(1) A powerful array method.  
+          return subtotal;  
+        }
+
+        ##### **Link**
+
+        Purpose: Creates a clickable link directly within the code block.  
+        Syntax: // !link(<regex-match>) <url>  
+        // !link(/learn more/) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce learn more  
+        const items = [{ price: 10 }];
+
+        ##### **Tabs**
+
+        Purpose: Displays multiple versions of a code block in a tabbed interface.  
+        Syntax: // !tabs: <tab-name>  
+        // !tabs: JavaScript  
+        const total = items.reduce((acc, item) => acc + item.price, 0);
+
+        #### **Interactive Components**
+
+        ##### **Token Transitions**
+
+        Purpose: Animates changes in a single line of code to show refactoring or value progression.  
+        Syntax: // !token-transitions(<line-range>)  
+        // !token-transitions(2)  
+        const a = 'hello';  
+        const b = a + ' world';
+
+        ##### **Scrollycoding**
+
+        Purpose: Creates a synchronized narrative by linking text blocks to code highlights as the user scrolls.  
+        Syntax: // !scrollycoding(<text-block-id>)  
+        This is the first part of the explanation. When the user scrolls past this point, a section of the code will be highlighted.
+
+        // !scrollycoding(code-1)
+
+        ---
+
+        Here's the second part of the explanation. This will highlight a new section of the code.
+
+        // !scrollycoding(code-2)
+
+        ---
+
+        ```javascript  
+        // !id: code-1  
+        const subtotal = items.reduce((acc, item) => acc + item.price, 0);
+
+        // !id: code-2  
+        const tax = subtotal * 0.08;
+        ```
+
+        #### **Slideshow**
+
+        Purpose: Presents a single code block as a multi-step presentation.  
+        Syntax: // !slideshow(<line-range>) and // !slide  
+        // !slideshow(1:3)  
+        // !slide  
+        const subtotal = items.reduce((acc, item) => acc + item.price, 0);  
+        // !slide  
+        const tax = subtotal * 0.08;  
+        // !slide  
+        return subtotal + tax;
+
+        #### **Runnable**
+
+        **Purpose**: Makes a code block executable, rendering it with a "Run" button and output console. This is ideal for:
+
+        * **Live Examples**: Demonstrating how a simple function or snippet works.  
+        * **Interactive Exercises**: Allowing learners to edit and run code to solve a problem.  
+        * Quick Demos: Providing a sandbox to experiment with syntax or library calls.  
+          Syntax: // !runnable
+
+        // !runnable  
+        function sum(a, b) {  
+          return a + b;  
+        }
+
+        console.log(`The sum is: ${sum(5, 10)}`);
+
+        #### **Diagram**
+
+        Purpose: Renders a text-based syntax (e.g., Mermaid) as a visual diagram.  
+        Syntax: // <diagram type=<type>> Diagram </diagram>
+        <diagram type='mermaid'>
+        flowchart TD  
+            A[Start] --> B{Is it a good idea?};  
+            B -- Yes --> C[Do something];  
+            B -- No --> D[Reconsider];  
+        </diagram>
+
+        Mermaid must be used for all digrams types.
+
+        #### Example programming Template
+
+        ```yaml
+        model: template
+        metadata:
+          name: annotatedProgrammingLessonTemplate
+          namespace: eivo
+        labels:
+          - culture: en-US
+            title: Annotated Programming Lesson
+            overview: A template for creating programming lessons with code, annotations, and diagrams.
+            tooltip: Programming lesson
+            tags: ["template", "programming", "annotations"]
+        def:
+          type: lesson
+          format: markdown
+          content: |
+            # Introduction to Functions
+            ## Defining a Simple Function
+            In this section, we'll cover the basics of defining a function. A function is a block of organized, reusable code that is used to perform a single, related action.
+            ```javascript
+            // !file: index.js
+            // !callout(2) The function `add` takes two arguments, `a` and `b`.
+            function add(a, b) {
+              // !mark(3)
+              return a + b;
+            }
+            ```
+            ## Expanding on the Topic
+            Functions can also be used to simplify complex logic into reusable components. Let's look at a more involved example.
+            Here is a flowchart to visualize a more complex function's logic:
+            ```mermaid
+            // !diagram: mermaid
+            flowchart TD
+                A[Start] --> B{Input is valid?};
+                B -- Yes --> C[Process Input];
+                B -- No --> D[Return Error];
+                C --> E[Return Result];
+            ```
+            ---
+            This concludes our introductory lesson on functions.
+        ```

@@ -1,0 +1,65 @@
+<svg viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .text { font-family: Arial, sans-serif; font-size: 14px; fill: #1e293b; }
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #1e293b; }
+      .label { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #475569; }
+      .flow-line { stroke: #64748b; stroke-width: 2; fill: none; }
+      .box { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <text x="550" y="40" text-anchor="middle" class="title">AI Orchestration Pipeline Architecture</text>
+
+  <rect x="50" y="100" width="130" height="50" rx="10" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" class="box"/>
+  <text x="115" y="130" text-anchor="middle" class="text" font-weight="bold" fill="#0369a1">Experience</text>
+  <text x="115" y="170" text-anchor="middle" class="label">1. TRIGGER</text>
+
+  <line x1="180" y1="125" x2="230" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="240" y="100" width="160" height="50" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" class="box"/>
+  <text x="320" y="130" text-anchor="middle" class="text" font-weight="bold">Platform Runtime</text>
+  <text x="320" y="170" text-anchor="middle" class="label">2. INITIATION</text>
+
+  <rect x="440" y="95" width="170" height="120" rx="8" fill="white" stroke="#cbd5e1" stroke-dasharray="4" />
+  <text x="525" y="85" text-anchor="middle" class="label">LOGIC PACK</text>
+  
+  <rect x="455" y="105" width="140" height="20" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="525" y="119" text-anchor="middle" class="text" font-size="10">System Prompt</text>
+  
+  <rect x="455" y="130" width="140" height="20" rx="4" fill="#fff7ed" stroke="#f97316"/>
+  <text x="525" y="144" text-anchor="middle" class="text" font-weight="bold" font-size="10">User Prompt</text>
+  
+  <rect x="455" y="155" width="140" height="20" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="525" y="169" text-anchor="middle" class="text" font-size="10">Schema</text>
+
+  <rect x="455" y="180" width="140" height="20" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="525" y="194" text-anchor="middle" class="text" font-size="10">Context</text>
+
+  <line x1="400" y1="125" x2="440" y2="125" class="flow-line" marker-end="url(#arrow)"/>
+
+  <line x1="610" y1="155" x2="680" y2="155" class="flow-line" marker-end="url(#arrow)"/>
+  <rect x="690" y="125" width="120" height="60" rx="20" fill="#dcfce7" stroke="#16a34a" class="box"/>
+  <text x="750" y="160" text-anchor="middle" class="text" font-weight="bold">LLM Provider</text>
+
+  <line x1="810" y1="155" x2="890" y2="155" class="flow-line" marker-end="url(#arrow)"/>
+  <rect x="890" y="130" width="170" height="45" rx="6" fill="#fef9c3" stroke="#ca8a04" class="box"/>
+  <text x="975" y="158" text-anchor="middle" class="text" font-weight="bold">ADL Artifacts</text>
+
+  <path d="M975,175 L975,290 L115,290 L115,330" class="flow-line" marker-end="url(#arrow)"/>
+  <text x="550" y="280" text-anchor="middle" class="text" font-style="italic">Ingest</text>
+
+  <rect x="35" y="340" width="160" height="50" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" class="box"/>
+  <text x="115" y="370" text-anchor="middle" class="text" font-weight="bold">Platform Runtime</text>
+  <text x="115" y="410" text-anchor="middle" class="label">3. INTERPRETATION</text>
+
+  <line x1="195" y1="365" x2="255" y2="365" class="flow-line" marker-end="url(#arrow)"/>
+
+  <rect x="265" y="340" width="130" height="50" rx="10" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" class="box"/>
+  <text x="330" y="370" text-anchor="middle" class="text" font-weight="bold" fill="#0369a1">Experience</text>
+  <text x="330" y="410" text-anchor="middle" class="label">4. DELIVERY</text>
+
+</svg>

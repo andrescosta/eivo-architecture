@@ -1,0 +1,44 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .big-title { font-family: Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #334155; }
+      .title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #475569; }
+      .label { font-family: Arial, sans-serif; font-size: 15px; fill: #64748b; }
+    </style>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#94a3b8" />
+    </marker>
+  </defs>
+  
+  <rect x="50" y="50" width="700" height="500" rx="20" fill="#fce7f3" opacity="0.3" stroke="#ec4899" stroke-width="4" filter="url(#shadow)"/>
+  <text x="400" y="100" text-anchor="middle" class="big-title" fill="#be185d">Championship</text>
+  
+  <rect x="150" y="140" width="500" height="140" rx="15" fill="#fce7f3" stroke="#f9a8d4" stroke-width="3" filter="url(#shadow)"/>
+  <text x="400" y="180" text-anchor="middle" class="title">Competitive Quiz Practice</text>
+  <text x="400" y="210" text-anchor="middle" class="label">Timed exercises with scoring</text>
+  <text x="400" y="260" text-anchor="middle" font-size="50">🏆</text>
+  
+  <rect x="150" y="330" width="500" height="180" rx="15" fill="white" stroke="#ec4899" stroke-width="3" filter="url(#shadow)"/>
+  <text x="400" y="375" text-anchor="middle" class="title" fill="#be185d">Trial (Solo)</text>
+  <text x="400" y="420" text-anchor="middle" class="label">Exercise Stream • Binary Validation</text>
+  <text x="400" y="445" text-anchor="middle" class="label">Error Tracking • Session State</text>
+  <text x="400" y="470" text-anchor="middle" class="label">+ Scoring Logic</text>
+  
+  <rect x="900" y="140" width="200" height="120" rx="15" fill="#fde68a" opacity="0.7" stroke="#f59e0b" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1000" y="188" text-anchor="middle" font-size="35">🤖</text>
+  <text x="1000" y="230" text-anchor="middle" class="title">Editorial</text>
+  
+  <rect x="900" y="300" width="200" height="120" rx="15" fill="#ddd6fe" opacity="0.7" stroke="#8b5cf6" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1000" y="348" text-anchor="middle" font-size="35">🎮</text>
+  <text x="1000" y="390" text-anchor="middle" class="title">Gaming</text>
+  <text x="1000" y="410" text-anchor="middle" class="label">(Leaderboards)</text>
+  
+  <path d="M 650,200 L 900,200" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow)" stroke-dasharray="8,4"/>
+  <text x="775" y="225" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">requests</text>
+  
+  <path d="M 650,360 L 900,360" stroke="#94a3b8" stroke-width="4" fill="none" marker-end="url(#arrow)" stroke-dasharray="8,4"/>
+  <text x="775" y="350" text-anchor="middle" class="label" fill="#64748b" font-weight="bold">uses</text>
+</svg>

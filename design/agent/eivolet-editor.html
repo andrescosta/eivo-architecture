@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eivolet Editor — Eivo</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── EIVO DESIGN TOKENS ── */
+:root {
+  --accent-5: #fdfcfb;
+  --accent-10: #fef9f7;
+  --accent-15: #faf2ee;
+  --accent-20: #fdf2ee;
+  --accent-30: #fce5dc;
+  --accent-40: #fad8ca;
+  --accent-50: #f9cbb8;
+  --accent-100: #ffb7a1;
+  --accent-200: #ffa38a;
+  --accent-300: #ff8f73;
+  --accent-400: #ff7b5c;
+  --accent-500: #ffb07a;
+  --accent-600: #e69a6e;
+  --accent-700: #cc8462;
+  --accent-800: #b36e56;
+  --accent-900: #99584a;
+  --accent-1000: #963e2b;
+
+  --neutral-10: #fefefe;
+  --neutral-20: #fafafa;
+  --neutral-30: #f4f4f4;
+  --neutral-40: #e8e8e8;
+  --neutral-50: #d4d4d4;
+  --neutral-100: #a3a3a3;
+  --neutral-200: #737373;
+  --neutral-300: #525252;
+  --neutral-400: #404040;
+  --neutral-500: #262626;
+  --neutral-600: #171717;
+  --neutral-700: #0f0f0f;
+
+  --success-300: #68d391;
+  --success-400: #48bb78;
+  --success-500: #10b981;
+  --success-600: #059669;
+
+  --warning-300: #f9c74f;
+  --warning-400: #f6ad55;
+  --warning-500: #f59e0b;
+
+  --error-300: #f87171;
+  --error-500: #ef4444;
+
+  --bg-primary: var(--accent-10);
+  --bg-secondary: var(--accent-20);
+  --bg-tertiary: var(--accent-30);
+  --bg-elevated: var(--neutral-10);
+
+  --text-primary: var(--neutral-700);
+  --text-secondary: var(--neutral-500);
+  --text-tertiary: var(--neutral-400);
+  --text-muted: var(--neutral-200);
+
+  --border-light: var(--accent-30);
+  --border-medium: var(--accent-40);
+  --border-strong: var(--accent-100);
+  --border-accent: var(--accent-1000);
+
+  --surface-active: var(--accent-50);
+  --surface-hover: var(--accent-20);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+}
+
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: var(--font-sm);
+  line-height: 1.5;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 48px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-5);
+  gap: var(--space-4);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.logo { font-size: var(--font-base); font-weight: 700; color: var(--accent-1000); letter-spacing: -0.02em; }
+.logo span { color: var(--accent-500); }
+.sep { width: 1px; height: 16px; background: var(--border-medium); }
+.doc-title { font-size: var(--font-xs); color: var(--text-muted); font-weight: 500; }
+.doc-title.active { color: var(--text-secondary); }
+.topbar-right { margin-left: auto; display: flex; gap: var(--space-2); align-items: center; }
+
+/* ── UNIFIED BUTTON SYSTEM ── */
+/* Base: all buttons share height, padding, font, icon size */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+  line-height: 1;
+}
+.btn svg { flex-shrink: 0; }
+.btn:hover { background: var(--surface-hover); border-color: var(--border-strong); color: var(--text-primary); }
+
+.btn-primary {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: white;
+  font-weight: 600;
+}
+.btn-primary:hover { background: var(--accent-900); border-color: var(--accent-900); color: white; }
+
+.btn-primary.dirty {
+  background: var(--warning-500);
+  border-color: var(--warning-500);
+  color: white;
+  animation: pulse-warn 1.8s infinite;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  background: transparent;
+}
+.btn-ghost:hover { background: var(--accent-20); border-color: var(--border-light); }
+
+/* keep .tbtn and .tbtn-accent for modal buttons — alias to .btn */
+.tbtn {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 28px; padding: 0 var(--space-3);
+  border-radius: var(--radius-md); border: 1px solid var(--border-medium);
+  background: var(--bg-elevated); color: var(--text-secondary);
+  font-family: inherit; font-size: var(--font-xs); font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: all 0.12s ease;
+}
+.tbtn:hover { background: var(--surface-hover); border-color: var(--border-strong); color: var(--text-primary); }
+.tbtn-accent { background: var(--accent-1000); border-color: var(--accent-1000); color: white; font-weight: 600; }
+.tbtn-accent:hover { background: var(--accent-900); border-color: var(--accent-900); color: white; }
+.tbtn-ghost { border-color: transparent; background: transparent; }
+.tbtn-ghost:hover { background: var(--accent-20); border-color: var(--border-light); }
+
+/* ── MAIN ── */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* ── LEFT: TREE ── */
+.tree-panel {
+  width: 256px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-light);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--border-light);
+  gap: var(--space-2);
+}
+
+.panel-title {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.panel-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.panel-btn:hover {
+  background: var(--accent-20);
+  border-color: var(--border-light);
+  color: var(--text-secondary);
+}
+
+.tree-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) 0;
+}
+
+/* ── TREE NODES ── */
+.tnode { user-select: none; }
+
+.tnode-row {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-right: var(--space-2);
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+.tnode-row:hover { background: var(--accent-15); }
+.tnode-row:hover .tnode-ops { opacity: 1; }
+.tnode-row.selected {
+  background: var(--accent-30);
+}
+.tnode-row.selected::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--accent-1000);
+}
+
+.tnode-pad { flex-shrink: 0; }
+
+.tnode-arrow {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  font-size: 8px;
+  transition: transform 0.15s;
+}
+.tnode-arrow.open { transform: rotate(90deg); }
+.tnode-arrow.empty { opacity: 0; pointer-events: none; }
+
+.tnode-icon {
+  width: 20px; height: 20px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-right: var(--space-2);
+}
+.tnode-icon svg { display: block; }
+
+.tnode-label {
+  flex: 1;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.tnode-row.selected .tnode-label {
+  color: var(--accent-1000);
+  font-weight: 600;
+}
+
+.tnode-badge {
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-right: var(--space-1);
+  font-weight: 400;
+}
+
+.tnode-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: var(--space-2);
+}
+
+.tnode-ops {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.1s;
+  flex-shrink: 0;
+}
+
+.tnode-op {
+  width: 20px; height: 20px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.tnode-op:hover { background: var(--accent-30); color: var(--text-secondary); }
+.tnode-op.del:hover { background: #fef2f2; color: var(--error-500); }
+
+.tnode-children { overflow: hidden; }
+.tnode-children.collapsed { display: none; }
+
+.add-row {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.tnode:hover > .add-row,
+.tnode-children:not(.collapsed) > .add-row {
+  opacity: 1;
+}
+.add-row:hover { opacity: 1 !important; background: var(--accent-15); }
+.add-row-text {
+  font-size: 10px;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: var(--space-1);
+  font-weight: 500;
+}
+.add-row:hover .add-row-text { color: var(--accent-1000); }
+
+/* Node type colors */
+.type-root .tnode-icon,
+.type-unit .tnode-icon,
+.type-lesson .tnode-icon,
+.type-promptset .tnode-icon,
+.type-flashcard .tnode-icon,
+.type-space .tnode-icon,
+.type-learning .tnode-icon,
+.type-challenge .tnode-icon { background: transparent; color: var(--text-muted); }
+
+
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.detail-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-6);
+  gap: var(--space-3);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+
+.detail-breadcrumb {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumb-sep { color: var(--border-strong); font-size: 10px; }
+
+.detail-actions { display: flex; gap: var(--space-2); flex-shrink: 0; align-items: center; }
+
+/* Lock icon in tree */
+.tnode-lock {
+  font-size: 9px;
+  color: var(--accent-600);
+  flex-shrink: 0;
+  margin-right: var(--space-1);
+  opacity: 0.8;
+}
+
+/* Tabs */
+.detail-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 var(--space-6);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+  gap: var(--space-1);
+}
+
+.dtab {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.dtab:hover { color: var(--text-secondary); }
+.dtab.active {
+  color: var(--accent-1000);
+  border-bottom-color: var(--accent-1000);
+  font-weight: 600;
+}
+
+/* Detail content */
+.detail-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--bg-primary);
+}
+
+.detail-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: var(--space-3);
+  color: var(--text-muted);
+}
+.detail-empty-icon { font-size: 28px; opacity: 0.4; }
+.detail-empty-text { font-size: var(--font-xs); font-weight: 500; }
+
+/* ── FORM ── */
+.form-section { margin-bottom: var(--space-6); }
+
+.form-section-title {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.form-row { display: flex; gap: var(--space-3); margin-bottom: var(--space-3); }
+.form-field { display: flex; flex-direction: column; gap: var(--space-1); flex: 1; }
+
+.form-label {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-input, .form-select, .form-textarea {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 3px var(--accent-30);
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.5;
+}
+.form-select { cursor: pointer; }
+
+.type-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full, 9999px);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.readonly-badge {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  background: var(--neutral-30);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 500;
+}
+
+.def-value {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: var(--space-2) 0;
+}
+
+.def-value.multiline {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  white-space: pre-wrap;
+}
+
+.def-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+}
+
+.def-tag {
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-3);
+}
+
+.def-notice {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: var(--space-2);
+}
+
+
+/* ── LABEL CARDS ── */
+.label-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.label-card-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent-15);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.label-card-culture {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent-1000);
+}
+
+.label-card-body {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.label-card-overview {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.label-card-meta {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.label-card-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.label-card-meta-key {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.label-card-meta-val {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.label-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.label-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--neutral-30);
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+
+/* ── ADD NODE MODAL ── *//* ── ADD NODE MODAL ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(15, 15, 15, 0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1060;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  backdrop-filter: blur(4px);
+}
+.overlay.visible { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  width: 480px;
+  max-width: 92vw;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-light);
+  transform: translateY(6px) scale(0.99);
+  transition: transform 0.2s ease;
+}
+.overlay.visible .modal { transform: translateY(0) scale(1); }
+
+.modal-header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-10);
+}
+
+.modal-title { font-size: var(--font-base); font-weight: 700; color: var(--text-primary); }
+.modal-subtitle { font-size: var(--font-xs); color: var(--text-muted); margin-top: 2px; }
+
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: all 0.12s;
+}
+.modal-close:hover { background: var(--accent-30); color: var(--text-primary); }
+
+.modal-body { padding: var(--space-5) var(--space-6); }
+
+.modal-step { display: none; }
+.modal-step.active { display: block; }
+
+.modal-step-label {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* Type cards */
+.type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-bottom: var(--space-4); }
+
+.type-card {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.type-card:hover { border-color: var(--border-strong); background: var(--accent-15); }
+.type-card.selected {
+  border-color: var(--accent-1000);
+  background: var(--accent-20);
+  box-shadow: 0 0 0 2px var(--accent-30);
+}
+
+.type-card-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.type-card-icon svg { display: block; }
+.type-card-name { font-size: var(--font-xs); font-weight: 600; color: var(--text-primary); }
+.type-card-desc { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+/* Method cards */
+.method-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-2); margin-bottom: var(--space-4); }
+
+.method-card {
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.method-card:hover { border-color: var(--border-strong); background: var(--accent-15); }
+.method-card.selected {
+  border-color: var(--accent-1000);
+  background: var(--accent-20);
+  box-shadow: 0 0 0 2px var(--accent-30);
+}
+.method-icon { font-size: 22px; }
+.method-name { font-size: var(--font-xs); font-weight: 600; color: var(--text-primary); }
+.method-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+
+.modal-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-primary);
+}
+.modal-step-ind { font-size: var(--font-xs); color: var(--text-muted); font-weight: 500; }
+.modal-btns { display: flex; gap: var(--space-2); }
+
+/* ── EIBOT POPUP ── */
+.eibot-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,15,15,0.3);
+  display: flex; align-items: flex-end; justify-content: center;
+  z-index: 1070;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  backdrop-filter: blur(3px);
+}
+.eibot-overlay.visible { opacity: 1; pointer-events: all; }
+
+.eibot-popup {
+  width: 540px;
+  max-width: 92vw;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-bottom: none;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  max-height: 55vh;
+}
+.eibot-overlay.visible .eibot-popup { transform: translateY(0); }
+
+.eibot-popup-header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--accent-10);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.eibot-pulse {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse { 0%,100%{opacity:1; box-shadow: 0 0 0 3px var(--accent-100);} 50%{opacity:0.7; box-shadow: 0 0 0 5px var(--accent-50);} }
+
+.eibot-popup-title {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--accent-1000);
+}
+
+.eibot-ctx-tag {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--accent-30);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full, 9999px);
+  padding: 2px var(--space-3);
+  font-weight: 500;
+}
+
+.eibot-close {
+  margin-left: auto;
+  width: 26px; height: 26px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: all 0.12s;
+}
+.eibot-close:hover { background: var(--accent-30); color: var(--text-primary); }
+
+.eibot-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.emsg { display: flex; flex-direction: column; gap: 3px; }
+.emsg-from {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.emsg-from.bot { color: var(--accent-1000); }
+.emsg-from.user { color: var(--text-muted); }
+
+.emsg-body {
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.emsg.bot .emsg-body {
+  border-color: var(--accent-40);
+  background: var(--accent-10);
+  color: var(--text-primary);
+}
+
+.eibot-input-row {
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  background: var(--bg-primary);
+}
+
+.eibot-inp {
+  flex: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.eibot-inp:focus {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 0 3px var(--accent-30);
+}
+.eibot-inp::placeholder { color: var(--text-muted); }
+
+.eibot-submit {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--accent-1000);
+  border: none;
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+.eibot-submit:hover { background: var(--accent-900); }
+
+/* ── EIBOT FAB ── */
+.eibot-fab {
+  position: fixed;
+  bottom: 32px;
+  right: 24px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(150, 62, 43, 0.08);
+  border: 1.5px solid rgba(150, 62, 43, 0.2);
+  color: rgba(150, 62, 43, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-md);
+  user-select: none;
+}
+.eibot-fab:hover {
+  background: var(--accent-30);
+  border-color: var(--accent-1000);
+  color: var(--accent-1000);
+  box-shadow: var(--shadow-lg), 0 0 0 4px var(--accent-20);
+  transform: scale(1.06);
+}
+.fab-tooltip {
+  position: absolute;
+  right: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 4px var(--space-3);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.eibot-fab:hover .fab-tooltip { opacity: 1; }
+
+.edit-fab {
+  position: fixed;
+  bottom: 32px;
+  left: 24px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(150, 62, 43, 0.08);
+  border: 1.5px solid rgba(150, 62, 43, 0.2);
+  color: rgba(150, 62, 43, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-md);
+  user-select: none;
+}
+.edit-fab:hover {
+  background: var(--accent-30);
+  border-color: var(--accent-1000);
+  color: var(--accent-1000);
+  box-shadow: var(--shadow-lg), 0 0 0 4px var(--accent-20);
+  transform: scale(1.06);
+}
+.edit-fab.active {
+  background: var(--accent-1000);
+  border-color: var(--accent-1000);
+  color: #fff;
+  box-shadow: var(--shadow-lg), 0 0 0 4px var(--accent-30);
+}
+.edit-fab.active:hover {
+  background: var(--accent-900);
+  border-color: var(--accent-900);
+  transform: scale(1.06);
+}
+.edit-fab-tooltip {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 4px var(--space-3);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.edit-fab:hover .edit-fab-tooltip { opacity: 1; }
+
+/* ── CONTEXT MENU ── */
+.ctx-menu {
+  position: fixed;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: var(--space-1);
+  min-width: 160px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1040;
+  display: none;
+}
+.ctx-menu.visible { display: block; }
+
+.ctx-item {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: all 0.1s;
+}
+.ctx-item:hover { background: var(--accent-20); color: var(--text-primary); }
+.ctx-item.danger:hover { background: #fef2f2; color: var(--error-500); }
+.ctx-sep { height: 1px; background: var(--border-light); margin: var(--space-1) 0; }
+
+/* Culture tags */
+.culture-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--accent-20);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-3);
+}
+.culture-tag span { font-size: var(--font-xs); color: var(--text-primary); font-weight: 500; }
+.culture-tag button {
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  background: none;
+  border: none;
+  transition: color 0.1s;
+  padding: 0;
+  line-height: 1;
+}
+.culture-tag button:hover { color: var(--error-500); }
+
+/* Preview */
+.preview-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.preview-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+.preview-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+.preview-overview {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-5);
+}
+.preview-children {
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--space-4);
+}
+.preview-child-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--font-xs);
+  color: var(--text-primary);
+}
+.preview-child-row:last-child { border-bottom: none; }
+
+/* ── DIRTY STATE + INSTRUCTIONS ACTIONS ── */
+.instructions-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-light);
+  gap: var(--space-3);
+  min-height: 32px;
+}
+
+
+@keyframes pulse-warn {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(245,158,11,0); }
+}
+
+.dirty-hint {
+  font-size: var(--font-xs);
+  color: var(--warning-500);
+  font-weight: 500;
+  display: none;
+}
+.dirty-hint.visible { display: block; }
+
+.btn-call-eibot {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+.btn-call-eibot:hover { border-color: var(--accent-300); color: var(--accent-1000); }
+
+.future-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--neutral-30);
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  padding: 1px 4px;
+  text-transform: uppercase;
+}
+
+/* ── EIVOLET PREVIEW POPUP ── */
+.preview-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,15,15,0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1080;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+  backdrop-filter: blur(6px);
+}
+.preview-overlay.visible { opacity: 1; pointer-events: all; }
+
+.preview-popup {
+  width: 740px; max-width: 94vw; max-height: 88vh;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+  transform: scale(0.97);
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+.preview-overlay.visible .preview-popup { transform: scale(1); }
+
+.preview-popup-header {
+  display: flex; align-items: center;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--accent-10);
+  gap: var(--space-3); flex-shrink: 0;
+}
+.preview-popup-title { font-size: var(--font-base); font-weight: 700; color: var(--text-primary); flex: 1; }
+.preview-popup-sub { font-size: var(--font-xs); color: var(--text-muted); }
+.preview-popup-close {
+  width: 28px; height: 28px; border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium); background: var(--bg-elevated);
+  color: var(--text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; transition: all 0.12s;
+}
+.preview-popup-close:hover { background: var(--accent-30); color: var(--text-primary); }
+
+.preview-popup-nav {
+  display: flex; overflow-x: auto; flex-shrink: 0;
+  padding: 0 var(--space-5); gap: 2px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-elevated);
+}
+.pnav-item {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-xs); font-weight: 500;
+  color: var(--text-muted); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  white-space: nowrap; transition: all 0.12s;
+}
+.pnav-item:hover { color: var(--text-secondary); }
+.pnav-item.active { color: var(--accent-1000); border-bottom-color: var(--accent-1000); font-weight: 600; }
+
+.preview-popup-body { flex: 1; overflow-y: auto; padding: var(--space-8) var(--space-8); }
+
+.pv-lesson-title { font-size: var(--font-xl); font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-2); }
+.pv-lesson-sub { font-size: var(--font-xs); color: var(--text-muted); margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2); }
+.pv-lesson-overview { font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.7; padding-bottom: var(--space-6); border-bottom: 1px solid var(--border-light); margin-bottom: var(--space-5); }
+.pv-block { background: var(--bg-elevated); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-3); }
+.pv-block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-3); }
+.pv-block-text { font-size: var(--font-sm); color: var(--text-primary); line-height: 1.7; }
+
+/* ── SCOPE CARDS (Add modal step 3) ── */
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-bottom: var(--space-4); }
+.scope-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-primary);
+  cursor: pointer; transition: all 0.12s;
+}
+.scope-card:hover { border-color: var(--border-strong); background: var(--accent-15); }
+.scope-card.selected { border-color: var(--accent-1000); background: var(--accent-20); box-shadow: 0 0 0 2px var(--accent-30); }
+.scope-card-title { font-size: var(--font-xs); font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.scope-card-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">ei<span>vo</span></div>
+  <div class="sep"></div>
+  <div class="doc-title active">French A1 — Beginner Level</div>
+  <div class="topbar-right">
+    <button class="btn btn-primary" onclick="alert('Publishing…')" title="Publish">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/><path d="M5 19h14"/></svg>
+      Publish
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TREE -->
+  <div class="tree-panel">
+    <div class="panel-header">
+      <button class="panel-btn" title="Collapse all" onclick="expandedNodes=new Set(['n-root']);renderTree()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+      </button>
+      <div class="panel-title">Structure</div>
+      <button class="panel-btn" title="Preview Eivolet" onclick="openEivoletPreview()" id="panel-preview-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="tree-scroll" id="tree-root"></div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="detail-panel">
+    <div class="detail-header">
+      <div class="detail-breadcrumb" id="detail-breadcrumb">
+        <span style="color:var(--text-muted)">No node selected</span>
+      </div>
+      <div class="detail-actions" id="detail-actions" style="display:none">
+        <button class="tbtn" id="detail-regen-btn" onclick="regenNode(selectedNode)" style="display:none">↺ Regenerate</button>
+      </div>
+    </div>
+
+    <div class="detail-tabs" id="detail-tabs" style="display:none"></div>
+
+    <div class="detail-content" id="detail-content">
+      <div class="detail-empty">
+        <div class="detail-empty-icon">◈</div>
+        <div class="detail-empty-text">Select a node in the tree to edit it</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ADD MODAL -->
+<div class="overlay" id="add-overlay" onclick="closeAddModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Add Node</div>
+        <div class="modal-subtitle" id="add-modal-subtitle">Choose type and objective</div>
+      </div>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-step active" id="step-1">
+        <div class="modal-step-label">Step 1 of 3 — Node Type</div>
+        <div class="type-grid" id="type-grid"></div>
+      </div>
+      <div class="modal-step" id="step-2">
+        <div class="modal-step-label">Step 2 of 3 — Objective</div>
+        <div class="form-field">
+          <div class="form-label">What should this node accomplish?</div>
+          <textarea class="form-textarea" id="new-node-objective" placeholder="Describe what the learner will be able to do or understand after completing this node..." style="min-height:90px"></textarea>
+        </div>
+      </div>
+      <div class="modal-step" id="step-3">
+        <div class="modal-step-label">Step 3 of 3 — Generation Scope</div>
+        <div class="scope-grid">
+          <div class="scope-card selected" id="scope-node" onclick="selectScope(this,'node')">
+            <div class="scope-card-title">This node only</div>
+            <div class="scope-card-desc">Generate content for this single node. Add children manually afterwards.</div>
+          </div>
+          <div class="scope-card" id="scope-tree" onclick="selectScope(this,'tree')">
+            <div class="scope-card-title">Whole subtree</div>
+            <div class="scope-card-desc">Generate this node and everything beneath it, down to templates. Output quality depends on the objective provided.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-step-ind" id="modal-step-ind">Step 1 of 3</div>
+      <div class="modal-btns">
+        <button class="tbtn" id="modal-back-btn" onclick="modalBack()" style="display:none">← Back</button>
+        <button class="tbtn tbtn-accent" id="modal-next-btn" onclick="modalNext()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div class="ctx-menu" id="ctx-menu"></div>
+
+<!-- EIVOLET PREVIEW POPUP -->
+<div class="preview-overlay" id="preview-overlay" onclick="closePreview(event)">
+  <div class="preview-popup" onclick="event.stopPropagation()">
+    <div class="preview-popup-header">
+      <div>
+        <div class="preview-popup-title" id="preview-popup-title">Eivolet Preview</div>
+        <div class="preview-popup-sub">Learner view — read only</div>
+      </div>
+      <button class="preview-popup-close" onclick="closePreview()">✕</button>
+    </div>
+    <div class="preview-popup-nav" id="preview-popup-nav"></div>
+    <div class="preview-popup-body" id="preview-popup-body"></div>
+  </div>
+</div>
+
+<script>
+const nodeTypes = {
+  root:         { label:'Eivolet',      icon:'layers',        color:'type-root',         desc:'Root of your content',             validChildren:['section','unit','lesson','space'] },
+  section:      { label:'Section',      icon:'folder',        color:'type-section',      desc:'Top-level grouping (depth 4+)',     validChildren:['unit'] },
+  unit:         { label:'Unit',         icon:'folder-open',   color:'type-unit',         desc:'Content grouping',                 validChildren:['lesson'] },
+  lesson:       { label:'Lesson',       icon:'book-open',     color:'type-lesson',       desc:'Individual learning step',         validChildren:['template','exercise','flashcard','challenge','championship','playroom'] },
+  template:     { label:'Template',     icon:'file-text',     color:'type-template',     desc:'Core authored lesson content',     validChildren:[] },
+  exercise:     { label:'Exercise',     icon:'zap',           color:'type-exercise',     desc:'LLM-generated practice activity',  validChildren:[] },
+  flashcard:    { label:'Flashcards',   icon:'square-stack',  color:'type-flashcard',    desc:'LLM-generated flashcard set',      validChildren:[] },
+  playroom:     { label:'Playroom',     icon:'monitor',       color:'type-playroom',     desc:'Open practice environment',        validChildren:[] },
+  challenge:    { label:'Challenge',    icon:'trophy',        color:'type-challenge',    desc:'Focused evaluation activity',      validChildren:[] },
+  championship: { label:'Championship', icon:'medal',         color:'type-championship', desc:'Broader evaluation activity',      validChildren:[] },
+  space:        { label:'Space',        icon:'globe',         color:'type-space',        desc:'Course-level practice environment',validChildren:[] },
+};
+
+function exerciseIcon(label, size = 14) {
+  const l = (label || '').toLowerCase();
+  if (l.includes('multiple choice') || l.includes('multi-choice')) return lucideIcon('multi-choice', size);
+  if (l.includes('fill') || l.includes('blank'))                   return lucideIcon('zap', size);
+  if (l.includes('flashcard'))                                      return lucideIcon('square-stack', size);
+  if (l.includes('playroom'))                                       return lucideIcon('monitor', size);
+  return lucideIcon('zap', size); // default exercise
+}
+
+function lucideIcon(name, size = 14) {
+  const icons = {
+    'layers':         `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    'folder-open':    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>`,
+    'book-open':      `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+    'zap':            `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>`,
+    'square-stack':   `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 2H8L2 7"/><path d="M22 7l-6-5"/></svg>`,
+    'globe':          `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+    'graduation-cap': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`,
+    'trophy':         `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`,
+    'folder':         `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>`,
+    'file-text':      `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+    'medal':          `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+    'monitor':        `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+    'multi-choice':   `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    'pencil':         `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>`,
+    'lock':           `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+  };
+  return icons[name] || `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24"/>`;
+}
+
+
+
+let tree = {
+  id:'n-root', type:'root', name:'french_a1_basics', label:'French A1 — Beginner Level',
+  status:'active', cultures:['en-US','fr','es'],
+  objective:'Teach absolute beginners to hold simple conversations in French — greetings, introductions, numbers, and daily routines.',
+  audience:'Adults with no prior French knowledge, aged 20–45, learning for travel or personal enrichment.',
+  domain:'language-learning', languageTarget:'french',
+  path:'ai',
+  labels:[
+    { culture:'en-US', title:'French A1 Introductory Course', overview:'An introductory library for absolute and false beginners covering phonetics, basic conjugation, and daily conversation in French.', tooltip:'Beginner French (A1) content', tags:['beginner','french','a1'] },
+    { culture:'fr',    title:'Français A1 Initiation', overview:"Bibliothèque d'introduction pour débutants absolus et faux débutants, incluant phonétique, conjugaison de base et conversation quotidienne.", tooltip:'Contenu français débutant (A1)', tags:['débutant','français','a1'] },
+    { culture:'es',    title:'Francés A1 Introductorio', overview:'Biblioteca introductoria para principiantes absolutos y falsos principiantes, con fonética, conjugación básica y conversación diaria en francés.', tooltip:'Contenido de francés nivel A1', tags:['principiante','francés','a1'] },
+  ],
+  children:[
+    { id:'n-sp1', type:'space', name:'conversation-space', label:'Conversation Space', status:'pending', labels:[{culture:'en-US',title:'Conversation Space',overview:'Open practice environment for conversational French.',tooltip:'Space',tags:['space','conversation']}], children:[] },
+    { id:'n-u1', type:'unit', name:'unit-greetings', label:'Greetings & Introductions', status:'active',
+      labels:[
+        { culture:'en-US', title:'Greetings & Introductions', overview:'Learn how to greet people and introduce yourself in French.', tooltip:'Greetings unit', tags:['greetings','introductions','a1'] },
+        { culture:'fr',    title:'Salutations et présentations', overview:'Apprenez à saluer et à vous présenter en français.', tooltip:'Unité salutations', tags:['salutations','présentations','a1'] },
+      ],
+      children:[
+      { id:'n-l1', type:'lesson', name:'lesson-bonjour', label:'Saying Hello', status:'done',
+        labels:[
+          { culture:'en-US', title:'Saying Hello', overview:'Master the essential French greetings: bonjour, bonsoir, salut and how to use them.', tooltip:'Saying hello lesson', tags:['bonjour','greetings'] },
+          { culture:'fr',    title:'Dire bonjour', overview:'Maîtrisez les salutations essentielles en français : bonjour, bonsoir, salut.', tooltip:'Leçon dire bonjour', tags:['bonjour','salutations'] },
+        ],
+        children:[
+        { id:'n-tp1', type:'template',  name:'tpl-bonjour',   label:'Template',        status:'done',    labels:[{culture:'en-US',title:'Saying Hello — Template',overview:'Core lesson content covering essential French greetings.',tooltip:'Template',tags:['template','greetings']},{culture:'fr',title:'Dire bonjour — Modèle',overview:'Contenu principal de la leçon sur les salutations.',tooltip:'Modèle',tags:['modèle','salutations']}], children:[] },
+        { id:'n-ex1', type:'exercise',  name:'ex-bonjour-fb', label:'Fill-in-blank',   status:'ai',      labels:[{culture:'en-US',title:'Fill-in-the-blank — Greetings',overview:'Practice completing French greeting phrases.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank']}], children:[] },
+        { id:'n-ex2', type:'exercise',  name:'ex-bonjour-mc', label:'Multiple Choice', status:'ai',      labels:[{culture:'en-US',title:'Multiple Choice — Greetings',overview:'Choose the correct greeting for each situation.',tooltip:'Multiple choice exercise',tags:['exercise','multiple-choice']}], children:[] },
+        { id:'n-fc1', type:'flashcard', name:'fc-bonjour',    label:'Flashcards',      status:'done',    labels:[{culture:'en-US',title:'Flashcards — Greetings',overview:'Review key greeting vocabulary with spaced repetition.',tooltip:'Flashcard set',tags:['flashcards','vocabulary']}], children:[] },
+        { id:'n-pr1', type:'playroom',  name:'pr-bonjour',    label:'Playroom',        status:'pending', labels:[{culture:'en-US',title:'Playroom — Greetings',overview:'Open practice space to experiment with greeting phrases.',tooltip:'Playroom',tags:['playroom','practice']}], children:[] }
+      ]},
+      { id:'n-l2', type:'lesson', name:'lesson-names', label:'Giving Your Name', status:'active', labels:[{culture:'en-US',title:'Giving Your Name',overview:'Learn how to introduce yourself and ask others their name in French.',tooltip:'Lesson',tags:['lesson','names']}], children:[
+        { id:'n-tp2', type:'template',  name:'tpl-names',   label:'Template',        status:'active',  labels:[{culture:'en-US',title:'Giving Your Name — Template',overview:'Core lesson content for name introductions.',tooltip:'Template',tags:['template','names']}], children:[] },
+        { id:'n-ex3', type:'exercise',  name:'ex-names-fb', label:'Fill-in-blank',   status:'pending', labels:[{culture:'en-US',title:'Fill-in-the-blank — Names',overview:'Practice completing phrases about introductions and names.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank','names']}], children:[] },
+        { id:'n-fc2', type:'flashcard', name:'fc-names',    label:'Flashcards',      status:'pending', labels:[{culture:'en-US',title:'Flashcards — Names',overview:'Review vocabulary for introductions and giving your name.',tooltip:'Flashcard set',tags:['flashcards','vocabulary','names']}], children:[] }
+      ]},
+      { id:'n-l3', type:'lesson', name:'lesson-numbers', label:'Numbers 1–20', status:'pending', labels:[{culture:'en-US',title:'Numbers 1–20',overview:'Learn to count from 1 to 20 in French and use numbers in context.',tooltip:'Lesson',tags:['lesson','numbers']}], children:[
+        { id:'n-tp3', type:'template',  name:'tpl-numbers',   label:'Template',        status:'pending', labels:[{culture:'en-US',title:'Numbers 1–20 — Template',overview:'Core lesson content for numbers 1 to 20.',tooltip:'Template',tags:['template','numbers']}], children:[] },
+        { id:'n-ex4', type:'exercise',  name:'ex-numbers-fb', label:'Fill-in-blank',   status:'pending', labels:[{culture:'en-US',title:'Fill-in-the-blank — Numbers',overview:'Practice writing out French numbers in context.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank','numbers']}], children:[] },
+        { id:'n-ex5', type:'exercise',  name:'ex-numbers-mc', label:'Multiple Choice', status:'pending', labels:[{culture:'en-US',title:'Multiple Choice — Numbers',overview:'Choose the correct French number for each prompt.',tooltip:'Multiple choice exercise',tags:['exercise','multiple-choice','numbers']}], children:[] },
+        { id:'n-fc3', type:'flashcard', name:'fc-numbers',    label:'Flashcards',      status:'pending', labels:[{culture:'en-US',title:'Flashcards — Numbers',overview:'Review French numbers 1–20 with spaced repetition.',tooltip:'Flashcard set',tags:['flashcards','vocabulary','numbers']}], children:[] }
+      ]},
+      { id:'n-ch1', type:'challenge',    name:'ch-greetings', label:'Challenge',    status:'pending', labels:[{culture:'en-US',title:'Challenge — Greetings',overview:'Test your knowledge of French greetings and introductions.',tooltip:'Challenge',tags:['challenge','greetings']}], children:[] },
+      { id:'n-cm1', type:'championship', name:'cm-greetings', label:'Championship', status:'pending', labels:[{culture:'en-US',title:'Championship — Greetings',overview:'Comprehensive evaluation of all greetings unit content.',tooltip:'Championship',tags:['championship','greetings']}], children:[] }
+    ]},
+    { id:'n-u2', type:'unit', name:'unit-present', label:'Present Tense Verbs', status:'pending', labels:[{culture:'en-US',title:'Present Tense Verbs',overview:'Master the most common French verbs être and avoir in the present tense.',tooltip:'Unit',tags:['unit','present-tense','verbs']}], children:[
+      { id:'n-l4', type:'lesson', name:'lesson-etre', label:'Être — To Be', status:'pending', labels:[{culture:'en-US',title:'Être — To Be',overview:'Learn all conjugations of être and how to use them in sentences.',tooltip:'Lesson',tags:['lesson','être','verbs']}], children:[
+        { id:'n-tp4', type:'template',  name:'tpl-etre',   label:'Template',        status:'pending', labels:[{culture:'en-US',title:'Être — Template',overview:'Core lesson content for the verb être.',tooltip:'Template',tags:['template','être']}], children:[] },
+        { id:'n-ex6', type:'exercise',  name:'ex-etre-fb', label:'Fill-in-blank',   status:'pending', labels:[{culture:'en-US',title:'Fill-in-the-blank — Être',overview:'Practice conjugating être in context.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank','être']}], children:[] },
+        { id:'n-fc4', type:'flashcard', name:'fc-etre',    label:'Flashcards',      status:'pending', labels:[{culture:'en-US',title:'Flashcards — Être',overview:'Review être conjugations with spaced repetition.',tooltip:'Flashcard set',tags:['flashcards','être']}], children:[] }
+      ]},
+      { id:'n-l5', type:'lesson', name:'lesson-avoir', label:'Avoir — To Have', status:'pending', labels:[{culture:'en-US',title:'Avoir — To Have',overview:'Learn all conjugations of avoir and how to use them in sentences.',tooltip:'Lesson',tags:['lesson','avoir','verbs']}], children:[
+        { id:'n-tp5', type:'template',  name:'tpl-avoir',   label:'Template',        status:'pending', labels:[{culture:'en-US',title:'Avoir — Template',overview:'Core lesson content for the verb avoir.',tooltip:'Template',tags:['template','avoir']}], children:[] },
+        { id:'n-ex7', type:'exercise',  name:'ex-avoir-fb', label:'Fill-in-blank',   status:'pending', labels:[{culture:'en-US',title:'Fill-in-the-blank — Avoir',overview:'Practice conjugating avoir in context.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank','avoir']}], children:[] },
+        { id:'n-ex8', type:'exercise',  name:'ex-avoir-mc', label:'Multiple Choice', status:'pending', labels:[{culture:'en-US',title:'Multiple Choice — Avoir',overview:'Choose the correct avoir conjugation for each sentence.',tooltip:'Multiple choice exercise',tags:['exercise','multiple-choice','avoir']}], children:[] },
+        { id:'n-pr2', type:'playroom',  name:'pr-verbs',    label:'Playroom',        status:'pending', labels:[{culture:'en-US',title:'Playroom — Verbs',overview:'Open practice space to experiment with être and avoir.',tooltip:'Playroom',tags:['playroom','verbs']}], children:[] }
+      ]},
+      { id:'n-ch2', type:'challenge', name:'ch-present', label:'Challenge', status:'pending', labels:[{culture:'en-US',title:'Challenge — Present Tense',overview:'Test your knowledge of present tense verbs être and avoir.',tooltip:'Challenge',tags:['challenge','present-tense']}], children:[] }
+    ]},
+    { id:'n-u3', type:'unit', name:'unit-daily', label:'Daily Life & Routines', status:'pending', labels:[{culture:'en-US',title:'Daily Life & Routines',overview:'Learn vocabulary and expressions for everyday French life.',tooltip:'Unit',tags:['unit','daily-life','routines']}], children:[
+      { id:'n-l6', type:'lesson', name:'lesson-food', label:'Food & Meals', status:'pending', labels:[{culture:'en-US',title:'Food & Meals',overview:'Learn French vocabulary for food, meals, and eating out.',tooltip:'Lesson',tags:['lesson','food','meals']}], children:[
+        { id:'n-tp6', type:'template',  name:'tpl-food',   label:'Template',      status:'pending', labels:[{culture:'en-US',title:'Food & Meals — Template',overview:'Core lesson content for food and meal vocabulary.',tooltip:'Template',tags:['template','food']}], children:[] },
+        { id:'n-ex9', type:'exercise',  name:'ex-food-fb', label:'Fill-in-blank', status:'pending', labels:[{culture:'en-US',title:'Fill-in-the-blank — Food',overview:'Practice French food vocabulary in context.',tooltip:'Fill-in-blank exercise',tags:['exercise','fill-blank','food']}], children:[] },
+        { id:'n-fc5', type:'flashcard', name:'fc-food',    label:'Flashcards',    status:'pending', labels:[{culture:'en-US',title:'Flashcards — Food',overview:'Review French food vocabulary with spaced repetition.',tooltip:'Flashcard set',tags:['flashcards','vocabulary','food']}], children:[] }
+      ]},
+      { id:'n-l7', type:'lesson', name:'lesson-time', label:'Telling the Time', status:'pending', labels:[{culture:'en-US',title:'Telling the Time',overview:'Learn how to tell and ask for the time in French.',tooltip:'Lesson',tags:['lesson','time']}], children:[
+        { id:'n-tp7', type:'template',   name:'tpl-time',   label:'Template',        status:'pending', labels:[{culture:'en-US',title:'Telling the Time — Template',overview:'Core lesson content for telling time in French.',tooltip:'Template',tags:['template','time']}], children:[] },
+        { id:'n-ex10', type:'exercise',  name:'ex-time-mc', label:'Multiple Choice', status:'pending', labels:[{culture:'en-US',title:'Multiple Choice — Time',overview:'Choose the correct French expression for each time shown.',tooltip:'Multiple choice exercise',tags:['exercise','multiple-choice','time']}], children:[] },
+        { id:'n-fc6',  type:'flashcard', name:'fc-time',    label:'Flashcards',      status:'pending', labels:[{culture:'en-US',title:'Flashcards — Time',overview:'Review French time expressions with spaced repetition.',tooltip:'Flashcard set',tags:['flashcards','vocabulary','time']}], children:[] }
+      ]}
+    ]}
+  ]
+};
+
+let expandedNodes = new Set(['n-root','n-u1','n-l1']);
+
+let selectedNode = null;
+let addParentId = null, modalStep = 1, selectedType = null, ctxTargetId = null;
+
+
+// ── RENDER TREE ──
+function renderTree() {
+  const root = document.getElementById('tree-root');
+  root.innerHTML = '';
+  root.appendChild(renderNode(tree, 0));
+}
+
+function renderNode(node, depth) {
+  const nt = nodeTypes[node.type];
+  const hasChildren = node.children && node.children.length > 0;
+  const isExpanded = expandedNodes.has(node.id);
+  const isSelected = selectedNode === node.id;
+
+  const wrap = document.createElement('div');
+  wrap.className = `tnode ${nt.color}`;
+
+  const row = document.createElement('div');
+  row.className = `tnode-row${isSelected ? ' selected' : ''}`;
+  row.addEventListener('click', () => selectNode(node.id));
+  row.addEventListener('contextmenu', e => { e.preventDefault(); openCtxMenu(e, node.id); });
+
+  const pad = document.createElement('div');
+  pad.className = 'tnode-pad';
+  pad.style.width = (depth * 18 + 6) + 'px';
+  row.appendChild(pad);
+
+  const arr = document.createElement('div');
+  arr.className = `tnode-arrow${hasChildren ? (isExpanded ? ' open' : '') : ' empty'}`;
+  arr.innerHTML = '▶';
+  if (hasChildren) arr.addEventListener('click', e => { e.stopPropagation(); toggleExpand(node.id); });
+  row.appendChild(arr);
+
+  const icon = document.createElement('div');
+  icon.className = 'tnode-icon';
+  icon.innerHTML = node.type === 'exercise' ? exerciseIcon(node.label, 12) : lucideIcon(nt.icon, 12);
+  row.appendChild(icon);
+
+  const lbl = document.createElement('div');
+  lbl.className = 'tnode-label';
+  lbl.textContent = node.label;
+  row.appendChild(lbl);
+
+  const ops = document.createElement('div');
+  ops.className = 'tnode-ops';
+
+  if (nodeTypes[node.type].validChildren.length > 0) {
+    const addBtn = document.createElement('div');
+    addBtn.className = 'tnode-op'; addBtn.title = 'Add child'; addBtn.innerHTML = '+';
+    addBtn.addEventListener('click', e => { e.stopPropagation(); openAddModal(node.id); });
+    ops.appendChild(addBtn);
+  }
+
+  const delBtn = document.createElement('div');
+  delBtn.className = 'tnode-op del'; delBtn.title = 'Delete'; delBtn.innerHTML = '⌫';
+  delBtn.addEventListener('click', e => { e.stopPropagation(); deleteNode(node.id); });
+  ops.appendChild(delBtn);
+
+  row.appendChild(ops);
+  wrap.appendChild(row);
+
+  if (hasChildren || nodeTypes[node.type].validChildren.length > 0) {
+    const children = document.createElement('div');
+    children.className = `tnode-children${isExpanded ? '' : ' collapsed'}`;
+
+    if (hasChildren) node.children.forEach(c => children.appendChild(renderNode(c, depth + 1)));
+
+    if (nodeTypes[node.type].validChildren.length > 0) {
+      const addRow = document.createElement('div');
+      addRow.className = 'add-row';
+      addRow.style.paddingLeft = ((depth + 1) * 18 + 22) + 'px';
+      addRow.innerHTML = `<div class="add-row-text"><span>+</span> Add</div>`;
+      addRow.addEventListener('click', () => openAddModal(node.id));
+      children.appendChild(addRow);
+    }
+    wrap.appendChild(children);
+  }
+  return wrap;
+}
+
+function toggleExpand(id) {
+  if (expandedNodes.has(id)) expandedNodes.delete(id);
+  else expandedNodes.add(id);
+  renderTree();
+}
+
+// ── SELECT ──
+function selectNode(id) {
+  selectedNode = id;
+  renderTree();
+  showNodeDetail(id);
+}
+
+function findNode(id, node = tree) {
+  if (node.id === id) return node;
+  for (const c of (node.children || [])) { const f = findNode(id, c); if (f) return f; }
+  return null;
+}
+
+function findParent(id, node = tree, parent = null) {
+  if (node.id === id) return parent;
+  for (const c of (node.children || [])) { const f = findParent(id, c, node); if (f !== undefined) return f; }
+  return undefined;
+}
+
+// ── DETAIL ──
+function showNodeDetail(id) {
+  const node = findNode(id);
+  if (!node) return;
+
+  const path = getPath(id);
+  const crumbEl = document.getElementById('detail-breadcrumb');
+  if (path.length <= 3) {
+    crumbEl.innerHTML = path.map((n,i) =>
+      `<span style="display:inline-flex;align-items:center;gap:3px;color:${i===path.length-1?'var(--text-primary)':'var(--text-muted)'};font-weight:${i===path.length-1?'600':'400'}">${lucideIcon(nodeTypes[n.type].icon, 11)} ${n.label}</span>${i<path.length-1?'<span class="breadcrumb-sep">›</span>':''}`
+    ).join('');
+  } else {
+    const first = path[0]; const last = path[path.length-1];
+    crumbEl.innerHTML =
+      `<span style="display:inline-flex;align-items:center;gap:3px;color:var(--text-muted)">${lucideIcon(nodeTypes[first.type].icon,11)} ${first.label}</span>` +
+      `<span class="breadcrumb-sep">›</span><span style="color:var(--text-muted)">…</span><span class="breadcrumb-sep">›</span>` +
+      `<span style="display:inline-flex;align-items:center;gap:3px;color:var(--text-primary);font-weight:600">${lucideIcon(nodeTypes[last.type].icon,11)} ${last.label}</span>`;
+  }
+
+  document.getElementById('detail-actions').style.display = 'flex';
+  const tabs = document.getElementById('detail-tabs');
+  tabs.style.display = 'flex';
+
+  if (node.type === 'root') {
+    tabs.innerHTML = `<div class="dtab active" onclick="switchTab('invariants',this)">Invariants</div>`;
+    switchTab('invariants', tabs.querySelector('.dtab.active'));
+  } else {
+    tabs.innerHTML = `
+      <div class="dtab active" onclick="switchTab('instructions',this)">My Instructions</div>
+      <div class="dtab" onclick="switchTab('properties',this)">Properties</div>
+      <div class="dtab" onclick="switchTab('preview',this)">Preview</div>`;
+    switchTab('instructions', tabs.querySelector('.dtab.active'));
+  }
+}
+
+function getPath(id, node = tree, path = []) {
+  if (node.id === id) return [...path, node];
+  for (const c of (node.children||[])) { const f = getPath(id, c, [...path,node]); if (f) return f; }
+  return null;
+}
+
+let currentTab = 'instructions';
+const nodeDirty = {};
+
+function renderLabelCards(node) {
+  const labels = Array.isArray(node.labels) ? node.labels : [];
+  if (!labels.length) return '<div class="def-notice">No properties generated yet.</div>';
+  return labels.map(lbl => {
+    const tags = (lbl.tags||[]).map(t=>`<span class="label-tag">${t}</span>`).join('');
+    return `<div class="label-card">
+      <div class="label-card-header"><div class="label-card-culture">${lbl.culture}</div></div>
+      <div class="label-card-body">
+        <div class="label-card-title">${lbl.title||'—'}</div>
+        ${lbl.overview?`<div class="label-card-overview">${lbl.overview}</div>`:''}
+        <div class="label-card-meta">
+          ${lbl.tooltip?`<div class="label-card-meta-item"><div class="label-card-meta-key">Tooltip</div><div class="label-card-meta-val">${lbl.tooltip}</div></div>`:''}
+          ${tags?`<div class="label-card-meta-item"><div class="label-card-meta-key">Tags</div><div class="label-tags">${tags}</div></div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  const node = findNode(selectedNode);
+  if (!node) return;
+  const content = document.getElementById('detail-content');
+  const isDirty = !!nodeDirty[node.id];
+
+  if (tab === 'invariants') {
+    const target = node.languageTarget || node.codingTarget || null;
+    const targetLabel = node.languageTarget ? 'Language taught' : node.codingTarget ? (node.codingType==='framework'?'Framework':'Programming language') : null;
+    content.innerHTML = `
+      <div style="background:var(--accent-15);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-5);display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-xs);color:var(--text-muted)">
+        ${lucideIcon('lock',12)} These invariants are locked — they anchor the entire structure.
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Objective</div>
+        <div class="def-value multiline">${node.objective||'—'}</div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Audience</div>
+        <div class="def-value multiline">${node.audience||'—'}</div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Domain</div>
+        <div class="def-value">${node.domain||'—'}</div>
+        ${targetLabel?`<div class="form-label" style="margin-top:var(--space-3)">${targetLabel}</div><div class="def-value">${target}</div>`:''}
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Cultures</div>
+        <div class="def-tags">${(node.cultures||['en-US']).map(c=>`<div class="def-tag">${c}</div>`).join('')}</div>
+      </div>`;
+
+  } else if (tab === 'instructions') {
+    const obj = node.objective || '';
+    content.innerHTML = `
+      <div class="form-section">
+        <div class="form-section-title">Objective</div>
+        <textarea class="form-textarea" id="instr-objective" style="min-height:100px" oninput="markDirty('${node.id}')">${obj}</textarea>
+      </div>
+      <div class="instructions-actions">
+        <span class="dirty-hint${isDirty?' visible':''}" id="dirty-hint-${node.id}">Instructions changed — regenerate to update.</span>
+        <button class="btn btn-primary${isDirty?' dirty':''}" id="regen-btn-${node.id}" onclick="regenNode('${node.id}')" title="Regenerate" style="margin-left:auto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          Regenerate
+        </button>
+      </div>`;
+
+  } else if (tab === 'properties') {
+    content.innerHTML = `
+      <div style="background:var(--accent-15);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-5);display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-xs);color:var(--text-muted)">
+        ${lucideIcon('lock',12)} Read only — update My Instructions and regenerate to change these.
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Labels</div>
+        <div class="label-list">${renderLabelCards(node)}</div>
+      </div>`;
+
+  } else if (tab === 'preview') {
+    const lbl = (node.labels||[]).find(l=>l.culture==='en-US') || {};
+    content.innerHTML = `
+      <div class="preview-card">
+        <div class="preview-eyebrow">${nodeTypes[node.type].label}</div>
+        <div class="preview-title">${lbl.title||node.label}</div>
+        <div class="preview-overview">${lbl.overview||'No content generated yet.'}</div>
+        ${node.children&&node.children.length?`
+        <div class="preview-children">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-3)">${node.children.length} child node${node.children.length>1?'s':''}</div>
+          ${node.children.map(c=>`
+            <div class="preview-child-row">
+              <span style="display:inline-flex;align-items:center;color:inherit">${lucideIcon(nodeTypes[c.type].icon,12)}</span>
+              <span style="font-weight:500">${c.label}</span>
+              <span style="color:var(--text-muted);font-size:10px;margin-left:auto">${nodeTypes[c.type].label}</span>
+            </div>`).join('')}
+        </div>`:'<div style="color:var(--text-muted);font-size:var(--font-xs);margin-top:var(--space-2)">No children yet.</div>'}
+      </div>`;
+  }
+}
+
+function markDirty(nodeId) {
+  nodeDirty[nodeId] = true;
+  const hint = document.getElementById(`dirty-hint-${nodeId}`);
+  const btn = document.getElementById(`regen-btn-${nodeId}`);
+  if (hint) hint.classList.add('visible');
+  if (btn) btn.classList.add('dirty');
+  // save objective value
+  const ta = document.getElementById('instr-objective');
+  const node = findNode(nodeId);
+  if (node && ta) node.objective = ta.value;
+}
+
+function regenNode(nodeId) {
+  const ta = document.getElementById('instr-objective');
+  const node = findNode(nodeId);
+  if (node && ta) node.objective = ta.value;
+  nodeDirty[nodeId] = false;
+  const hint = document.getElementById(`dirty-hint-${nodeId}`);
+  const btn = document.getElementById(`regen-btn-${nodeId}`);
+  if (hint) hint.classList.remove('visible');
+  if (btn) btn.classList.remove('dirty');
+  // simulate regeneration feedback
+  if (btn) {
+    btn.style.opacity = '0.5';
+    setTimeout(() => { if (btn) btn.style.opacity = '1'; }, 1200);
+  }
+}
+
+function updateLabel(id, culture, field, value) {
+  const node = findNode(id);
+  if (!node) return;
+  if (!node.labels) node.labels = [];
+  let lbl = node.labels.find(l=>l.culture===culture);
+  if (!lbl) { lbl={culture}; node.labels.push(lbl); }
+  lbl[field] = value;
+  if (culture==='en-US' && field==='title') { node.label=value; renderTree(); }
+}
+
+function updateField(id, field, value) {
+  const node = findNode(id);
+  if (node) { node[field]=value; renderTree(); }
+}
+
+// ── DELETE ──
+function deleteNode(id) {
+  if (!id || id==='n-root') { if(id==='n-root') alert('Cannot delete the root node.'); return; }
+  const node = findNode(id);
+  if (!node) return;
+  const hasKids = node.children && node.children.length>0;
+  if (!confirm(hasKids?`Delete "${node.label}" and all ${countNodes(node)-1} child nodes?`:`Delete "${node.label}"?`)) return;
+  removeNodeFromTree(id);
+  selectedNode=null;
+  document.getElementById('detail-breadcrumb').innerHTML='<span style="color:var(--text-muted)">No node selected</span>';
+  document.getElementById('detail-actions').style.display='none';
+  document.getElementById('detail-tabs').style.display='none';
+  document.getElementById('detail-content').innerHTML='<div class="detail-empty"><div class="detail-empty-icon">◈</div><div class="detail-empty-text">Select a node in the tree to edit it</div></div>';
+  renderTree();
+}
+
+function removeNodeFromTree(id, node=tree) {
+  if (node.children) {
+    node.children=node.children.filter(c=>c.id!==id);
+    node.children.forEach(c=>removeNodeFromTree(id,c));
+  }
+}
+
+function countNodes(node) { return 1+(node.children||[]).reduce((s,c)=>s+countNodes(c),0); }
+
+// ── ADD MODAL ──
+let selectedScope = 'node';
+
+function openAddModal(parentId) {
+  addParentId=parentId; modalStep=1; selectedType=null; selectedScope='node';
+  const parent = parentId ? findNode(parentId) : null;
+  const validTypes = parent ? nodeTypes[parent.type].validChildren : ['root'];
+
+  const grid = document.getElementById('type-grid');
+  grid.innerHTML='';
+  validTypes.forEach(type => {
+    const nt = nodeTypes[type];
+    const card = document.createElement('div');
+    card.className='type-card'; card.dataset.type=type;
+    card.innerHTML=`<div class="type-card-icon" style="color:var(--text-muted)">${lucideIcon(nt.icon,20)}</div><div class="type-card-info"><div class="type-card-name">${nt.label}</div><div class="type-card-desc">${nt.desc}</div></div>`;
+    card.addEventListener('click',()=>{ document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); selectedType=type; });
+    grid.appendChild(card);
+    if (validTypes.length===1) { card.classList.add('selected'); selectedType=type; }
+  });
+
+  // Reset scope cards
+  document.getElementById('scope-node').classList.add('selected');
+  document.getElementById('scope-tree').classList.remove('selected');
+  document.getElementById('new-node-objective').value='';
+
+  document.getElementById('add-modal-subtitle').textContent = parent ? `Adding child to: ${parent.label}` : 'Adding root node';
+  showModalStep(1);
+  document.getElementById('add-overlay').classList.add('visible');
+}
+
+function selectScope(el, scope) {
+  selectedScope=scope;
+  document.querySelectorAll('.scope-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function closeAddModal(e) {
+  if (e && e.target!==document.getElementById('add-overlay')) return;
+  document.getElementById('add-overlay').classList.remove('visible');
+}
+
+function showModalStep(step) {
+  modalStep=step;
+  document.querySelectorAll('.modal-step').forEach((s,i)=>s.classList.toggle('active',i+1===step));
+  document.getElementById('modal-step-ind').textContent=`Step ${step} of 3`;
+  document.getElementById('modal-back-btn').style.display=step>1?'block':'none';
+  document.getElementById('modal-next-btn').textContent=step===3?'✓ Create':'Next →';
+}
+
+function modalNext() {
+  if (modalStep===1) { if (!selectedType) { alert('Select a type.'); return; } showModalStep(2); }
+  else if (modalStep===2) showModalStep(3);
+  else createNode();
+}
+
+function modalBack() { if (modalStep>1) showModalStep(modalStep-1); }
+
+function createNode() {
+  const objective = document.getElementById('new-node-objective').value.trim();
+  const typeLabel = nodeTypes[selectedType].label;
+  const name = selectedType+'-'+Date.now().toString().slice(-6);
+  const label = objective ? objective.split(/\s+/).slice(0,4).join(' ')+'…' : typeLabel;
+  const newNode = { id:'n-'+Date.now(), type:selectedType, name, label, objective, generationScope:selectedScope, labels:[], children:[] };
+  if (addParentId) {
+    const parent = findNode(addParentId);
+    if (parent) { parent.children.push(newNode); expandedNodes.add(addParentId); }
+  }
+  document.getElementById('add-overlay').classList.remove('visible');
+  renderTree();
+  selectNode(newNode.id);
+}
+
+// ── CONTEXT MENU ──
+function openCtxMenu(e, id) {
+  ctxTargetId=id;
+  const node = findNode(id);
+  const menu = document.getElementById('ctx-menu');
+  const isContent = ['template','exercise','flashcard','playroom','challenge','championship','space'].includes(node.type);
+  const isLesson = node.type==='lesson';
+  const isRoot = node.type==='root';
+  const isSection = node.type==='section';
+  const isUnit = node.type==='unit';
+
+  let items = '';
+  if (isRoot) {
+    items = `<div class="ctx-item" onclick="ctxAction('preview')">◉ Preview Eivolet</div>`;
+  } else if (isSection || isUnit) {
+    items = `
+      <div class="ctx-item" onclick="ctxAction('regen')">↺ Regenerate</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-item" onclick="ctxAction('add')">+ Add Child</div>
+      <div class="ctx-item" onclick="ctxAction('duplicate')">⧉ Duplicate</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-item danger" onclick="ctxAction('delete')">⌫ Delete</div>`;
+  } else if (isLesson) {
+    items = `
+      <div class="ctx-item" onclick="ctxAction('regen')">↺ Regenerate</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-item" onclick="ctxAction('add')">+ Add Content Node</div>
+      <div class="ctx-item" onclick="ctxAction('duplicate')">⧉ Duplicate</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-item danger" onclick="ctxAction('delete')">⌫ Delete</div>`;
+  } else if (isContent) {
+    items = `
+      <div class="ctx-item" onclick="ctxAction('regen')">↺ Regenerate</div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-item danger" onclick="ctxAction('delete')">⌫ Delete</div>`;
+  }
+
+  menu.innerHTML = items;
+  menu.style.left=e.clientX+'px'; menu.style.top=e.clientY+'px';
+  menu.classList.add('visible');
+}
+
+function ctxAction(action) {
+  document.getElementById('ctx-menu').classList.remove('visible');
+  if (action==='add') openAddModal(ctxTargetId);
+  else if (action==='delete') deleteNode(ctxTargetId);
+  else if (action==='duplicate') duplicateNode(ctxTargetId);
+  else if (action==='regen') { selectNode(ctxTargetId); regenNode(ctxTargetId); }
+  else if (action==='preview') openEivoletPreview();
+}
+
+function duplicateNode(id) {
+  const node=findNode(id); const parent=findParent(id);
+  if (!node||!parent) return;
+  const clone=JSON.parse(JSON.stringify(node));
+  function reId(n) { n.id='n-'+Date.now()+Math.random().toString(36).slice(2); (n.children||[]).forEach(reId); }
+  reId(clone); clone.name+='-copy'; clone.label+=' (copy)';
+  const idx=parent.children.indexOf(node);
+  parent.children.splice(idx+1,0,clone);
+  renderTree();
+}
+
+// ── EIVOLET PREVIEW ──
+function openEivoletPreview() {
+  const lessons = [];
+  function collectLessons(node) {
+    if (node.type==='lesson') lessons.push(node);
+    (node.children||[]).forEach(collectLessons);
+  }
+  collectLessons(tree);
+
+  const nav = document.getElementById('preview-popup-nav');
+  const body = document.getElementById('preview-popup-body');
+  document.getElementById('preview-popup-title').textContent = tree.label;
+
+  nav.innerHTML = lessons.map((l,i)=>`<div class="pnav-item${i===0?' active':''}" onclick="previewLesson('${l.id}',this)">${(l.labels||[]).find(x=>x.culture==='en-US')?.title||l.label}</div>`).join('');
+
+  if (lessons.length) previewLesson(lessons[0].id, nav.querySelector('.pnav-item'));
+  else body.innerHTML='<div style="color:var(--text-muted);font-size:var(--font-sm)">No lessons to preview yet.</div>';
+
+  document.getElementById('preview-overlay').classList.add('visible');
+}
+
+function previewLesson(id, navEl) {
+  document.querySelectorAll('.pnav-item').forEach(n=>n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  const node=findNode(id);
+  if (!node) return;
+  const lbl=(node.labels||[]).find(l=>l.culture==='en-US')||{};
+  const template=(node.children||[]).find(c=>c.type==='template');
+  const tplLbl=template?(template.labels||[]).find(l=>l.culture==='en-US')||{}:{};
+  const body=document.getElementById('preview-popup-body');
+  body.innerHTML=`
+    <div class="pv-lesson-title">${lbl.title||node.label}</div>
+    <div class="pv-lesson-sub">${lucideIcon('book-open',12)} Lesson</div>
+    <div class="pv-lesson-overview">${lbl.overview||'No overview generated yet.'}</div>
+    ${template?`<div class="pv-block"><div class="pv-block-label">Template</div><div class="pv-block-text">${tplLbl.overview||'Template content not generated yet.'}</div></div>`:''}
+    ${(node.children||[]).filter(c=>c.type!=='template').map(c=>{
+      const cl=(c.labels||[]).find(l=>l.culture==='en-US')||{};
+      return `<div class="pv-block"><div class="pv-block-label">${nodeTypes[c.type].label}</div><div class="pv-block-text" style="color:var(--text-muted)">${cl.overview||'Not generated yet.'}</div></div>`;
+    }).join('')}`;
+}
+
+function closePreview(e) {
+  if (e && e.target!==document.getElementById('preview-overlay')) return;
+  document.getElementById('preview-overlay').classList.remove('visible');
+}
+
+document.addEventListener('click',()=>document.getElementById('ctx-menu').classList.remove('visible'));
+
+renderTree();
+</script>
+</body>
+</html>
